@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/03 14:48:53 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:53:23 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <signal.h>
 
 void	sighandler(int);
+void	sigfin(int);
 
 void	print_tab(char **tab)
 {
@@ -60,7 +61,8 @@ void	read_prompt(void)
 int	main(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, sighandler);
+	signal(SIGINT, sighandler);
+	signal(SIGSEGV, sigfin);
 	read_prompt();
 	return (0);
 }
@@ -68,5 +70,12 @@ int	main(void)
 void	sighandler(int signum)
 {
 	signum++;
-	read_prompt();
+	printf("\n$> ");
+}
+
+void	sigfin(int signum)
+{
+	signum++;
+	rl_clear_history();
+	exit(1);
 }

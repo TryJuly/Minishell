@@ -20,7 +20,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	struct_set(&data);
 	init_struct(&data, envp);
-	ft_free_struct(&data);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sighandler);
 	signal(SIGSEGV, sigfin);
@@ -35,31 +34,39 @@ void	print_tab(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		printf("%s ", tab[i]);
+		printf("%s\n", tab[i]);
 		i++;
 	}
-	printf("\n");
 }
 
 void	read_prompt(t_data *data)
 {
-	char	*line;
-	char	**tab_cmd;
+	size_t	count;
 
-	line = "";
+	count = 0;
 	while (1)
 	{
-		line = readline("$> ");
-		if (ft_strncmp(line, "", 1) == 0)
+		data->input = readline("$> ");
+		if (ft_strncmp(data->input, "", 1) == 0)
 			continue ;
-		else if (ft_strncmp(line, "exit", 5) == 0)
+		else if (ft_strncmp(data->input, "exit", 5) == 0)
 			break ;
-		else
+		data->cmd_brut = ft_split(data->input, '|');
+		printf("%sCmd brut%s\n", GREEN, NC);
+		print_tab(data->cmd_brut);
+		clean_cmd_brut(data);
+		printf("%sCmd brut Clean%s\n", GREEN, NC);
+		print_tab(data->cmd_brut);
+		add_history(data->input);
+		printf("%sSplit under cmd%s\n", GREEN, NC);
+		// print_tab(data->path);
+		while (data->cmd_brut[count])
 		{
-			data->cmd = ft_split_cmd(line, ' ');
-			print_tab(tab_cmd);
-			add_history(line);
+			find_cmd_arg(data, data->cmd_brut[count], count);
+			count++;
 		}
+		print_tab(data->cmd);
+		print_tab(data->arg);
 	}
 }
 

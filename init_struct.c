@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/04 08:44:59 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:02:58 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,15 @@ int	init_struct(t_data *data, char **envp)
 	return (0);
 }
 
+/*		Malloc array before Use				*/
 int	struct_set(t_data *data)
 {
-	data->cmd = NULL;
+	data->cmd = malloc(sizeof(char**));
+	data->arg = malloc(sizeof(char**));
 	data->envp = NULL;
 	data->path = NULL;
-	data->redir = 0;
+	data->infile = 0;
+	data->outfile = 0;
 	return (0);
 }
 

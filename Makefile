@@ -7,7 +7,7 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline
 
-SRCS = main.c init_struct.c ft_clean.c
+SRCS = main.c init_struct.c ft_clean.c parsing_v1.c
 
 SRCS_BONUS =
 

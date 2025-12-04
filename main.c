@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/04 15:30:44 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/04 09:41:40 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, sighandler);
 	signal(SIGSEGV, sigfin);
 	read_prompt(&data);
-	ft_free_struct(&data);
 	return (0);
 }
-
+/*debug*/
 void	print_tab(char **tab)
 {
 	int	i;

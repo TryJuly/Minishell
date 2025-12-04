@@ -5,8 +5,9 @@ NAME = minishell
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
+LDFLAGS = -lreadline
 
-SRCS = 
+SRCS = main.c init_struct.c ft_clean.c
 
 SRCS_BONUS =
 
@@ -23,7 +24,7 @@ OBJ_DIR = objets/
 all: ${LIBFT_A} ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${FLAGS} ${OBJS} ${LIBFT_A} ${EXTRA} -I ${INCLUDES} -o ${NAME}
+	${CC} ${FLAGS} ${OBJS} ${LIBFT_A} ${EXTRA} -I ${INCLUDES} -o ${NAME} ${LDFLAGS}
 
 ${OBJ_DIR}/%.o: %.c ${INCLUDES}
 	@mkdir -p ${OBJ_DIR}

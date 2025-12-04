@@ -3,25 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/03 15:53:23 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/04 08:58:15 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <termios.h>
-#include "libft/libft.h"
-#include <stdlib.h>
-#include <signal.h>
+#include "header.h"
 
-void	sighandler(int);
-void	sigfin(int);
+int	main(int ac, char **av, char **envp)
+{
+	t_data	data;
+	
+	(void)ac;
+	(void)av;
+	struct_set(&data);
+	init_struct(&data, envp);
+	ft_free_struct(&data);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sighandler);
+	signal(SIGSEGV, sigfin);
+	read_prompt();
+	return (0);
+}
 
 void	print_tab(char **tab)
 {
@@ -56,15 +61,6 @@ void	read_prompt(void)
 			add_history(line);
 		}
 	}
-}
-
-int	main(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sighandler);
-	signal(SIGSEGV, sigfin);
-	read_prompt();
-	return (0);
 }
 
 void	sighandler(int signum)

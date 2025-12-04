@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/04 08:58:15 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/04 09:41:40 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sighandler);
 	signal(SIGSEGV, sigfin);
-	read_prompt();
+	read_prompt(&data);
 	return (0);
 }
-
+/*debug*/
 void	print_tab(char **tab)
 {
 	int	i;
@@ -41,7 +41,7 @@ void	print_tab(char **tab)
 	printf("\n");
 }
 
-void	read_prompt(void)
+void	read_prompt(t_data *data)
 {
 	char	*line;
 	char	**tab_cmd;
@@ -56,7 +56,7 @@ void	read_prompt(void)
 			break ;
 		else
 		{
-			tab_cmd = ft_split(line, ' ');
+			data->cmd = ft_split_cmd(line, ' ');
 			print_tab(tab_cmd);
 			add_history(line);
 		}

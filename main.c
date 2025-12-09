@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 13:29:08 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:27:19 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGSEGV, sigfin);
 	read_prompt(&data);
 	ft_free_array(&data.path);
-	ft_free_array(&data.env);
+	ft_free_array(&data.envp);
 	return (0);
 }
 /*debug*/
@@ -43,14 +43,11 @@ void	print_tab(char **tab)
 	}
 }
 
-void	check_builtin(t_data *data)
+void	check_builtin(t_data *data, char **array)
 {
-	char	**array;
-
-	array = ft_split(data->cmd_brut[0], ' ');
-	data->arg = array;
-	expand_var(data);
-	data->arg += 1;
+	data->cmd_lst->args = array;
+	//expand_var(data);
+	data->cmd_lst->args += 1;
 	if (ft_strncmp("echo", array[0], 5) == 0)
 		ft_echo(data);
 	else if (ft_strncmp("env", array[0], 4) == 0)
@@ -76,19 +73,16 @@ void	read_prompt(t_data *data)
 		data->input = readline("$> ");
 		if (!ft_strncmp(data->input, "", 1))
 			continue ;
-		else if (ft_strncmp(data->input, "exit", 5) == 0)
-			break ;
 		printf("%s###############	Print	###############%s\n", GREEN, NC);
 		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
 		printf("%s\n", data->input);
 		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
 		array = token_array(data->input);
 		print_tab(array);
+		//check_builtin(data, array);
 		if (validator(array))
 			printf("%sError validator%s\n", RED, NC);
 		ft_free_array(&array);
-		// array = ft_split(data->input, '|');
-		// print_tab(array);
 		free(data->input);
 	}
 	free(data->input);

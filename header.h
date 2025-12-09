@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/09 11:51:09 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 14:57:49 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_data
 {
 	t_cmd	*cmd_lst;
 	char	*input;
-	char	**env;
+	char	**envp;
 	char	**path;
 }	t_data;
 

@@ -7,9 +7,8 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline
 
-SRCS = main.c init_struct.c ft_clean.c parsing_v1.c cd.c echo.c env.c exit.c export.c pwd.c unset.c env_var.c
 SRCS = main.c init_struct.c ft_clean.c parsing_v1.c token_count.c \
-	tokenizer.c validator.c
+	tokenizer.c validator.c cd.c echo.c env.c exit.c export.c pwd.c unset.c env_var.c
 
 SRCS_BONUS =
 

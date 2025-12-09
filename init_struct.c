@@ -6,16 +6,15 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/08 08:22:06 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:21:50 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 int	get_cmdpath(t_data *data, char **envp);
-int	copy_envp(t_data *data, char **envp);
 
-char	**copy_envp(char **envp)
+char	**copy_envp_struct(char **envp)
 {
 	char	**new_envp;
 	int		i;
@@ -33,21 +32,10 @@ char	**copy_envp(char **envp)
 
 int	init_struct(t_data *data, char **envp)
 {
-	data->envp = copy_envp(envp);
-	data->path = get_envpath(envp);
+	data->envp = copy_envp_struct(envp);
+	get_cmdpath(data, envp);
 	if (!data->path)
 		return (printf("Error PATH\n"), 1);
-	return (0);
-}
-
-int	copy_envp(t_data *data, char **envp)
-{
-	data->cmd = malloc(sizeof(char **));
-	data->arg = malloc(sizeof(char **));
-	data->envp = NULL;
-	data->path = NULL;
-	data->infile = 0;
-	data->outfile = 0;
 	return (0);
 }
 
@@ -57,7 +45,7 @@ int	get_cmdpath(t_data *data, char **envp)
 	char	*first;
 
 	count = 0;
-	if (!data->env)
+	if (!data->envp)
 		return (1);
 	while (ft_strncmp(envp[count], "PATH=", 5))
 		count++;

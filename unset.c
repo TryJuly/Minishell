@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:21:05 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 11:14:11 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:18:46 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_unset_arg(t_data *data)
 	while (data->envp[i + offset])
 	{
 		if (ft_strncmp(data->envp[i + offset],
-				data->arg[0], ft_strlen(data->arg[0])) == 0)
+				data->cmd_lst->args[1], ft_strlen(data->cmd_lst->args[1])) == 0)
 		{
 			offset += 1;
 			continue ;
@@ -43,16 +43,16 @@ void	ft_unset_arg(t_data *data)
 
 void	ft_unset(t_data *data)
 {
-	if (data->arg[0] == NULL)
+	if (data->cmd_lst->args[1] == NULL)
 	{
 		printf("unset : not enough arguments");
 		g_exit_status = 1;
 		return ;
 	}
-	while (data->arg[0])
+	while (data->cmd_lst->args[1])
 	{
 		ft_unset_arg(data);
-		data->arg += 1;
+		data->cmd_lst->args += 1;
 	}
 }
 

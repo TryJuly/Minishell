@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 10:19:36 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:15:14 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	cd_home(t_data *data, char *old)
 	if (access(temp, F_OK) == -1)
 	{
 		printf("No such file or directory: ");
-		perror(data->arg[0]);
+		perror(data->cmd_lst->args[1]);
 		return ;
 	}
 	if (chdir(temp) == -1)
@@ -68,17 +68,17 @@ void	ft_cd(t_data *data)
 
 	old_pwd = malloc(100); // valeur a determiner
 	old_pwd = getcwd(old_pwd, 100);
-	if (data->arg[0] == NULL)
+	if (data->cmd_lst->args[1] == NULL)
 		cd_home(data, old_pwd);
 	else
 	{
-		if (access(data->arg[0], F_OK) == -1)
+		if (access(data->cmd_lst->args[1], F_OK) == -1)
 		{
 			printf("No such file or directory: ");
-			perror(data->arg[0]);
+			perror(data->cmd_lst->args[1]);
 			return ;
 		}
-		if (chdir(data->arg[0]) == -1)
+		if (chdir(data->cmd_lst->args[1]) == -1)
 			printf("oups");
 		new_pwd = malloc(100);
 		new_pwd = getcwd(new_pwd, 100);

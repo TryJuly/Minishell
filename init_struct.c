@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/04 15:02:58 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:25:20 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,25 @@
 
 char	**get_envpath(char **envp);
 
+char	**copy_envp(char **envp)
+{
+	char	**new_envp;
+	int		i;
+
+	new_envp = malloc(sizeof(char *) * (arr_size(envp) + 1));
+	i = 0;
+	while (envp[i])
+	{
+		new_envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	new_envp[i] = NULL;
+	return (new_envp);
+}
+
 int	init_struct(t_data *data, char **envp)
 {
-	data->envp = envp;
+	data->envp = copy_envp(envp);
 	data->path = get_envpath(envp);
 	if (!data->path)
 		return (printf("Error PATH\n"), 1);
@@ -26,8 +42,8 @@ int	init_struct(t_data *data, char **envp)
 /*		Malloc array before Use				*/
 int	struct_set(t_data *data)
 {
-	data->cmd = malloc(sizeof(char**));
-	data->arg = malloc(sizeof(char**));
+	data->cmd = malloc(sizeof(char **));
+	data->arg = malloc(sizeof(char **));
 	data->envp = NULL;
 	data->path = NULL;
 	data->infile = 0;

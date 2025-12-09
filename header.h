@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/04 15:03:28 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:31:16 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_data
 	int		*fd_outfile;
 }	t_data;
 
+extern int		g_exit_status;
+
 void	read_prompt(t_data *data);
 void	print_tab(char **tab);
 void	sighandler(int signum);
@@ -67,5 +69,24 @@ int		find_cmd_arg(t_data *data, char *cmd, size_t count_data);
 int		infile_open(t_data *data, char *infile, size_t	count_data);
 int		outfile_open(t_data *data, char *outfile, size_t count_data);
 char	*find_path(char *cmd, char **path);
+
+/*			export.c (pot. utils.c)	*/
+
+int		arr_size(char **arr);
+
+/*			Built-ins functions		*/
+
+void	ft_cd(t_data *data);
+void	ft_echo(t_data *data);
+void	ft_echo_n(t_data *data);
+void	ft_env(t_data *data);
+void	ft_exit(t_data *data);
+void	ft_export(t_data *data);
+void	ft_pwd(t_data *data);
+void	ft_unset(t_data *data);
+
+/*			Expand environment variables	*/
+
+void	expand_var(t_data *data);
 
 #endif

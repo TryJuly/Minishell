@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/04 08:42:52 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:48:32 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_free_array(char **array)
 	while (array[count])
 	{
 		len = 0;
-		while(array[count][len])
+		while (array[count][len])
 			array[count][len++] = 0;
 		free(array[count]);
 		count++;

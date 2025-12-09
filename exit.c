@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 12:25:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/08 11:48:55 by cbezenco         ###   ########.fr       */
+/*   Created: 2025/12/04 16:06:12 by cbezenco          #+#    #+#             */
+/*   Updated: 2025/12/09 10:21:53 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	ft_env(t_data *data)
+void	ft_exit(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (data->envp[i])
+	if (data->arg[0] == NULL)
+		exit(0);
+	if (data->arg[1])
 	{
-		printf("%s\n", data->envp[i]);
-		i++;
+		printf("exit : too many arguments\n");
+		g_exit_status = 1;
+		return ;
 	}
+	g_exit_status = ft_atoi(data->arg[0]);
+	rl_clear_history();
+	exit(g_exit_status);
 }

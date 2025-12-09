@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
 /*   Updated: 2025/12/08 08:22:06 by strieste         ###   ########.fr       */
@@ -15,35 +15,39 @@
 int	get_cmdpath(t_data *data, char **envp);
 int	copy_envp(t_data *data, char **envp);
 
+char	**copy_envp(char **envp)
+{
+	char	**new_envp;
+	int		i;
+
+	new_envp = malloc(sizeof(char *) * (arr_size(envp) + 1));
+	i = 0;
+	while (envp[i])
+	{
+		new_envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	new_envp[i] = NULL;
+	return (new_envp);
+}
+
 int	init_struct(t_data *data, char **envp)
 {
-	copy_envp(data, envp);
-	get_cmdpath(data, envp);
+	data->envp = copy_envp(envp);
+	data->path = get_envpath(envp);
+	if (!data->path)
+		return (printf("Error PATH\n"), 1);
 	return (0);
 }
 
 int	copy_envp(t_data *data, char **envp)
 {
-	size_t	count;
-
-	count = 0;
-	while (envp[count])
-		count++;
-	data->env = malloc((count + 1) * sizeof(char **));
-	if (!data->env)
-		return (printf("%sError malloc copy_path%s\n", RED, NC), 1);
-	count = 0;
-	while (envp[count])
-	{
-		data->env[count] = ft_strdup(envp[count]);
-		if (!data->env[count])
-		{
-			ft_free_array(&data->env);
-			return (printf("%sError copy_envp%s\n", RED, NC), 1);
-		}
-		count++;
-	}
-	data->env[count] = 0;
+	data->cmd = malloc(sizeof(char **));
+	data->arg = malloc(sizeof(char **));
+	data->envp = NULL;
+	data->path = NULL;
+	data->infile = 0;
+	data->outfile = 0;
 	return (0);
 }
 

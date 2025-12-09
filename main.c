@@ -12,10 +12,12 @@
 
 #include "header.h"
 
+int	g_exit_status;
+
 int	main(int ac, char **av, char **envp)
 {
 	t_data	data;
-	
+
 	(void)ac;
 	(void)av;
 	init_struct(&data, envp);
@@ -28,6 +30,7 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 /*debug*/
+
 void	print_tab(char **tab)
 {
 	int	i;
@@ -38,6 +41,30 @@ void	print_tab(char **tab)
 		printf("%s\n", tab[i]);
 		i++;
 	}
+}
+
+void	check_builtin(t_data *data)
+{
+	char	**array;
+
+	array = ft_split(data->cmd_brut[0], ' ');
+	data->arg = array;
+	expand_var(data);
+	data->arg += 1;
+	if (ft_strncmp("echo", array[0], 5) == 0)
+		ft_echo(data);
+	else if (ft_strncmp("env", array[0], 4) == 0)
+		ft_env(data);
+	else if (ft_strncmp("pwd", array[0], 4) == 0)
+		ft_pwd(data);
+	else if (ft_strncmp("cd", array[0], 3) == 0)
+		ft_cd(data);
+	else if (ft_strncmp("export", array[0], 7) == 0)
+		ft_export(data);
+	else if (ft_strncmp("unset", array[0], 6) == 0)
+		ft_unset(data);
+	else if (ft_strncmp("exit", array[0], 5) == 0)
+		ft_exit(data);
 }
 
 void	read_prompt(t_data *data)
@@ -77,5 +104,5 @@ void	sigfin(int signum)
 {
 	signum++;
 	rl_clear_history();
-	exit(1);
+	exit(0);
 }

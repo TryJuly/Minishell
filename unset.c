@@ -6,43 +6,59 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:21:05 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/04 15:34:33 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:14:11 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	arr_size(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
-
-void	ft_unset(char *str, char ***envp)
+void	ft_unset_arg(t_data *data)
 {
 	int		i;
+	int		offset;
 	int		envp_size;
 	char	**new_envp;
 
 	i = 0;
-	envp_size = arr_size(*envp);
+	offset = 0;
+	envp_size = arr_size(data->envp);
 	new_envp = malloc((sizeof(char *) * (envp_size - 1)));
 	if (!new_envp)
 		printf("pas bon");
-	while (envp[0][i])
+	while (data->envp[i + offset])
 	{
-		if (ft_strncmp(envp[0][i], str, ft_strlen(str)) == 0)
+		if (ft_strncmp(data->envp[i + offset],
+				data->arg[0], ft_strlen(data->arg[0])) == 0)
 		{
-			**envp++;
+			offset += 1;
 			continue ;
 		}
-		new_envp[i] = envp[0][i];
+		new_envp[i] = data->envp[i + offset];
 		i++;
 	}
 	new_envp[i] = NULL;
-	*envp = new_envp;
+	free(data->envp);
+	data->envp = new_envp;
 }
+
+void	ft_unset(t_data *data)
+{
+	if (data->arg[0] == NULL)
+	{
+		printf("unset : not enough arguments");
+		g_exit_status = 1;
+		return ;
+	}
+	while (data->arg[0])
+	{
+		ft_unset_arg(data);
+		data->arg += 1;
+	}
+}
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	(void)argc;
+// 	ft_unset(argv[1], &envp);
+// 	ft_env(envp);
+// }

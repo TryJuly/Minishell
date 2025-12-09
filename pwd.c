@@ -6,51 +6,52 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 10:22:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/04 11:22:08 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:32:03 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-/* meme chose que getenv() haha*/
-// char	*get_pwd(char **envp)
-// {
-// 	char	*temp;
-// 	int		i;
 
-// 	i = 0;
-// 	temp = NULL;
-// 	while (envp[i])
-// 	{
-// 		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
-// 		{
-// 			temp = envp[i];
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	if (!temp)
-// 	{
-// 		perror("pwd");
-// 		exit(1);
-// 	}
-// 	temp = ft_strchr(temp, '/');
-// 	return (temp);
-// }
-
-void	ft_pwd(void)
+char	*get_pwd(char **envp)
 {
-	char	*buf;
-	size_t	size;
+	char	*temp;
+	int		i;
 
-	buf = getenv("PWD");
-	size = ft_strlen(buf) + 1;
-	buf = getcwd(buf, size);
-	printf("%s\n", buf);
+	i = 0;
+	temp = NULL;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
+		{
+			temp = envp[i];
+			break ;
+		}
+		i++;
+	}
+	if (!temp)
+		return (temp);
+	temp = ft_strchr(temp, '/');
+	return (temp);
 }
 
-int	main(int argc, char **argv)
+void	ft_pwd(t_data *data)
 {
-	(void)argc;
-	(void)argv;
-	ft_pwd();
+	char	*buf;
+
+	if (data->arg[0] == NULL)
+	{
+		buf = get_pwd(data->envp);
+		if (!buf)
+		{
+			g_exit_status = 1;
+			printf("pwd : no PWD env found\n");
+			return ;
+		}
+		printf("%s\n", buf);
+	}
+	else
+	{
+		g_exit_status = 1;
+		printf("pwd : too many arguments\n");
+	}
 }

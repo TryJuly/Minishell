@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
 /*   Updated: 2025/12/09 11:51:09 by strieste         ###   ########.fr       */
@@ -41,6 +41,8 @@ typedef struct s_data
 	char	**env;
 	char	**path;
 }	t_data;
+
+extern int		g_exit_status;
 
 typedef struct s_cmd
 {
@@ -81,5 +83,24 @@ char	**token_array(char *s);
 
 int		validator(char **array);
 
+
+/*			export.c (pot. utils.c)	*/
+
+int		arr_size(char **arr);
+
+/*			Built-ins functions		*/
+
+void	ft_cd(t_data *data);
+void	ft_echo(t_data *data);
+void	ft_echo_n(t_data *data);
+void	ft_env(t_data *data);
+void	ft_exit(t_data *data);
+void	ft_export(t_data *data);
+void	ft_pwd(t_data *data);
+void	ft_unset(t_data *data);
+
+/*			Expand environment variables	*/
+
+void	expand_var(t_data *data);
 
 #endif

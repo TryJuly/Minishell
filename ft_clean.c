@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
 /*   Updated: 2025/12/08 13:23:30 by strieste         ###   ########.fr       */

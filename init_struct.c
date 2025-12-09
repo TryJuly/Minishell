@@ -6,13 +6,14 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/09 11:25:20 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/08 08:22:06 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	**get_envpath(char **envp);
+int	get_cmdpath(t_data *data, char **envp);
+int	copy_envp(t_data *data, char **envp);
 
 char	**copy_envp(char **envp)
 {
@@ -39,8 +40,7 @@ int	init_struct(t_data *data, char **envp)
 	return (0);
 }
 
-/*		Malloc array before Use				*/
-int	struct_set(t_data *data)
+int	copy_envp(t_data *data, char **envp)
 {
 	data->cmd = malloc(sizeof(char **));
 	data->arg = malloc(sizeof(char **));
@@ -51,22 +51,43 @@ int	struct_set(t_data *data)
 	return (0);
 }
 
-char	**get_envpath(char **envp)
+int	get_cmdpath(t_data *data, char **envp)
 {
 	size_t	count;
-	char	**path;
 	char	*first;
 
 	count = 0;
+	if (!data->env)
+		return (1);
 	while (ft_strncmp(envp[count], "PATH=", 5))
 		count++;
-	path = ft_split(envp[count], ':');
-	if (!path[0])
-		return (printf("Error search PATH\n"), NULL);
-	first = ft_substr(path[0], 5, ft_strlen(path[0]));
-	if (!first[0])
-		return (ft_free_array(path), NULL);
-	free(path[0]);
-	path[0] = first;
-	return (path);
+	data->path = ft_split(envp[count], ':');
+	if (!data->path)
+		return (printf("%sError split_envpath%s\n", RED, NC), 1);
+	first = ft_substr(data->path[0], 5, ft_strlen(data->path[0]));
+	if (!first)
+		return (ft_free_array(&data->path), 1);
+	free(data->path[0]);
+	data->path[0] = first;
+	return (0);
+}
+
+int	clean_space(char ***array)
+{
+	size_t	len;
+	char	*str;
+
+	if (!array || !(*array))
+		return (printf("%sError clean_cmd_brut%s\n", RED, NC), 1);
+	len = 0;
+	while ((*array)[len])
+	{
+		str = ft_strtrim((*array)[len], " ");
+		if (!str)
+			return (printf("%sError clean_cmd_but%s\n", RED, NC), 1);
+		free((*array)[len]);
+		(*array)[len] = str;
+		len++;
+	}
+	return (0);
 }

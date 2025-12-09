@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/08 14:06:08 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:51:09 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,12 @@ int		op_check(char c, char next);;
 
 /*			Tokenizer.c				*/
 
-int	tokenizer(char *s, char **array);
+int		tokenizer(char *s, char **array);
 char	**token_array(char *s);
+
+/*			Validator.c				*/
+
+int		validator(char **array);
 
 
 #endif

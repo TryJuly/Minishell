@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/08 14:26:17 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:29:08 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ void	read_prompt(t_data *data)
 		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
 		array = token_array(data->input);
 		print_tab(array);
+		if (validator(array))
+			printf("%sError validator%s\n", RED, NC);
 		ft_free_array(&array);
+		// array = ft_split(data->input, '|');
+		// print_tab(array);
 		free(data->input);
 	}
 	free(data->input);

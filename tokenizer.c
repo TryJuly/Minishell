@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:11:07 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/08 14:28:45 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:30:05 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ static int	copy_word(char *s, char **str)
 	save = 0;
 	if (s[len] && s[len] != 32 && !op_check(s[len], s[len + 1]))
 	{
-		while (s[len] && s[len] != 32 && !op_check(s[len], s[len + 1]))
+		while (s[len] && s[len] != 32 && op_check(s[len], s[len + 1]) == 0)
 			len++;
 		*str = malloc((len + 1) * sizeof(char*));
 		if (!(*str))
 			return (-1);
-		while (save <= len)
+		while (save < len)
 		{
 			(*str)[save] = s[save];
 			save++;
@@ -97,7 +97,7 @@ static int	end_quote(char *input, char quote, char **str)
 	(*str) = malloc((count + 1) * sizeof(char*));
 	if (!(*str))
 		return (-1);
-	while (save <= count)
+	while (save < count)
 	{
 		(*str)[save] = input[save];
 		save++;

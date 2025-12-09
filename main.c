@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/04 09:41:40 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:29:08 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ int	main(int ac, char **av, char **envp)
 	
 	(void)ac;
 	(void)av;
-	struct_set(&data);
 	init_struct(&data, envp);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sighandler);
 	signal(SIGSEGV, sigfin);
 	read_prompt(&data);
+	ft_free_array(&data.path);
+	ft_free_array(&data.env);
 	return (0);
 }
 /*debug*/
@@ -41,33 +42,29 @@ void	print_tab(char **tab)
 
 void	read_prompt(t_data *data)
 {
-	size_t	count;
-
-	count = 0;
+	char	**array;
+	
 	while (1)
 	{
 		data->input = readline("$> ");
-		if (ft_strncmp(data->input, "", 1) == 0)
+		if (!ft_strncmp(data->input, "", 1))
 			continue ;
 		else if (ft_strncmp(data->input, "exit", 5) == 0)
 			break ;
-		data->cmd_brut = ft_split(data->input, '|');
-		printf("%sCmd brut%s\n", GREEN, NC);
-		print_tab(data->cmd_brut);
-		clean_cmd_brut(data);
-		printf("%sCmd brut Clean%s\n", GREEN, NC);
-		print_tab(data->cmd_brut);
-		add_history(data->input);
-		printf("%sSplit under cmd%s\n", GREEN, NC);
-		// print_tab(data->path);
-		while (data->cmd_brut[count])
-		{
-			find_cmd_arg(data, data->cmd_brut[count], count);
-			count++;
-		}
-		print_tab(data->cmd);
-		print_tab(data->arg);
+		printf("%s###############	Print	###############%s\n", GREEN, NC);
+		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
+		printf("%s\n", data->input);
+		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
+		array = token_array(data->input);
+		print_tab(array);
+		if (validator(array))
+			printf("%sError validator%s\n", RED, NC);
+		ft_free_array(&array);
+		// array = ft_split(data->input, '|');
+		// print_tab(array);
+		free(data->input);
 	}
+	free(data->input);
 }
 
 void	sighandler(int signum)

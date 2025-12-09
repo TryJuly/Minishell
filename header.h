@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/04 15:03:28 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:51:09 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,28 @@
 # define LGREEN "\e[102m"
 # define BLUE "\e[34m"
 
+typedef struct s_cmd t_cmd;
+
 typedef struct s_data
 {
+	t_cmd	*cmd_lst;
 	char	*input;
-	char	**cmd_brut;
-	char	**cmd;
-	char	**arg;
-	char	**envp;
+	char	**env;
 	char	**path;
-	char	**infile;
-	char	**outfile;
-	int		*fd_infile;
-	int		*fd_outfile;
 }	t_data;
+
+typedef struct s_cmd
+{
+	int				index;
+	char			*cmd;
+	char			**args;
+	char			*in;
+	char			*out;
+	int				append;
+	int				heredoc;
+	char			*pass_w;
+	struct s_cmd	*next;
+}	t_cmd;
 
 void	read_prompt(t_data *data);
 void	print_tab(char **tab);
@@ -54,18 +63,23 @@ void	sigfin(int signum);
 /*			Init_struct.c			*/
 
 int		init_struct(t_data *data, char **envp);
-int		struct_set(t_data *data);
 
 /*			ft_clean.c				*/
 
-int		ft_free_struct(t_data *data);
-void	ft_free_array(char **array);;
+int		ft_free_array(char ***array);
 
-int		del_space_cmd_brut(t_data *data);
-int		clean_cmd_brut(t_data *data);
-int		find_cmd_arg(t_data *data, char *cmd, size_t count_data);
-int		infile_open(t_data *data, char *infile, size_t	count_data);
-int		outfile_open(t_data *data, char *outfile, size_t count_data);
-char	*find_path(char *cmd, char **path);
+/*			Token_count.c			*/
+size_t	token_count(char *s);
+int		op_check(char c, char next);;
+
+/*			Tokenizer.c				*/
+
+int		tokenizer(char *s, char **array);
+char	**token_array(char *s);
+
+/*			Validator.c				*/
+
+int		validator(char **array);
+
 
 #endif

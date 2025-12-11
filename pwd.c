@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 10:22:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 15:17:47 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:58:09 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_pwd(t_data *data)
 {
 	char	*buf;
 
-	if (data->cmd_lst->args[0] == NULL)
+	if (data->cmd_lst->args[1] == NULL)
 	{
 		buf = get_pwd(data->envp);
 		if (!buf)

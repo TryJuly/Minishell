@@ -113,6 +113,7 @@ void	ft_unset(t_data *data);
 /*			Expand environment variables	*/
 
 void	expand_var(t_data *data);
+void	new_expand_var(t_data *data);
 
 /*			Fill link_list			*/
 

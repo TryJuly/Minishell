@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/11 14:23:14 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 10:38:55 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	check_builtin(t_data *data, char **array)
 void	read_prompt(t_data *data)
 {
 	char	**array;
-
+	
 	while (1)
 	{
 		data->input = readline("$> ");

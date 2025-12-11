@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 15:27:19 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 10:38:55 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,28 @@ void	check_builtin(t_data *data, char **array)
 void	read_prompt(t_data *data)
 {
 	char	**array;
+	t_cmd	*lst;
 	
 	while (1)
 	{
 		data->input = readline("$> ");
 		if (!ft_strncmp(data->input, "", 1))
 			continue ;
-		printf("%s###############	Print	###############%s\n", GREEN, NC);
-		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
-		printf("%s\n", data->input);
-		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
-		array = token_array(data->input);
-		print_tab(array);
-		//check_builtin(data, array);
-		if (validator(array))
-			printf("%sError validator%s\n", RED, NC);
-		ft_free_array(&array);
-		free(data->input);
+		if (!input_brute(data->input))
+		{
+			printf("%s###############	Print	###############%s\n", GREEN, NC);
+			printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
+			printf("%s\n", data->input);
+			printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
+			array = token_array(data->input);
+			lst = fill_lst(array);
+			print_lst(lst);
+			// check_builtin(data, array);
+			// ft_free_array(&array);
+			free(data->input);
+		}
+		else
+			printf("%sInput invalide%s\n", BYRED, NC);
 	}
 	free(data->input);
 }

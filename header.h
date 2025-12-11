@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/09 14:57:49 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 10:38:45 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,14 @@
 # define LGREEN "\e[102m"
 # define BLUE "\e[34m"
 
+# define R_IN 1
+# define R_OUT 2
+# define R_HEREDOC 3
+# define R_APPEND 4
+
+
 typedef struct s_cmd t_cmd;
+typedef struct s_redir t_redir;
 
 typedef struct s_data
 {
@@ -49,13 +56,16 @@ typedef struct s_cmd
 	int				index;
 	char			*cmd;
 	char			**args;
-	char			*in;
-	char			*out;
-	int				append;
-	int				heredoc;
-	char			*pass_w;
+	struct s_redir	*redir;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_redir
+{
+	int				type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
 
 void	read_prompt(t_data *data);
 void	print_tab(char **tab);
@@ -82,6 +92,7 @@ char	**token_array(char *s);
 /*			Validator.c				*/
 
 int		validator(char **array);
+int		input_brute(char *str);
 
 
 /*			export.c (pot. utils.c)	*/
@@ -102,5 +113,11 @@ void	ft_unset(t_data *data);
 /*			Expand environment variables	*/
 
 void	expand_var(t_data *data);
+
+/*			Fill link_list			*/
+
+t_cmd	*fill_lst(char **array);
+
+void	print_lst(t_cmd *lst);
 
 #endif

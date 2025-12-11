@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/09 14:57:49 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:50:47 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define LGREEN "\e[102m"
 # define BLUE "\e[34m"
 
-typedef struct s_cmd t_cmd;
+typedef struct s_cmd	t_cmd;
 
 typedef struct s_data
 {
@@ -102,5 +102,6 @@ void	ft_unset(t_data *data);
 /*			Expand environment variables	*/
 
 void	expand_var(t_data *data);
+void	new_expand_var(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 15:15:14 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:37:12 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,16 @@ void	cd_home(t_data *data, char *old)
 			break ;
 		i++;
 	}
+	if (!data->envp[i])
+	{
+		printf("No HOME env var.\n");
+		return ;
+	}
 	temp = ft_strchr(data->envp[i], '/');
 	if (access(temp, F_OK) == -1)
 	{
 		printf("No such file or directory: ");
-		perror(data->cmd_lst->args[1]);
+		printf("%s\n", temp);
 		return ;
 	}
 	if (chdir(temp) == -1)

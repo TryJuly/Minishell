@@ -6,13 +6,21 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 15:27:19 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:23:14 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	g_exit_status;
+int	g_exit_status = 0;
+
+void	create_cmd_list(t_data *data)
+{
+	t_cmd	*new_cmd_lst;
+
+	new_cmd_lst = malloc(sizeof(t_cmd));
+	data->cmd_lst = new_cmd_lst;
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -24,6 +32,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sighandler);
 	signal(SIGSEGV, sigfin);
+	create_cmd_list(&data);
 	read_prompt(&data);
 	ft_free_array(&data.path);
 	ft_free_array(&data.envp);
@@ -46,8 +55,7 @@ void	print_tab(char **tab)
 void	check_builtin(t_data *data, char **array)
 {
 	data->cmd_lst->args = array;
-	//expand_var(data);
-	data->cmd_lst->args += 1;
+	//data->cmd_lst->args += 1;
 	if (ft_strncmp("echo", array[0], 5) == 0)
 		ft_echo(data);
 	else if (ft_strncmp("env", array[0], 4) == 0)
@@ -67,7 +75,7 @@ void	check_builtin(t_data *data, char **array)
 void	read_prompt(t_data *data)
 {
 	char	**array;
-	
+
 	while (1)
 	{
 		data->input = readline("$> ");
@@ -77,13 +85,14 @@ void	read_prompt(t_data *data)
 		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
 		printf("%s\n", data->input);
 		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
+		new_expand_var(data);
 		array = token_array(data->input);
 		print_tab(array);
-		//check_builtin(data, array);
-		if (validator(array))
-			printf("%sError validator%s\n", RED, NC);
-		ft_free_array(&array);
-		free(data->input);
+		check_builtin(data, array);
+		// if (validator(array))
+		// 	printf("%sError validator%s\n", RED, NC);
+		//ft_free_array(&array);
+		//free(data->input);
 	}
 	free(data->input);
 }

@@ -7,19 +7,21 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline
 
+INCLUDES = includes
+OBJ_DIR = objets/
+VPATH = srcs
+
+
 SRCS = main.c init_struct.c ft_clean.c parsing_v1.c token_count.c \
 	tokenizer.c input_check.c cd.c echo.c env.c exit.c export.c pwd.c \
 	unset.c env_var.c fill_lst.c
 
-SRCS_BONUS =
-
-INCLUDES = header.h
+SRCS_PATH = ${addprefix srcs/, ${SRCS}}
+INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}
+OBJS = ${patsubst srcs/%.c, ${OBJ_DIR}/%.o, ${SRCS_PATH}}
 
 LIBFT = ./libft/
 LIBFT_A= ./libft.a
-
-OBJS = ${addprefix ${OBJ_DIR}/,${SRCS:.c=.o}}
-OBJ_DIR = objets/
 #################################################################################################################
 #                                           RULES COMPILATION                                                   #
 #################################################################################################################
@@ -28,9 +30,9 @@ all: ${LIBFT_A} ${NAME}
 ${NAME}: ${OBJS}
 	${CC} ${FLAGS} ${OBJS} ${LIBFT_A} ${EXTRA} -I ${INCLUDES} -o ${NAME} ${LDFLAGS}
 
-${OBJ_DIR}/%.o: %.c ${INCLUDES}
+${OBJ_DIR}/%.o: %.c
 	@mkdir -p ${OBJ_DIR}
-	${CC} ${FLAGS} -c $< -o $@
+	${CC} ${FLAGS} -c $< -o $@ -I${INCLUDES}
 
 ${LIBFT_A}:
 	@make -C ${LIBFT}

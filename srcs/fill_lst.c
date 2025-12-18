@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/12 14:49:56 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 09:32:05 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,20 @@ void	add_args_node(char *argument, t_cmd *current)
 	count = 0;
 	if (!current->args[0])
 	{
-		current->args[0] = ft_strdup(argument);
+		if (argument[0] == '"' || argument[0] == '\'')
+			current->args[0] = ft_strtrim(argument, "\"'");
+		else
+			current->args[0] = ft_strdup(argument);
 		current->args[1] = NULL;
 	}
 	else
 	{
 		while (current->args[count])
 			count++;
-		current->args[count++] = ft_strdup(argument);
+		if (argument[0] == '"' || argument[0] == '\'')
+			current->args[count++] = ft_strtrim(argument, "\"'");
+		else
+			current->args[count++] = ft_strdup(argument);
 		current->args[count] = 0;
 	}
 	return ;
@@ -221,4 +227,21 @@ static int	get_redir_type(char *redir)
 	if (ft_strlen(redir) == 1 && redir[0] == '<')
 		return (R_IN);
 	return (-1);
+}
+
+int	lst_size(t_cmd *cmd)
+{
+	size_t	len;
+	t_cmd	*tmp;
+
+	if (!cmd)
+		return (0);
+	len = 0;
+	tmp = cmd;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		len++;
+	}
+	return (len);
 }

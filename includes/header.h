@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/12 15:14:25 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:57:00 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <errno.h>
 
 # define NC "\e[0m"
 # define YELLOW "\e[33m"
@@ -86,6 +88,7 @@ char	*find_path(char *cmd, char **path);
 int		ft_free_array(char ***array);
 
 /*			Token_count.c			*/
+
 size_t	token_count(char *s);
 int		op_check(char c, char next);
 
@@ -130,7 +133,18 @@ char	*expand_line(char *line, t_data *data);
 /*			Fill link_list			*/
 
 t_cmd	*fill_lst(char **array);
+int		find_path(char **cmd, char **path);
+int		lst_size(t_cmd *cmd);
 
 void	print_lst(t_cmd *lst);
+
+int		exec_cmd(t_data *data);
+
+
+/*			redir.c					*/
+
+int		redir_file(int *in, int *out, t_redir *redir);
+int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
+
 
 #endif

@@ -75,22 +75,23 @@ void	check_builtin(t_data *data, t_cmd *cmd)
 void	read_prompt(t_data *data)
 {
 	char	**array;
-	t_cmd	*lst;
-
+	
 	while (1)
 	{
 		data->input = readline("$> ");
 		if (!ft_strncmp(data->input, "", 1))
 			continue ;
-		printf("%s###############	Print	###############%s\n", GREEN, NC);
+		if (!ft_strncmp(data->input, "exit", 5))
+			break ;
 		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
+		printf("%s####		Command			####%s\n", GREEN, NC);
 		printf("%s\n", data->input);
-		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
+		printf("%s####		Result			####%s\n", GREEN, NC);
 		new_expand_var(data);
 		array = token_array(data->input);
 		// print_tab(array);
-		lst = fill_lst(array);
-		check_builtin(data, lst);
+		data->cmd_lst = fill_lst(array);
+		check_builtin(data, data->cmd_lst);
 		if (lst->redir)
 		{
 			if (lst->redir->type == R_HEREDOC)
@@ -105,12 +106,14 @@ void	read_prompt(t_data *data)
 
 void	sighandler(int signum)
 {
+	(void)signum;
 	signum++;
 	printf("\n$> ");
 }
 
 void	sigfin(int signum)
 {
+	(void)signum;
 	signum++;
 	clear_history();
 	exit(130);

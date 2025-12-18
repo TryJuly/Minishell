@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/18 14:00:38 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:29:53 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static void is_valide_cmd(t_data *data, t_cmd **cmd)
 
 	if ((*cmd)->args[0][0] != '/')
 	{
-		if (find_path((*cmd)->args, data->path))
+		if (find_path_1((*cmd)->args, data->path))
 		{
 			printf("%scommand not foundLLL%s\n", RED, NC);
 			exit(127);

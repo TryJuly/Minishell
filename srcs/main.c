@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/18 12:55:33 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:30:25 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,13 @@ void	read_prompt(t_data *data)
 		// print_tab(array);
 		data->cmd_lst = fill_lst(array);
 		check_builtin(data, data->cmd_lst);
-		if (lst->redir)
+		exec_cmd(data);
+		if (data->cmd_lst->redir)
 		{
-			if (lst->redir->type == R_HEREDOC)
-				heredoc(lst, data);
+			if (data->cmd_lst->redir->type == R_HEREDOC)
+				heredoc(data->cmd_lst, data);
 		}
-		print_lst(lst);
+		print_lst(data->cmd_lst);
 		//ft_free_array(&array);
 		//free(data->input);
 	}

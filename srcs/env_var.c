@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/11 13:49:29 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:38:34 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*expand_command_value(char *new_str, t_data *data)
 	new_str = ft_strtrim(new_str, "$()");
 	new_str = expand_line(new_str, data);
 	args = ft_split(new_str, ' ');
-	args[0] = find_path(args[0], data->path);
+	find_path_1(&args[0], data->path);
 	printf("%s : %s\n", args[0], args[1]);
 	res = exec_command(args, data);
 	return (res);

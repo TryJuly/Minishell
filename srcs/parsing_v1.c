@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_v1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:58:59 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/18 07:46:35 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:31:11 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	find_path(char **cmd, char **path)
+int	find_path_1(char **cmd, char **path)
 {
 	size_t	count;
 	char	*command;
-	
+
 	command = NULL;
 	count = 0;
 	while (path[count])

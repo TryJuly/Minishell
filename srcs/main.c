@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/15 09:41:42 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:55:33 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sighandler);
 	signal(SIGSEGV, sigfin);
-	create_cmd_list(&data);
+	//create_cmd_list(&data);
 	read_prompt(&data);
 	ft_free_array(&data.path);
 	ft_free_array(&data.envp);
@@ -52,23 +52,23 @@ void	print_tab(char **tab)
 	}
 }
 
-void	check_builtin(t_data *data, char **array)
+void	check_builtin(t_data *data, t_cmd *cmd)
 {
-	data->cmd_lst->args = array;
-	//data->cmd_lst->args += 1;
-	if (ft_strncmp("echo", array[0], 5) == 0)
+	data->cmd_lst = cmd;
+
+	if (ft_strncmp("echo", data->cmd_lst->args[0], 5) == 0)
 		ft_echo(data);
-	else if (ft_strncmp("env", array[0], 4) == 0)
+	else if (ft_strncmp("env", data->cmd_lst->args[0], 4) == 0)
 		ft_env(data);
-	else if (ft_strncmp("pwd", array[0], 4) == 0)
+	else if (ft_strncmp("pwd", data->cmd_lst->args[0], 4) == 0)
 		ft_pwd(data);
-	else if (ft_strncmp("cd", array[0], 3) == 0)
+	else if (ft_strncmp("cd", data->cmd_lst->args[0], 3) == 0)
 		ft_cd(data);
-	else if (ft_strncmp("export", array[0], 7) == 0)
+	else if (ft_strncmp("export", data->cmd_lst->args[0], 7) == 0)
 		ft_export(data);
-	else if (ft_strncmp("unset", array[0], 6) == 0)
+	else if (ft_strncmp("unset", data->cmd_lst->args[0], 6) == 0)
 		ft_unset(data);
-	else if (ft_strncmp("exit", array[0], 5) == 0)
+	else if (ft_strncmp("exit", data->cmd_lst->args[0], 5) == 0)
 		ft_exit(data);
 }
 
@@ -76,7 +76,7 @@ void	read_prompt(t_data *data)
 {
 	char	**array;
 	t_cmd	*lst;
-	
+
 	while (1)
 	{
 		data->input = readline("$> ");
@@ -88,10 +88,15 @@ void	read_prompt(t_data *data)
 		printf("%s###############	Print Tab	###############%s\n", GREEN, NC);
 		new_expand_var(data);
 		array = token_array(data->input);
-		print_tab(array);
+		// print_tab(array);
 		lst = fill_lst(array);
+		check_builtin(data, lst);
+		if (lst->redir)
+		{
+			if (lst->redir->type == R_HEREDOC)
+				heredoc(lst, data);
+		}
 		print_lst(lst);
-		check_builtin(data, array);
 		//ft_free_array(&array);
 		//free(data->input);
 	}
@@ -108,5 +113,5 @@ void	sigfin(int signum)
 {
 	signum++;
 	clear_history();
-	exit(0);
+	exit(130);
 }

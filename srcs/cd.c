@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/11 14:37:12 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:58:57 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	update_env_pwd(t_data *data, char *old, char *new)
 	int	new_i;
 
 	i = 0;
+	old_i = -1;
+	new_i = -1;
 	while (data->envp[i])
 	{
 		if (ft_strncmp(data->envp[i], "PWD", 3) == 0)
@@ -27,8 +29,10 @@ void	update_env_pwd(t_data *data, char *old, char *new)
 			old_i = i;
 		i++;
 	}
-	data->envp[old_i] = ft_strjoin("OLDPWD=", old);
-	data->envp[new_i] = ft_strjoin("PWD=", new);
+	if (!(old_i == -1))
+		data->envp[old_i] = ft_strjoin("OLDPWD=", old);
+	if (!(new_i == -1))
+		data->envp[new_i] = ft_strjoin("PWD=", new);
 	free(old);
 	free(new);
 }
@@ -71,7 +75,12 @@ void	ft_cd(t_data *data)
 	char	*new_pwd;
 	char	*old_pwd;
 
-	old_pwd = malloc(100); // valeur a determiner
+	old_pwd = malloc(100);
+	if (!old_pwd)
+	{
+		printf("OH NOOOOOOOOOOOO\n");
+		return ;
+	}
 	old_pwd = getcwd(old_pwd, 100);
 	if (data->cmd_lst->args[1] == NULL)
 		cd_home(data, old_pwd);
@@ -86,6 +95,11 @@ void	ft_cd(t_data *data)
 		if (chdir(data->cmd_lst->args[1]) == -1)
 			printf("oups");
 		new_pwd = malloc(100);
+		if (!new_pwd)
+		{
+			printf("OH YEE-NOOOOOOOOOO\n");
+			return ;
+		}
 		new_pwd = getcwd(new_pwd, 100);
 		update_env_pwd(data, old_pwd, new_pwd);
 	}

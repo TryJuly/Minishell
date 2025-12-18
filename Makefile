@@ -14,7 +14,7 @@ VPATH = srcs
 
 SRCS = main.c init_struct.c ft_clean.c parsing_v1.c token_count.c \
 	tokenizer.c input_check.c cd.c echo.c env.c exit.c export.c pwd.c \
-	unset.c env_var.c fill_lst.c
+	unset.c env_var.c fill_lst.c heredoc.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}

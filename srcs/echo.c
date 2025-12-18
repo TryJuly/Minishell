@@ -16,7 +16,7 @@ void	ft_echo_n(t_data *data)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (!data->cmd_lst->args[i + 1])
 		return ;
 	while (data->cmd_lst->args[i + 1])
@@ -41,7 +41,6 @@ void	ft_echo(t_data *data)
 	}
 	if (ft_strncmp(data->cmd_lst->args[1], "-n", 2) == 0)
 	{
-		data->cmd_lst->args += 1;
 		ft_echo_n(data);
 		return ;
 	}

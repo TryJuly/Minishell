@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/18 12:57:00 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:32:10 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	*expand_line(char *line, t_data *data);
 /*			Fill link_list			*/
 
 t_cmd	*fill_lst(char **array);
-int		find_path(char **cmd, char **path);
+int		find_path_1(char **cmd, char **path);
 int		lst_size(t_cmd *cmd);
 
 void	print_lst(t_cmd *lst);

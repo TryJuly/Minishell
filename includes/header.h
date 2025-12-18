@@ -22,6 +22,7 @@
 # include "../libft/libft.h"
 # include <stdlib.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 # define NC "\e[0m"
 # define YELLOW "\e[33m"
@@ -76,13 +77,17 @@ void	sigfin(int signum);
 
 int		init_struct(t_data *data, char **envp);
 
+/*			parsing					*/
+
+char	*find_path(char *cmd, char **path);
+
 /*			ft_clean.c				*/
 
 int		ft_free_array(char ***array);
 
 /*			Token_count.c			*/
 size_t	token_count(char *s);
-int		op_check(char c, char next);;
+int		op_check(char c, char next);
 
 /*			Tokenizer.c				*/
 
@@ -114,6 +119,13 @@ void	ft_unset(t_data *data);
 
 void	expand_var(t_data *data);
 void	new_expand_var(t_data *data);
+char	*ft_unsplit(char **tab);
+char	**ft_split_dollars(char *input, int dollars);
+int		count_dollars(char *str);
+char	*expand_var_value(char *new_str, t_data *data);
+char	*expand_command_value(char *new_str, t_data *data);
+void	heredoc(t_cmd *cmd, t_data *data);
+char	*expand_line(char *line, t_data *data);
 
 /*			Fill link_list			*/
 

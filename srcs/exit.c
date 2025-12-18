@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:06:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/12 10:42:30 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:34:19 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+int	check_arg(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void	ft_exit(t_data *data)
 {
@@ -21,6 +35,12 @@ void	ft_exit(t_data *data)
 		printf("exit : too many arguments\n");
 		g_exit_status = 1;
 		return ;
+	}
+	if (!check_arg(data->cmd_lst->args[1]))
+	{
+		printf("exit : numeric argument required\n");
+		g_exit_status = 2;
+		exit(g_exit_status);
 	}
 	g_exit_status = ft_atoi(data->cmd_lst->args[1]);
 	clear_history();

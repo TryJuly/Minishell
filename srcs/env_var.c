@@ -12,6 +12,63 @@
 
 #include "header.h"
 
+char	*exec_command(char **args, t_data *data)
+{
+	pid_t	child;
+	int		pipefd[2];
+	char	*buf;
+	int		numread;
+	char	*res;
+	int		total;
+
+	pipe(pipefd);
+	child = fork();
+	if (child == 0)
+	{
+		dup2(pipefd[1], 1);
+		close(pipefd[0]);
+		if (execve(args[0], args, data->envp) == -1)
+		{
+			printf("ouah la vache\n");
+		}
+	}
+	close(pipefd[1]);
+	wait(&child);
+	numread = -1;
+	res = "";
+	total = 0;
+	buf = malloc(101);
+	while (numread != 0)
+	{
+		numread = read(pipefd[0], buf, 100);
+		total += numread;
+		if (numread == -1)
+			printf("la poisse\n");
+		else if (numread == 0)
+			break ;
+		buf[total + 1] = 0;
+		res = ft_strjoin(res, buf);
+	}
+	free(buf);
+	return (res);
+}
+
+char	*expand_command_value(char *new_str, t_data *data)
+{
+	char	**args;
+	char	*res;
+
+	if (!data)
+		return (NULL);
+	new_str = ft_strtrim(new_str, "$()");
+	new_str = expand_line(new_str, data);
+	args = ft_split(new_str, ' ');
+	args[0] = find_path(args[0], data->path);
+	printf("%s : %s\n", args[0], args[1]);
+	res = exec_command(args, data);
+	return (res);
+}
+
 char	*expand_var_value(char *new_str, t_data *data)
 {
 	int		i;
@@ -43,14 +100,20 @@ char	*expand_var_value(char *new_str, t_data *data)
 int	count_dollars(char *str)
 {
 	int	i;
+	int	par;
 	int	count;
 
 	i = 0;
 	count = 0;
+	par = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && par == 0)
 			count++;
+		else if (str[i] == '(')
+			par = 1;
+		else if (str[i] == ')')
+			par = 0;
 		i++;
 	}
 	return (count);
@@ -146,8 +209,17 @@ char	**ft_split_dollars(char *input, int dollars)
 		if (input[i] == '$')
 		{
 			j = i + 1;
-			while (input[j] != ' ' && input[j] && input[j] != '$')
+			if (input[j] == '(')
+			{
+				while (input[j] != ')')
+					j++;
 				j++;
+			}
+			else
+			{
+				while (input[j] != ' ' && input[j] && input[j] != '$')
+					j++;
+			}
 			temp = ft_substr(input, i, j - i);
 			i = j - 1;
 		}

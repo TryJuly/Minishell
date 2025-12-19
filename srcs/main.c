@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/19 13:32:57 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:34:58 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	print_tab(char **tab)
 	}
 }
 
-void	check_builtin(t_data *data, t_cmd *cmd)
+int	check_builtin(t_data *data, t_cmd *cmd)
 {
 	data->cmd_lst = cmd;
 
@@ -70,6 +70,9 @@ void	check_builtin(t_data *data, t_cmd *cmd)
 		ft_unset(data);
 	else if (ft_strncmp("exit", data->cmd_lst->args[0], 5) == 0)
 		ft_exit(data);
+	else
+		return (0);
+	return (1);
 }
 
 void	read_prompt(t_data *data)
@@ -86,7 +89,18 @@ void	read_prompt(t_data *data)
 		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
 		printf("%s####		Command			####%s\n", GREEN, NC);
 		printf("%s\n", data->input);
-		if (!input_brute(data->input))
+		printf("%s####		Result			####%s\n", GREEN, NC);
+		new_expand_var(data);
+		array = token_array(data->input);
+		// print_tab(array);
+		data->cmd_lst = fill_lst(array);
+		if (lst_size(data->cmd_lst) == 1)
+		{
+			if (check_builtin(data, data->cmd_lst) == 1)
+				continue ;
+		}
+		exec_cmd(data);
+		if (data->cmd_lst->redir)
 		{
 			printf("%s####		Check input			####%s\n", GREEN, NC);
 			printf("%s\n", data->input);

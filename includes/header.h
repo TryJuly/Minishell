@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/19 08:34:55 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/19 11:57:39 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*find_path(char *cmd, char **path);
 /*			ft_clean.c				*/
 
 int		ft_free_array(char ***array);
+void	free_classic(char **envp);
 
 /*			Token_count.c			*/
 

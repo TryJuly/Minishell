@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:36:01 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/18 12:57:37 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:02:08 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	redir_file(int *in, int *out, t_redir *redir)
 		else if (redir->type == R_APPEND)
 		{
 			if (redir_out_append(out, redir))
+				return (exit(126), 1);
+		}
+		else if (redir->type == R_HEREDOC)
+		{
+			if (redir_in(in, redir))
 				return (exit(126), 1);
 		}
 		redir = redir->next;

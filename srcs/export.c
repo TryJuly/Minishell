@@ -6,12 +6,12 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 11:06:07 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 15:24:39 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/19 12:12:59 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-// mettre dans un fichier utils ?
+
 int	arr_size(char **arr)
 {
 	int	i;
@@ -22,6 +22,19 @@ int	arr_size(char **arr)
 	return (i);
 }
 
+void	free_classic(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
 void	set_new_env_var(t_data *data)
 {
 	int		envp_size;
@@ -30,7 +43,7 @@ void	set_new_env_var(t_data *data)
 
 	i = 0;
 	envp_size = arr_size(data->envp);
-	new_envp = malloc(sizeof(char *) * (envp_size + 1));
+	new_envp = malloc(sizeof(char *) * (envp_size + 2));
 	if (!new_envp)
 		printf("pas bon");
 	while (data->envp[i])
@@ -38,9 +51,9 @@ void	set_new_env_var(t_data *data)
 		new_envp[i] = ft_strdup(data->envp[i]);
 		i++;
 	}
-	new_envp[i] = data->cmd_lst->args[1];
+	new_envp[i] = ft_strdup(data->cmd_lst->args[1]);
 	new_envp[i + 1] = NULL;
-	ft_free_array(&(data->envp));
+	free_classic(data->envp);
 	data->envp = new_envp;
 }
 

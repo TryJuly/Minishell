@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/19 11:57:39 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:47:33 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
 
 
 /*			???						*/
+int	check_builtin(t_data *data, t_cmd *cmd);
 
 void	print_lst(t_cmd *lst);
 

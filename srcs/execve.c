@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/19 09:52:42 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:57:45 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ int exec_cmd(t_data *data)
 
 	count = 0;
 	number_cmd = lst_size(data->cmd_lst);
-	// pid = calloc(number_cmd, sizeof(pid_t)); // If use ft_calloc minishell in minishell fail
+	if (number_cmd == 1)
+	{
+		if (check_builtin(data, data->cmd_lst) == 1)
+			return (0);
+	}
 	pid = malloc(number_cmd * sizeof(pid));
 	if (!pid)
 		return (printf("Error malloc pid\n"), 1);
@@ -87,6 +91,8 @@ static int child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 	if (cmd->redir)
 		redir_file(&(in), &(out), cmd->redir);
 	close_dup_fd(&(in), &(out), pipe_fd, &(prev_fd));
+	if (check_builtin(data, cmd) == 1)
+			return (exit(0), 0);
 	is_valide_cmd(data, &(cmd));
 	execve(cmd->args[0], cmd->args, data->envp);
 	error_child(cmd);
@@ -116,7 +122,7 @@ static void error_child(t_cmd *cmd)
 static void is_valide_cmd(t_data *data, t_cmd **cmd)
 {
 	struct stat st;
-
+	
 	if ((*cmd)->args[0][0] != '/')
 	{
 		if (find_path_1((*cmd)->args, data->path))

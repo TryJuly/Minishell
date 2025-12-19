@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/19 13:34:58 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:03:05 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,33 +92,15 @@ void	read_prompt(t_data *data)
 		printf("%s####		Result			####%s\n", GREEN, NC);
 		new_expand_var(data);
 		array = token_array(data->input);
-		// print_tab(array);
 		data->cmd_lst = fill_lst(array);
-		if (lst_size(data->cmd_lst) == 1)
-		{
-			if (check_builtin(data, data->cmd_lst) == 1)
-				continue ;
-		}
 		exec_cmd(data);
-		if (data->cmd_lst->redir)
-		{
-			printf("%s####		Check input			####%s\n", GREEN, NC);
-			printf("%s\n", data->input);
-			printf("%s####		Result			####%s\n", GREEN, NC);
-			new_expand_var(data);
-			array = token_array(data->input);
-			// print_lst(data->cmd_lst);
-			data->cmd_lst = fill_lst(array);
-			check_builtin(data, data->cmd_lst);
-			exec_cmd(data);
-			if (data->cmd_lst->redir)
-			{
-				if (data->cmd_lst->redir->type == R_HEREDOC)
-					heredoc(data->cmd_lst, data);
-			}
-			ft_free_array(&array);
-			free(data->input);
-		}
+		// if (data->cmd_lst->redir)
+		// {
+		// 	if (data->cmd_lst->redir->type == R_HEREDOC)
+		// 		heredoc(data->cmd_lst, data);
+		// }
+		ft_free_array(&array);
+		free(data->input);
 	}
 	free(data->input);
 }

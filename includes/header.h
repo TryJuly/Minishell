@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
 /*   Updated: 2025/12/19 11:57:39 by cbezenco         ###   ########.fr       */
@@ -137,7 +137,14 @@ t_cmd	*fill_lst(char **array);
 int		find_path_1(char **cmd, char **path);
 int		lst_size(t_cmd *cmd);
 
+/*			Lst_tools.c				*/
+
 void	print_lst(t_cmd *lst);
+void	add_back_lst(t_cmd **cmd, t_cmd *new);
+t_cmd	*lst_last(t_cmd *cmd);
+int		lst_size(t_cmd *cmd);
+
+/*			Execve.c				*/
 
 int		exec_cmd(t_data *data);
 
@@ -147,5 +154,9 @@ int		exec_cmd(t_data *data);
 int		redir_file(int *in, int *out, t_redir *redir);
 int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
 
+
+/*			???						*/
+
+void	print_lst(t_cmd *lst);
 
 #endif

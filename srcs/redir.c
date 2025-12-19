@@ -15,6 +15,7 @@
 static int	redir_in(int *in, t_redir *redir);
 static int	redir_out(int *out, t_redir *redir);
 static int	redir_out_append(int *out, t_redir *redir);
+static int	redir_out_heredoc(int *in, t_redir *redir);
 
 int	redir_file(int *in, int *out, t_redir *redir)
 {
@@ -37,7 +38,7 @@ int	redir_file(int *in, int *out, t_redir *redir)
 		}
 		else if (redir->type == R_HEREDOC)
 		{
-			if (redir_in(in, redir))
+			if (redir_out_heredoc(in, redir))
 				return (exit(126), 1);
 		}
 		redir = redir->next;
@@ -70,10 +71,30 @@ int	close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd)
 	return (0);
 }
 
+static int	redir_out_heredoc(int *in, t_redir *redir)
+{
+	int	status;
+	
+	status = 0;
+	if (*in != STDOUT_FILENO)
+		status = close(*in);
+	if (status == -1)
+		return (perror("Minishell"), -1);
+	*in = open(redir->file, O_RDONLY);
+	if (*in < 0)
+		return (perror("Minishell"), -1);
+	return (0);
+}
+
 static int	redir_out_append(int *out, t_redir *redir)
 {
+	int	status;
+
+	status = 0;
 	if (*out != STDOUT_FILENO)
-		close(*out);
+		status = close(*out);
+	if (status == -1)
+		return (perror("Minishell"), -1);
 	*out = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*out < 0)
 		return (perror("Minishell"), -1);
@@ -82,8 +103,13 @@ static int	redir_out_append(int *out, t_redir *redir)
 
 static int	redir_out(int *out, t_redir *redir)
 {
+	int	status;
+	
+	status = 0;
 	if (*out != STDERR_FILENO)
 		close(*out);
+	if (status == -1)
+		return (perror("Minishell"), -1);
 	*out = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*out < 0)
 		return (perror("Minishell"), -1);
@@ -92,8 +118,13 @@ static int	redir_out(int *out, t_redir *redir)
 
 static int	redir_in(int *in, t_redir *redir)
 {
+	int	status;
+	
+	status = 0;
 	if (*in == STDIN_FILENO)
 		close(*in);
+	if (status == -1)
+		return (perror("Minishell"), -1);
 	if (access(redir->file, F_OK))
 		return (perror("Minishell"), -1);
 	if (access(redir->file, R_OK))

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/18 09:32:05 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/19 08:33:08 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ static int		count_args(char **array, int len);
 static void		add_redir_node(char *redir, char *file, t_cmd *current);
 static void		add_args_node(char *argument, t_cmd *current);
 static int		is_redir(char *str);
-void			add_back(t_cmd **cmd, t_cmd *new);
 static t_cmd	*malloc_args(char **array, size_t len);
-t_cmd			*lst_last(t_cmd *cmd);
 static int		get_redir_type(char *redir);
 
 t_cmd	*fill_lst(char **array)
@@ -43,40 +41,11 @@ t_cmd	*fill_lst(char **array)
 			else
 				add_args_node(array[len++], current);
 		}
-		add_back(&lst, current);
+		add_back_lst(&lst, current);
 		if ((array[len]) && array[len][0] == '|' && array[len + 1])
 			len++;
 	}
 	return (lst);
-}
-/*		Function for print linked list		*/
-void	print_lst(t_cmd *lst)
-{
-	size_t	count;
-	size_t	len;
-	t_redir	*tmp;
-
-	len = 0;
-	while (lst)
-	{
-		count = 0;
-		while (lst->args[count])
-		{
-			printf("%sArgument %ld: %s%s\n", GREEN, count, lst->args[count], NC);
-			count++;
-		}
-		printf("%sPrint file redir%s\n", YELLOW, NC);
-		tmp = lst->redir;
-		while (tmp)
-		{
-			printf("%sFile : :%s:%s\n", GREEN, tmp->file, NC);
-			printf("%sFile type : %d%s\n", GREEN, tmp->type, NC);
-			tmp = tmp->next;
-		}
-		lst = lst->next;
-		len++;
-	}
-	printf("Numbers of node : %ld\n", len);
 }
 
 static int	count_args(char **array, int len)
@@ -170,27 +139,6 @@ static int	is_redir(char *str)
 	return (0);
 }
 
-void	add_back(t_cmd **cmd, t_cmd *new)
-{
-	t_cmd	*tmp;
-
-	if (!new)
-		return ;
-	if (!(*cmd))
-	{
-		(*cmd) = new;
-		return ;
-	}
-	if (!(*cmd)->next)
-	{
-		(*cmd)->next = new;
-		return ;
-	}
-	tmp = lst_last(*cmd);
-	tmp->next = new;
-	return ;
-}
-
 static t_cmd	*malloc_args(char **array, size_t len)
 {
 	t_cmd *current;
@@ -206,16 +154,6 @@ static t_cmd	*malloc_args(char **array, size_t len)
 	return (current);
 }
 
-t_cmd	*lst_last(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
 static int	get_redir_type(char *redir)
 {
 	if (ft_strlen(redir) == 2 && redir[0] == '>' && redir[1] == '>')
@@ -227,21 +165,4 @@ static int	get_redir_type(char *redir)
 	if (ft_strlen(redir) == 1 && redir[0] == '<')
 		return (R_IN);
 	return (-1);
-}
-
-int	lst_size(t_cmd *cmd)
-{
-	size_t	len;
-	t_cmd	*tmp;
-
-	if (!cmd)
-		return (0);
-	len = 0;
-	tmp = cmd;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		len++;
-	}
-	return (len);
 }

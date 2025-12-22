@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:30:47 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 15:14:08 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static void	is_valide_cmd(t_data *data, t_cmd **cmd)
 	}
 	if (stat((*cmd)->args[0], &st) == 0 && S_ISDIR(st.st_mode))
 	{
-		perror("is a directoy");
+		perror("is a directory");
 		exit(126);
 	}
 	return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:12:13 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:33:00 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 15:05:30 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,17 @@ int	input_brute(char *str, t_data *data)
 static int	find_heredoc(char *str, t_data *data)
 {
 	size_t	count;
+	int	quote;
 
 	count = 0;
+	quote = 0;
 	while (str[count])
 	{
-		if (str[count] == '<' && str[count + 1] == '<')
+		if ((str[count] == '\'' || str[count] == '"') && (!quote))
+			quote = str[count++];
+		if (str[count] == quote && (quote))
+			quote = 0;
+		if (str[count] == '<' && str[count + 1] == '<' && !quote)
 		{
 			heredoc(&str[count + 2], data);
 			count += 2;
@@ -121,7 +127,7 @@ static int	is_out_check(char *str)
 	{
 		if ((str[len] == '\'' || str[len] == '"') && (!quote))
 			quote = str[len++];
-		if ((str[len] == '\'' || str[len] == '"') && (quote))
+		if (str[len] == quote && (quote))
 			quote = 0;
 		if ((str[len] == ';' || str[len] == '&') && !quote)
 			return (printf("%sMsh: not taking %c input%s\n", RED, str[len], NC), 1);
@@ -131,7 +137,7 @@ static int	is_out_check(char *str)
 			return (printf("%sMsh: not taking \\ input%s\n", RED, NC), 1);
 		if (str[len] == '*' && (!quote))
 			return (printf("%sMsh: not taking * input%s\n", RED, NC), 1);
-		if (str[len + 1] && str[len] == '|' && str[len + 1] == '|')
+		if (str[len + 1] && str[len] == '|' && str[len + 1] == '|' && !quote)
 			return (printf("%sMsh: not taking || input%s\n", RED, NC), 1);
 		len++;
 	}

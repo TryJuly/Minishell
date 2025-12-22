@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/22 13:47:45 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 14:55:23 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,19 @@ void	read_prompt(t_data *data)
 			data->cmd_lst = fill_lst(array);
 			exec_cmd(data);
 			ft_free_array(&array);
-			free(data->input);
 		}
+		add_history(data->input);
+		free(data->input);
 	}
 	free(data->input);
 }
 
 void	sighandler(int signum)
 {
-	(void)signum;
-	signum++;
-	printf("\n$> ");
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", signum);
+	rl_redisplay();
 }
 
 void	sigfin(int signum)

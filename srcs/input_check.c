@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:12:13 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 11:26:02 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:33:00 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 static int	redir_check(char *str);
 static int	quote_check(char *str);
-// static int	pipe_check(char *str);
 static int	is_out_check(char *str);
-// static int	is_operator(char c);
-static int	skip_space(char *str);
-// static int	skip_quote(char *str, int quote);
+static int	find_heredoc(char *str, t_data *data);
 
 int	input_brute(char *str, t_data *data)
 {
@@ -38,91 +35,52 @@ int	input_brute(char *str, t_data *data)
 		valide = 1;
 	if (redir_check(&str[count]))
 		valide = 1;
-	if (valide)
+	if (find_heredoc(&str[count], data))
+		valide = 1;
+	if (valide == 1)
 		return (1);
-	//boucle a faire
+	return (0);
+}
+
+static int	find_heredoc(char *str, t_data *data)
+{
+	size_t	count;
+
+	count = 0;
 	while (str[count])
 	{
 		if (str[count] == '<' && str[count + 1] == '<')
+		{
 			heredoc(&str[count + 2], data);
+			count += 2;
+		}
 		count++;
 	}
 	return (0);
 }
 
-int	check_redir(t_data *data)
-{
-	size_t	count;
-	//char	*redir;
-
-	count = 0;
-	while (data->input[count])
-	{
-		if (!strncmp(&data->input[count], "<<", 2))
-		{
-			count += skip_space(&data->input[count]);
-			// Is a heredoc
-		}
-		if (data->input[count] == '<')
-		{
-			count += skip_space(&data->input[count]);
-		}
-		count++;
-	}
-	return (count);
-}
-
-// static char	*redir_name(char *str)
-// {
-// 	size_t	count;
-
-// 	count = 0;
-// 	while (str[count] && ft_isascii(str[count]))
-// 		return ("oui");
-// 	return ("oui");
-// }
-
-static int	skip_space(char *str)
-{
-	size_t	count;
-
-	count = 0;
-	while (str[count] && str[count] == ' ')
-		count++;
-	return (count);
-}
-
-// static int	is_operator(char c)
-// {
-// 	if (c == '|')
-// 		return (1);
-// 	if (c == '<' || c == '>')
-// 		return (1);
-// 	return (0);
-// }
-
 static int	redir_check(char *str)
 {
-	size_t	count;
+	size_t	len;
 	int		quote;
 
-	count = 0;
+	len = 0;
 	quote = 0;
-	count += skip_space(str);
-	while (str[count])
+	len += skip_space(str);
+	while (str[len])
 	{
-		if ((str[count] == '\'' || str[count] == '"') && !quote)
-			quote = str[count++];
-		if ((str[count] == '\'' || str[count] == '"') && quote)
+		if ((str[len] == '\'' || str[len] == '"') && !quote)
+			quote = str[len++];
+		if ((str[len] == '\'' || str[len] == '"') && quote)
 			quote = 0;
-		if (str[count] && !quote)
+		if (str[len] && !quote)
 		{
-			if (str[count] == 62 && str[count + 1] == 62 && str[count + 2] == 62)	// 62 = '>'
+			if (str[len] == 62 && str[len + 1] == 62 && str[len + 2] == 62)
 				return (printf("%sMsh: parse error near `>'%s\n", RED, NC), 1);
-			if (str[count] == 62 && str[count + 1] == 60)
+			if (str[len] == 62 && str[len + 1] == 60)
 				return (printf("%sMsh: parse error near `<'%s\n", RED, NC), 1);
 		}
-		count++;
+		len++;
 	}
 	return (0);
 }
@@ -180,47 +138,24 @@ static int	is_out_check(char *str)
 	return (0);
 }
 
-// static int	skip_quote(char *str, int quote)
+// int	check_redir(t_data *data)
 // {
 // 	size_t	count;
+// 	//char	*redir;
 
 // 	count = 0;
-// 	while (str[count] && str[count] != quote)
-// 		count++;
-// 	if (!str[count])
-// 		return (-1);
-// 	return (count);
-// }
-
-// static int	pipe_check(char *str)
-// {
-// 	size_t	count;
-// 	int		c;
-
-// 	count = 0;
-// 	c = 0;
-// 	while (str[count])
+// 	while (data->input[count])
 // 	{
-// 		if ((str[count] == '\'' || str[count] == '"') && !c)
+// 		if (!strncmp(&data->input[count], "<<", 2))
 // 		{
-// 			c = str[count++];
-// 			while (str[count] && str[count] != c)
-// 				count++;
-// 			if (str[count] && str[count] == c)
-// 				c = 0;
+// 			count += skip_space(&data->input[count]);
+// 			// Is a heredoc
 // 		}
-// 		if (is_operator(str[count]))
+// 		if (data->input[count] == '<')
 // 		{
-// 			c = str[count++];
-// 			count += skip_space(&str[count]);
-// 			if (is_operator(str[count]))
-// 			{
-// 				count += skip_space(&str[count]);
-// 				if (str[count] && str[count] == '|')
-// 					return (printf("%sminishell: syntax error near unexpected token `|'%s\n", RED, NC), 1);
-// 			}
+// 			count += skip_space(&data->input[count]);
 // 		}
 // 		count++;
 // 	}
-// 	return (0);
+// 	return (count);
 // }

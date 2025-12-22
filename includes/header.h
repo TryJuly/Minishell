@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 11:57:05 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 14:02:57 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@
 # define R_HEREDOC 3
 # define R_APPEND 4
 
-
-typedef struct s_cmd t_cmd;
-typedef struct s_redir t_redir;
+typedef struct s_cmd	t_cmd;
+typedef struct s_redir	t_redir;
 
 typedef struct s_data
 {
@@ -53,7 +52,7 @@ typedef struct s_data
 	int		fd_heredoc;
 }	t_data;
 
-extern int		g_exit_status;
+extern int				g_exit_status;
 
 typedef struct s_cmd
 {
@@ -98,12 +97,12 @@ int		op_check(char c, char next);
 
 int		tokenizer(char *s, char **array);
 char	**token_array(char *s);
+char	*dup_char(char c);
 
 /*			Validator.c				*/
 
-int		validator(char **array);
+// int		validator(char **array);
 int		input_brute(char *str, t_data *data);
-
 
 /*			export.c (pot. utils.c)	*/
 
@@ -137,6 +136,7 @@ char	*expand_line(char *line, t_data *data);
 t_cmd	*fill_lst(char **array);
 int		find_path_1(char **cmd, char **path);
 int		lst_size(t_cmd *cmd);
+int		is_redir(char *str);
 
 /*			Lst_tools.c				*/
 
@@ -149,16 +149,21 @@ int		lst_size(t_cmd *cmd);
 
 int		exec_cmd(t_data *data);
 
-
 /*			redir.c					*/
 
 int		redir_file(int *in, int *out, t_redir *redir);
-int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
 
+/*			Tool.c					*/
+
+int		skip_space(char *str);
+int		count_args(char **array, int len);
+t_cmd	*malloc_args(char **array, size_t len);
+int		operator(char c, char next, char **str);
+int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
 
 /*			???						*/
 int		check_builtin(t_data *data, t_cmd *cmd);
-int		*malloc_pipe(void);
+// int		*malloc_pipe(void);
 
 void	print_lst(t_cmd *lst);
 

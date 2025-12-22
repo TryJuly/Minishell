@@ -6,20 +6,18 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 11:38:54 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/10 12:03:24 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 12:22:58 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	validator(char **array)
-{
-	size_t	len;
-
-	len = 0;
-	while (array[len])
-	{
-		len++;
-		
-	}
-}
+// int	validator(char **array)
+// {
+// 	size_t	len
+// 	len = 0;
+// 	while (array[len])
+// 	{
+// 		len++;
+// 	}
+// }

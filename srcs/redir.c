@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:36:01 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 11:56:32 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:03:22 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,35 +46,10 @@ int	redir_file(int *in, int *out, t_redir *redir)
 	return (0);
 }
 
-int	close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd)
-{
-	if (*in != STDIN_FILENO)
-	{
-		dup2(*in, STDIN_FILENO);
-		if (*in == *prev_fd)
-			*prev_fd = -1;
-		close(*in);
-	}
-	if (*out != STDOUT_FILENO)
-	{
-		dup2(*out, STDOUT_FILENO);
-		if (*out == pipe_fd[1])
-			pipe_fd[1] = -1;
-		close(*out);
-	}
-	if (*prev_fd != -1)
-		close(*prev_fd);
-	if (pipe_fd[1] != -1)
-		close(pipe_fd[1]);
-	if (pipe_fd[0])
-		close(pipe_fd[0]);
-	return (0);
-}
-
 static int	redir_out_heredoc(int *in)
 {
 	int	status;
-	
+
 	status = 0;
 	if (*in != STDOUT_FILENO)
 		status = close(*in);
@@ -104,7 +79,7 @@ static int	redir_out_append(int *out, t_redir *redir)
 static int	redir_out(int *out, t_redir *redir)
 {
 	int	status;
-	
+
 	status = 0;
 	if (*out != STDERR_FILENO)
 		close(*out);
@@ -119,7 +94,7 @@ static int	redir_out(int *out, t_redir *redir)
 static int	redir_in(int *in, t_redir *redir)
 {
 	int	status;
-	
+
 	status = 0;
 	if (*in == STDIN_FILENO)
 		close(*in);

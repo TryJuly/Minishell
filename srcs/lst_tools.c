@@ -6,12 +6,12 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 08:29:45 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/19 08:32:35 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:33:39 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
+/*			SUPP FUNCTION			*/
 void	print_lst(t_cmd *lst)
 {
 	size_t	count;
@@ -24,7 +24,7 @@ void	print_lst(t_cmd *lst)
 		count = 0;
 		while (lst->args[count])
 		{
-			printf("%sArgument %ld: %s%s\n", GREEN, count, lst->args[count], NC);
+			printf("Argument %ld: %s\n", count, lst->args[count]);
 			count++;
 		}
 		printf("%sPrint file redir%s\n", YELLOW, NC);

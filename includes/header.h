@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 11:57:05 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:25:47 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void	ft_unset(t_data *data);
 
 /*			Expand environment variables	*/
 
-void	expand_var(t_data *data);
 void	new_expand_var(t_data *data);
 char	*ft_unsplit(char **tab);
 char	**ft_split_dollars(char *input, int dollars);

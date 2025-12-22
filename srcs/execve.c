@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 09:03:48 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:14:41 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 	if (cmd->next)
 		out = pipe_fd[1];
 	if (cmd->redir)
-		redir_file(&(in), &(out), cmd->redir, data);
+		redir_file(&(in), &(out), cmd->redir);
 	close_dup_fd(&(in), &(out), pipe_fd, &(prev_fd));
 	if (check_builtin(data, cmd) == 1)
 			return (exit(0), 0);

@@ -6,34 +6,11 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 11:06:07 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/19 12:12:59 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:23:16 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int	arr_size(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
-
-void	free_classic(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		free(envp[i]);
-		i++;
-	}
-	free(envp);
-}
 
 void	set_new_env_var(t_data *data)
 {

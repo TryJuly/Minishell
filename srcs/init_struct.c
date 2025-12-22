@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/09 15:21:50 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:13:48 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	get_cmdpath(t_data *data, char **envp);
+int		get_cmdpath(t_data *data, char **envp);
+char	**copy_envp_struct(char **envp);
+
+int	init_struct(t_data *data, char **envp)
+{
+	data->envp = copy_envp_struct(envp);
+	get_cmdpath(data, envp);
+	if (!data->path)
+		return (printf("Error PATH\n"), 1);
+	data->cmd_lst = 0;
+	data->fd_heredoc = -1;
+	return (0);
+}
 
 char	**copy_envp_struct(char **envp)
 {
@@ -28,15 +40,6 @@ char	**copy_envp_struct(char **envp)
 	}
 	new_envp[i] = NULL;
 	return (new_envp);
-}
-
-int	init_struct(t_data *data, char **envp)
-{
-	data->envp = copy_envp_struct(envp);
-	get_cmdpath(data, envp);
-	if (!data->path)
-		return (printf("Error PATH\n"), 1);
-	return (0);
 }
 
 int	get_cmdpath(t_data *data, char **envp)

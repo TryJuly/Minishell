@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/19 14:03:05 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:24:46 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,19 @@ void	read_prompt(t_data *data)
 			continue ;
 		if (!ft_strncmp(data->input, "exit", 5))
 			break ;
-		printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
-		printf("%s####		Command			####%s\n", GREEN, NC);
-		printf("%s\n", data->input);
-		printf("%s####		Result			####%s\n", GREEN, NC);
-		new_expand_var(data);
-		array = token_array(data->input);
-		data->cmd_lst = fill_lst(array);
-		exec_cmd(data);
-		// if (data->cmd_lst->redir)
-		// {
-		// 	if (data->cmd_lst->redir->type == R_HEREDOC)
-		// 		heredoc(data->cmd_lst, data);
-		// }
-		ft_free_array(&array);
-		free(data->input);
+		if (!input_brute(data->input, data))
+		{
+			printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
+			printf("%s####		Command			####%s\n", GREEN, NC);
+			printf("%s\n", data->input);
+			printf("%s####		Result			####%s\n", GREEN, NC);
+			new_expand_var(data);
+			array = token_array(data->input);
+			data->cmd_lst = fill_lst(array);
+			// exec_cmd(data);
+			ft_free_array(&array);
+			free(data->input);
+		}
 	}
 	free(data->input);
 }

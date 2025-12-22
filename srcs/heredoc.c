@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/18 10:37:46 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:52:51 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,29 +62,32 @@ void	heredoc(t_cmd *cmd, t_data *data)
 {
 	char	*line;
 	char	*res;
-	int		fd;
+	int		*pipe;
 
-	fd = open("heredoc", O_RDWR | O_APPEND | O_TRUNC | O_CREAT, 0777);
-	if (fd == -1)
-		printf("oups");
+	pipe = malloc_pipe();
+	if (*pipe == -1)
+		return ;
 	while (1)
 	{
 		line = readline("heredoc> ");
 		if (ft_strncmp(line, cmd->redir->file, ft_strlen(line)) == 0)
 		{
 			free(line);
-			cmd->redir->file = "heredoc";
+			close(pipe[1]);
+			if (data->fd_heredoc != -1)
+				close(data->fd_heredoc);
+			data->fd_heredoc = pipe[0];
 			//exec_heredoc_cmd(fd, cmd, data);
 			break ;
 		}
 		res = expand_line(line, data);
 		printf("%s\n", res);
-		write(fd, res, ft_strlen(res));
-		write(fd, "\n", 1);
+		write(pipe[1], res, ft_strlen(res));
+		write(pipe[1], "\n", 1);
 		free(line);
 		free(res);
 	}
-	close(fd);
+	// close(fd);
 	// if (unlink("heredoc") == -1)
 	// 	printf("pas fou fou\n");
 }

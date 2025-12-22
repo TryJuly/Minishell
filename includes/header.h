@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/19 13:47:33 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:25:03 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_data
 	char	*input;
 	char	**envp;
 	char	**path;
+	int		fd_heredoc;
 }	t_data;
 
 extern int		g_exit_status;
@@ -101,7 +102,7 @@ char	**token_array(char *s);
 /*			Validator.c				*/
 
 int		validator(char **array);
-int		input_brute(char *str);
+int		input_brute(char *str, t_data *data);
 
 
 /*			export.c (pot. utils.c)	*/
@@ -151,12 +152,13 @@ int		exec_cmd(t_data *data);
 
 /*			redir.c					*/
 
-int		redir_file(int *in, int *out, t_redir *redir);
+int		redir_file(int *in, int *out, t_redir *redir, t_data *data);
 int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
 
 
 /*			???						*/
-int	check_builtin(t_data *data, t_cmd *cmd);
+int		check_builtin(t_data *data, t_cmd *cmd);
+int		*malloc_pipe(void);
 
 void	print_lst(t_cmd *lst);
 

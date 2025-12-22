@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 09:25:03 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 11:57:05 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	**ft_split_dollars(char *input, int dollars);
 int		count_dollars(char *str);
 char	*expand_var_value(char *new_str, t_data *data);
 char	*expand_command_value(char *new_str, t_data *data);
-void	heredoc(t_cmd *cmd, t_data *data);
+void	heredoc(char *input, t_data *data);
 char	*expand_line(char *line, t_data *data);
 
 /*			Fill link_list			*/
@@ -152,7 +152,7 @@ int		exec_cmd(t_data *data);
 
 /*			redir.c					*/
 
-int		redir_file(int *in, int *out, t_redir *redir, t_data *data);
+int		redir_file(int *in, int *out, t_redir *redir);
 int		close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd);
 
 

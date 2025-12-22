@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:12:13 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 09:33:51 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 11:26:02 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,20 @@ int	input_brute(char *str, t_data *data)
 		valide = 1;
 	if (valide)
 		return (1);
+	//boucle a faire
+	while (str[count])
+	{
+		if (str[count] == '<' && str[count + 1] == '<')
+			heredoc(&str[count + 2], data);
+		count++;
+	}
 	return (0);
 }
 
 int	check_redir(t_data *data)
 {
 	size_t	count;
-	char	*redir;
+	//char	*redir;
 
 	count = 0;
 	while (data->input[count])
@@ -59,19 +66,21 @@ int	check_redir(t_data *data)
 		if (data->input[count] == '<')
 		{
 			count += skip_space(&data->input[count]);
-			
 		}
 		count++;
 	}
+	return (count);
 }
 
-static char	*redir_name(char *str)
-{
-	size_t	count;
+// static char	*redir_name(char *str)
+// {
+// 	size_t	count;
 
-	count = 0;
-	while (str[count] && ft_isascii(str[count]))
-}
+// 	count = 0;
+// 	while (str[count] && ft_isascii(str[count]))
+// 		return ("oui");
+// 	return ("oui");
+// }
 
 static int	skip_space(char *str)
 {

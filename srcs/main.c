@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/22 09:24:46 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 11:53:55 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	read_prompt(t_data *data)
 			new_expand_var(data);
 			array = token_array(data->input);
 			data->cmd_lst = fill_lst(array);
-			// exec_cmd(data);
+			exec_cmd(data);
 			ft_free_array(&array);
 			free(data->input);
 		}

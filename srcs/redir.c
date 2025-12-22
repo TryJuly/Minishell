@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:36:01 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 09:16:54 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 11:56:32 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int	redir_in(int *in, t_redir *redir);
 static int	redir_out(int *out, t_redir *redir);
 static int	redir_out_append(int *out, t_redir *redir);
-static int	redir_out_heredoc(int *in, t_data *data);
+static int	redir_out_heredoc(int *in);
 
-int	redir_file(int *in, int *out, t_redir *redir, t_data *data)
+int	redir_file(int *in, int *out, t_redir *redir)
 {
 	while (redir)
 	{
@@ -38,7 +38,7 @@ int	redir_file(int *in, int *out, t_redir *redir, t_data *data)
 		}
 		else if (redir->type == R_HEREDOC)
 		{
-			if (redir_out_heredoc(in, data))
+			if (redir_out_heredoc(in))
 				return (exit(126), 1);
 		}
 		redir = redir->next;
@@ -71,7 +71,7 @@ int	close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd)
 	return (0);
 }
 
-static int	redir_out_heredoc(int *in, t_data *data)
+static int	redir_out_heredoc(int *in)
 {
 	int	status;
 	
@@ -80,7 +80,7 @@ static int	redir_out_heredoc(int *in, t_data *data)
 		status = close(*in);
 	if (status == -1)
 		return (perror("Msh"), -1);
-	*in = data->fd_heredoc;
+	*in = open("/tmp/heredoc", O_RDONLY);
 	if (*in < 0)
 		return (perror("Msh"), -1);
 	return (0);

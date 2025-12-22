@@ -121,7 +121,6 @@ void	ft_unset(t_data *data);
 
 /*			Expand environment variables	*/
 
-void	expand_var(t_data *data);
 void	new_expand_var(t_data *data);
 char	*ft_unsplit(char **tab);
 char	**ft_split_dollars(char *input, int dollars);

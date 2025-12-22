@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 08:42:45 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:18:28 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:22:25 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,14 @@ t_cmd	*malloc_args(char **array, size_t len)
 	current->redir = NULL;
 	current->next = NULL;
 	return (current);
+}
+
+int	arr_size(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }

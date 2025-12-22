@@ -6,96 +6,11 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/18 14:38:34 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:55:36 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-char	*exec_command(char **args, t_data *data)
-{
-	pid_t	child;
-	int		pipefd[2];
-	char	*buf;
-	int		numread;
-	char	*res;
-	int		total;
-
-	pipe(pipefd);
-	child = fork();
-	if (child == 0)
-	{
-		dup2(pipefd[1], 1);
-		close(pipefd[0]);
-		if (execve(args[0], args, data->envp) == -1)
-		{
-			printf("ouah la vache\n");
-		}
-	}
-	close(pipefd[1]);
-	wait(&child);
-	numread = -1;
-	res = "";
-	total = 0;
-	buf = malloc(101);
-	while (numread != 0)
-	{
-		numread = read(pipefd[0], buf, 100);
-		total += numread;
-		if (numread == -1)
-			printf("la poisse\n");
-		else if (numread == 0)
-			break ;
-		buf[total + 1] = 0;
-		res = ft_strjoin(res, buf);
-	}
-	free(buf);
-	return (res);
-}
-
-char	*expand_command_value(char *new_str, t_data *data)
-{
-	char	**args;
-	char	*res;
-
-	if (!data)
-		return (NULL);
-	new_str = ft_strtrim(new_str, "$()");
-	new_str = expand_line(new_str, data);
-	args = ft_split(new_str, ' ');
-	find_path_1(&args[0], data->path);
-	printf("%s : %s\n", args[0], args[1]);
-	res = exec_command(args, data);
-	return (res);
-}
-
-char	*expand_var_value(char *new_str, t_data *data)
-{
-	int		i;
-	char	*temp;
-	char	*value;
-
-	i = 0;
-	temp = new_str;
-	temp += 1;
-	if (new_str[1] == '?')
-	{
-		value = ft_itoa(g_exit_status);
-		return (value);
-	}
-	while (data->envp[i])
-	{
-		if (ft_strncmp(temp, data->envp[i], ft_strlen(temp) - 1) == 0)
-		{
-			value = ft_strchr(data->envp[i], '=');
-			value += 1;
-			return (value);
-		}
-		i++;
-	}
-	value = "";
-	return (value);
-}
 
 int	count_dollars(char *str)
 {
@@ -119,78 +34,25 @@ int	count_dollars(char *str)
 	return (count);
 }
 
-void	merge_dollars(char *str, t_data *data, int index)
+char	*help_split_dollars(char *input, int *i, int *j)
 {
-	char	*res;
 	char	*temp;
-	char	*exp;
-	int		i;
-	int		j;
 
-	i = 0;
-	res = "";
-	while (str[i])
+	*j = *i + 1;
+	if (input[*j] == '(')
 	{
-		if (str[i] == '$')
-		{
-			j = i + 1;
-			if (str[j] == '?')
-			{
-				temp = ft_itoa(g_exit_status);
-				res = ft_strjoin(res, temp);
-				i++;
-				continue ;
-			}
-			while (str[j] != '$' && str[j] != ' ' && str[j] != 0)
-				j++;
-			temp = ft_substr(str, i + 1, j - i - 1);
-			exp = expand_var_value(temp, data);
-			res = ft_strjoin(res, exp);
-			i = j;
-		}
-		else
-		{
-			j = i + 1;
-			while (str[j] != '$' && str[j])
-				j++;
-			temp = ft_substr(str, i + 1, j - i - 1);
-			res = ft_strjoin(res, temp);
-			i = j;
-		}
-		i++;
+		while (input[*j] != ')')
+			*j += 1;
+		*j += 1;
 	}
-	data->cmd_lst->args[index] = res;
-}
-
-void	expand_var(t_data *data)
-{
-	char	*new_str;
-	int		i;
-
-	i = 1;
-	while (data->cmd_lst->args[i])
+	else
 	{
-		if (data->cmd_lst->args[i][0] == '$' &&
-				ft_strlen(data->cmd_lst->args[i]) == 1)
-		{
-			i++;
-			continue ;
-		}
-		else if (data->cmd_lst->args[i][0] == '$')
-		{
-			if (count_dollars(data->cmd_lst->args[i]) > 1)
-				merge_dollars(data->cmd_lst->args[i], data, i);
-			else
-			{
-				new_str = data->cmd_lst->args[i];
-				new_str += 1;
-				new_str = expand_var_value(new_str, data);
-				free(data->cmd_lst->args[i]);
-				data->cmd_lst->args[i] = ft_strdup(new_str);
-			}
-		}
-		i++;
+		while (input[*j] != ' ' && input[*j] && input[*j] != '$')
+			*j += 1;
 	}
+	temp = ft_substr(input, *i, *j - *i);
+	*i = *j - 1;
+	return (temp);
 }
 
 char	**ft_split_dollars(char *input, int dollars)
@@ -207,22 +69,7 @@ char	**ft_split_dollars(char *input, int dollars)
 	while (input[i])
 	{
 		if (input[i] == '$')
-		{
-			j = i + 1;
-			if (input[j] == '(')
-			{
-				while (input[j] != ')')
-					j++;
-				j++;
-			}
-			else
-			{
-				while (input[j] != ' ' && input[j] && input[j] != '$')
-					j++;
-			}
-			temp = ft_substr(input, i, j - i);
-			i = j - 1;
-		}
+			temp = help_split_dollars(input, &i, &j);
 		else
 		{
 			j = i + 1;
@@ -232,6 +79,7 @@ char	**ft_split_dollars(char *input, int dollars)
 			i = j - 1;
 		}
 		res[res_i++] = ft_strdup(temp);
+		free(temp);
 		i++;
 	}
 	res[res_i] = NULL;

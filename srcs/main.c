@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/22 11:53:55 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:47:45 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,6 @@ void	read_prompt(t_data *data)
 			break ;
 		if (!input_brute(data->input, data))
 		{
-			printf("%sCount token = %ld%s\n", YELLOW, token_count(data->input), NC);
-			printf("%s####		Command			####%s\n", GREEN, NC);
-			printf("%s\n", data->input);
-			printf("%s####		Result			####%s\n", GREEN, NC);
 			new_expand_var(data);
 			array = token_array(data->input);
 			data->cmd_lst = fill_lst(array);

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/19 13:57:45 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:03:48 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int exec_cmd(t_data *data)
 
 static int	exec_lst_cmd(t_data *data, t_cmd *cmd, pid_t *pid, int count)
 {
-	int		pipe_fd[2];
+	int		pipe_fd[2];				// INTERDIT NORM
 	int		prev_fd;
 
 	prev_fd = -1;
@@ -70,7 +70,7 @@ static int	exec_lst_cmd(t_data *data, t_cmd *cmd, pid_t *pid, int count)
 			close(prev_fd);
 		if (cmd->next)
 			close(pipe_fd[1]);
-		prev_fd = cmd->next ? pipe_fd[0] : -1;
+		prev_fd = cmd->next ? pipe_fd[0] : -1;		// INTERDIT NORM
 		count++;
 		cmd = cmd->next;
 	}
@@ -89,7 +89,7 @@ static int child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 	if (cmd->next)
 		out = pipe_fd[1];
 	if (cmd->redir)
-		redir_file(&(in), &(out), cmd->redir);
+		redir_file(&(in), &(out), cmd->redir, data);
 	close_dup_fd(&(in), &(out), pipe_fd, &(prev_fd));
 	if (check_builtin(data, cmd) == 1)
 			return (exit(0), 0);

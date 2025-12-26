@@ -6,40 +6,41 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 08:29:45 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:33:39 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:20:52 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 /*			SUPP FUNCTION			*/
-void	print_lst(t_cmd *lst)
-{
-	size_t	count;
-	size_t	len;
-	t_redir	*tmp;
+// void	print_lst(t_cmd *lst)
+// {
+// 	size_t	count;
+// 	size_t	len;
+// 	t_redir	*tmp;
 
-	len = 0;
-	while (lst)
-	{
-		count = 0;
-		while (lst->args[count])
-		{
-			printf("Argument %ld: %s\n", count, lst->args[count]);
-			count++;
-		}
-		printf("%sPrint file redir%s\n", YELLOW, NC);
-		tmp = lst->redir;
-		while (tmp)
-		{
-			printf("%sFile : :%s:%s\n", GREEN, tmp->file, NC);
-			printf("%sFile type : %d%s\n", GREEN, tmp->type, NC);
-			tmp = tmp->next;
-		}
-		lst = lst->next;
-		len++;
-	}
-	printf("Numbers of node : %ld\n", len);
-}
+// 	len = 0;
+// 	while (lst)
+// 	{
+// 		count = 0;
+// 		printf("Cmd: %ld\n", len);
+// 		while (lst->args[count])
+// 		{
+// 			printf("Argument %ld: %s\n", count, lst->args[count]);
+// 			count++;
+// 		}
+// 		printf("%sPrint file redir%s\n", YELLOW, NC);
+// 		tmp = lst->redir;
+// 		while (tmp)
+// 		{
+// 			printf("%sFile : :%s:%s\n", GREEN, tmp->file, NC);
+// 			printf("%sFile type : %d%s\n", GREEN, tmp->type, NC);
+// 			tmp = tmp->next;
+// 		}
+// 		lst = lst->next;
+// 		len++;
+// 	}
+// 	printf("Numbers of node : %ld\n", len);
+// }
 
 void	add_back_lst(t_cmd **cmd, t_cmd *new)
 {

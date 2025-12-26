@@ -72,3 +72,18 @@ git rebase (NAME)
 		Exit status 255
 
 -	This final reserved exit status is easy to produce but difficult to interpret. The documentation that I've found states that you receive exit status 255 if you use an exit code that's out of the range 0-255.
+
+TESTEUUUUUR Diff
+
+echo "hello"world 
+echo hello"world" 
+echo hello >> test.txt 
+echo "$USER" 
+echo '$USER' 
+ls /fake/path echo $? 
+echo "'hello'" 
+echo $USER $USER 
+echo "$SHLVL" 
+ls > yes | head -n 5
+ls -R / | head -n 10 
+ cat | cat | ls > file_test ls

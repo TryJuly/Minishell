@@ -6,23 +6,20 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 09:13:48 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/26 13:00:49 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		get_cmdpath(t_data *data, char **envp);
-char	**copy_envp_struct(char **envp);
+char		**copy_envp_struct(char **envp);
+static int	find_pos_path(char **envp);
 
 int	init_struct(t_data *data, char **envp)
 {
 	data->envp = copy_envp_struct(envp);
-	get_cmdpath(data, envp);
-	if (!data->path)
-		return (printf("Error PATH\n"), 1);
 	data->cmd_lst = 0;
-	data->fd_heredoc = -1;
+	data->path = NULL;
 	return (0);
 }
 
@@ -42,43 +39,58 @@ char	**copy_envp_struct(char **envp)
 	return (new_envp);
 }
 
-int	get_cmdpath(t_data *data, char **envp)
+int	get_cmdpath(t_data **data, char **envp)
 {
-	size_t	count;
+	ssize_t	count;
 	char	*first;
 
 	count = 0;
-	if (!data->envp)
+	if (!envp)
 		return (1);
-	while (ft_strncmp(envp[count], "PATH=", 5))
-		count++;
-	data->path = ft_split(envp[count], ':');
-	if (!data->path)
-		return (printf("%sError split_envpath%s\n", RED, NC), 1);
-	first = ft_substr(data->path[0], 5, ft_strlen(data->path[0]));
+	count = find_pos_path(envp);
+	if (count == -1)
+		return (1);
+	(*data)->path = ft_split(envp[count], ':');
+	if (!(*data)->path)
+		return (ft_putstr_fd("Msh: Error Malloc split\n", 2), 1);
+	first = ft_substr((*data)->path[0], 5, ft_strlen((*data)->path[0]));
 	if (!first)
-		return (ft_free_array(&data->path), 1);
-	free(data->path[0]);
-	data->path[0] = first;
+		return (ft_free_array(&(*data)->path), 1);
+	free((*data)->path[0]);
+	(*data)->path[0] = first;
 	return (0);
 }
 
-int	clean_space(char ***array)
+static int	find_pos_path(char **envp)
 {
 	size_t	len;
-	char	*str;
 
-	if (!array || !(*array))
-		return (printf("%sError clean_cmd_brut%s\n", RED, NC), 1);
 	len = 0;
-	while ((*array)[len])
+	while (envp[len])
 	{
-		str = ft_strtrim((*array)[len], " ");
-		if (!str)
-			return (printf("%sError clean_cmd_but%s\n", RED, NC), 1);
-		free((*array)[len]);
-		(*array)[len] = str;
+		if (!ft_strncmp(envp[len], "PATH=", 5))
+			return (len);
 		len++;
 	}
-	return (0);
+	return (-1);
 }
+
+// int	clean_space(char ***array)
+// {
+// 	size_t	len;
+// 	char	*str;
+
+// 	if (!array || !(*array))
+// 		return (ft_putstr_fd("Msh: Error clean_cmd_brut\n", 2), 1);
+// 	len = 0;
+// 	while ((*array)[len])
+// 	{
+// 		str = ft_strtrim((*array)[len], " ");
+// 		if (!str)
+// 			return (ft_putstr_fd("Msh: Error clean_cmd_but%s\n", 2), 1);
+// 		free((*array)[len]);
+// 		(*array)[len] = str;
+// 		len++;
+// 	}
+// 	return (0);
+// }

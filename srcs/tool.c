@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 08:42:45 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:22:25 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:21:16 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,6 @@ int	operator(char c, char next, char **str)
 			return (-1);
 		return (1);
 	}
-	return (0);
-}
-
-int	close_dup_fd(int *in, int *out, int *pipe_fd, int *prev_fd)
-{
-	if (*in != STDIN_FILENO)
-	{
-		dup2(*in, STDIN_FILENO);
-		if (*in == *prev_fd)
-			*prev_fd = -1;
-		close(*in);
-	}
-	if (*out != STDOUT_FILENO)
-	{
-		dup2(*out, STDOUT_FILENO);
-		if (*out == pipe_fd[1])
-			pipe_fd[1] = -1;
-		close(*out);
-	}
-	if (*prev_fd != -1)
-		close(*prev_fd);
-	if (pipe_fd[1] != -1)
-		close(pipe_fd[1]);
-	if (pipe_fd[0])
-		close(pipe_fd[0]);
 	return (0);
 }
 
@@ -102,10 +77,10 @@ t_cmd	*malloc_args(char **array, size_t len)
 
 	current = ft_calloc(1, sizeof(t_cmd));
 	if (!current)
-		return (printf("%sError malloc fill_lst 2%s\n", RED, NC), NULL);
+		return (ft_putstr_fd("Msh: Error malloc fill_lst\n", 2), NULL);
 	current->args = ft_calloc(count_args(array, len) + 1, sizeof(char *));
 	if (!current->args)
-		return (printf("%sError malloc fill_lst 3%s\n", RED, NC), NULL);// FREE STRUCT EXIT()
+		return (ft_putstr_fd("Msh: Error malloc fill_lst", 2), NULL);
 	current->redir = NULL;
 	current->next = NULL;
 	return (current);

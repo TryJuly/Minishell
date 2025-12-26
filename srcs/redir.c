@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:36:01 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:03:22 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/26 11:32:43 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	redir_in(int *in, t_redir *redir)
 
 	status = 0;
 	if (*in == STDIN_FILENO)
-		close(*in);
+		status = close(*in);
 	if (status == -1)
 		return (perror("Msh"), -1);
 	if (access(redir->file, F_OK))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:41:25 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/09 15:23:37 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:20:26 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_echo_n(t_data *data)
 		i++;
 	}
 }
-
 
 void	ft_echo(t_data *data)
 {

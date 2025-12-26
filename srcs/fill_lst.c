@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:51:50 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/26 10:46:06 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 	new = ft_calloc(1, sizeof(t_redir));
 	if (!new)
 	{
-		printf("%sMsh: Error Malloc add_redir_node%s\n", RED, NC);
+		ft_putstr_fd("Msh: Error Malloc add_redir_node\n", 2);
 		return ;
 	}
 	new->type = get_redir_type(redir);

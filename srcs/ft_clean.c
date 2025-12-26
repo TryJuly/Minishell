@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:23:03 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/26 10:19:57 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,29 @@
 
 static void	ft_clear_lst(t_cmd **lst);
 
-int	ft_free_struct(t_data *data)
+void	free_all(t_data *data)
 {
 	if (data->input)
+	{
 		free(data->input);
-	if (data->envp)
-		ft_free_array(&data->envp);
-	if (data->path)
-		ft_free_array(&data->path);
+		data->input = NULL;
+	}
 	if (data->cmd_lst)
+	{
 		ft_clear_lst(&data->cmd_lst);
-	return (0);
+		data->cmd_lst = NULL;
+	}
+	if (data->envp)
+	{
+		free_classic(data->envp);
+		data->envp = NULL;
+	}
+	if (data->path)
+	{
+		free_classic(data->path);
+		data->path = NULL;
+	}
+	return ;
 }
 
 static void	ft_clear_lst(t_cmd **lst)

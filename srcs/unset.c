@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:21:05 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/19 12:07:48 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:45:50 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,3 @@ void	ft_unset(t_data *data)
 		data->cmd_lst->args += 1;
 	}
 }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	(void)argc;
-// 	ft_unset(argv[1], &envp);
-// 	ft_env(envp);
-// }

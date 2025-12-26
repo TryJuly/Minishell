@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/22 12:10:10 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:20:17 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,11 @@ char	*expand_line(char *line, t_data *data);
 
 char	*delimiter_in_input(char *input)
 {
-	int	i;
-	int j;
+	int		i;
+	int		j;
 	char	*del;
 
 	i = 0;
-	// while (input[i])
-	// {
-	// 	if (input[i] == '<')
-	// 	{
-	// 		while (input[i] == '<' || input[i] == ' ')
-	// 			i++;
-	// 		j = i;
-	// 		break ;
-	// 	}
-	// 	i++;
-	// }
 	while (input[i] == ' ')
 		i++;
 	j = i;
@@ -105,7 +94,6 @@ void	heredoc(char *input, t_data *data)
 		{
 			free(line);
 			close(fd);
-			//data->cmd_lst->redir->file = "/tmp/heredoc";
 			break ;
 		}
 		res = expand_line(line, data);
@@ -139,3 +127,31 @@ char	*expand_line(char *line, t_data *data)
 	res = ft_unsplit(exp_vars);
 	return (res);
 }
+
+// char	*delimiter_in_input(char *input)
+// {
+// 	int	i;
+// 	int j;
+// 	char	*del;
+
+// 	i = 0;
+// 	// while (input[i])
+// 	// {
+// 	// 	if (input[i] == '<')
+// 	// 	{
+// 	// 		while (input[i] == '<' || input[i] == ' ')
+// 	// 			i++;
+// 	// 		j = i;
+// 	// 		break ;
+// 	// 	}
+// 	// 	i++;
+// 	// }
+// 	while (input[i] == ' ')
+// 		i++;
+// 	j = i;
+// 	while (ft_isascii(input[j]) && input[j] != ' ' && input[j] != '<')
+// 		j++;
+// 	del = ft_substr(input, i, j);
+// 	input += j + i;
+// 	return (del);
+// }

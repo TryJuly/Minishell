@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 12:46:43 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 14:13:17 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	exec_cmd(t_data *data)
 
 	count = 0;
 	number_cmd = lst_size(data->cmd_lst);
-	if (number_cmd == 1)
+	if (number_cmd == 1 && !data->cmd_lst->redir)
 		if (check_builtin(data, data->cmd_lst) == 1)
 			return (0);
 	pid = malloc(number_cmd * sizeof(pid_t));
@@ -106,11 +106,11 @@ static int	child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 		out = pipe_fd[1];
 	if (cmd->redir)
 		redir_file(&(in), &(out), cmd->redir);
-	if (check_builtin(data, cmd) == 1)
-		return (exit(0), 0);
 	if (cmd->args[0][0] != '/')
 		set_path(data, &(cmd));
 	close_dup_fd(&in, &out, pipe_fd, &prev_fd);
+	if (check_builtin(data, cmd) == 1)
+		return (exit(0), 0);
 	execve(cmd->args[0], cmd->args, data->envp);
 	error_child(cmd, data);
 	return (0);
@@ -121,16 +121,16 @@ static void	error_child(t_cmd *cmd, t_data *data)
 	(void)data;
 	if (errno == ENOENT)
 	{
-		ft_putstr_fd("Msh: command not found: ", 2);
+		ft_putstr_fd("Msh: command not found\n", 2);
 		ft_putendl_fd(cmd->args[0], 2);
 		free_all(data);
 		exit(127);
 	}
 	else if (errno == EACCES)
 	{
-		ft_putstr_fd("Msh: permission denied\n", 2);
+		ft_putstr_fd("Msh: Is a directory\n", 2);
 		free_all(data);
-		exit(126);
+		exit(127);
 	}
 	else
 	{

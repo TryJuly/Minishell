@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/26 12:28:05 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:42:03 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,12 @@ void	read_prompt(t_data *data)
 		{
 			new_expand_var(data);
 			array = token_array(data->input);
-			data->cmd_lst = fill_lst(array);
-			exec_cmd(data);
-			free_classic(array);
+			if (array)
+			{
+				data->cmd_lst = fill_lst(array);
+				exec_cmd(data);
+				free_classic(array);
+			}
 		}
 		add_history(data->input);
 		free(data->input);

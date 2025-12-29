@@ -87,3 +87,5 @@ echo "$SHLVL"
 ls > yes | head -n 5
 ls -R / | head -n 10 
  cat | cat | ls > file_test ls
+
+ echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<"

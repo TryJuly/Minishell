@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 10:22:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/11 13:58:09 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:11:23 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	ft_pwd(t_data *data)
 	}
 	else
 	{
-		g_exit_status = 1;
-		printf("pwd : too many arguments\n");
+		g_exit_status = 0;
+		printf("%s\n", get_pwd(data->envp));
+		// printf("pwd : too many arguments\n");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:11:07 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/22 13:35:59 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:41:26 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	end_quote(char *input, char quote, char **str);
 static int	copy_word(char *input, char **str);
+static int	redir_end_line(char **array);
 
 char	**token_array(char *s)
 {
@@ -21,10 +22,31 @@ char	**token_array(char *s)
 
 	array = malloc((token_count(s) + 1) * sizeof(char **));
 	if (!array)
-		return (printf("%sError token_array%s\n", RED, NC), NULL);
+		return (ft_putstr_fd("Msh: Error Malloc\n", 2), NULL);
 	if (tokenizer(s, array))
 		return (NULL);
+	if (redir_end_line(array))
+	{
+		free_classic(array);
+		ft_putstr_fd("Msh: syntax error near unexpected token `newline'\n", 2);
+		return (NULL);
+	}
 	return (array);
+}
+
+static int	redir_end_line(char **array)
+{
+	size_t	len;
+
+	len = 0;
+	while (array[len])
+	{
+		if (array[len][0] == '>')
+			if (!array[len + 1])
+				return (1);
+		len++;
+	}
+	return (0);
 }
 
 int	tokenizer(char *s, char **array)

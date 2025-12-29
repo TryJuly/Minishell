@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:36:01 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 11:32:43 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 11:59:31 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ int	redir_file(int *in, int *out, t_redir *redir)
 		if (redir->type == R_IN)
 		{
 			if (redir_in(in, redir))
-				return (exit(126), 1);
+				return (exit(1), 1);
 		}
 		else if (redir->type == R_OUT)
 		{
 			if (redir_out(out, redir))
-				return (exit(126), 1);
+				return (exit(1), 1);
 		}
 		else if (redir->type == R_APPEND)
 		{
 			if (redir_out_append(out, redir))
-				return (exit(126), 1);
+				return (exit(1), 1);
 		}
 		else if (redir->type == R_HEREDOC)
 		{
 			if (redir_out_heredoc(in))
-				return (exit(126), 1);
+				return (exit(1), 1);
 		}
 		redir = redir->next;
 	}

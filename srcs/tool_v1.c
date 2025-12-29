@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 12:17:34 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 12:37:28 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 10:36:34 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	help_close_fd(int *prev_fd, int pipe_fd[2]);
 
 int	close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd)
 {
-	if (*in > 0)
+	if (*in != STDIN_FILENO)
 	{
 		dup2(*in, STDIN_FILENO);
 		if (*in == *prev_fd)
@@ -24,7 +24,7 @@ int	close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd)
 		close(*in);
 		*in = -1;
 	}
-	if (*out > 1)
+	if (*out != STDOUT_FILENO)
 	{
 		dup2(*out, STDOUT_FILENO);
 		if (*out == pipe_fd[1])

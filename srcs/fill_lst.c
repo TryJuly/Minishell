@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 10:46:06 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 14:11:55 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void		add_redir_node(char *redir, char *file, t_cmd *current);
 static void		add_args_node(char *argument, t_cmd *current);
 static int		get_redir_type(char *redir);
+static char		*remove_quote(char *str);
 
 t_cmd	*fill_lst(char **array)
 {
@@ -49,6 +50,7 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 {
 	t_redir	*new;
 	t_redir	*tmp;
+	char	*t_str;
 
 	new = ft_calloc(1, sizeof(t_redir));
 	if (!new)
@@ -59,6 +61,9 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 	new->type = get_redir_type(redir);
 	new->file = ft_strdup(file);
 	new->next = NULL;
+	t_str = remove_quote(new->file);
+	free(new->file);
+	new->file = t_str;
 	if (current->redir == NULL)
 		current->redir = new;
 	else
@@ -73,27 +78,56 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 void	add_args_node(char *argument, t_cmd *current)
 {
 	size_t	count;
+	// char	*tmp;
+	char	*tmp_quote;
 
 	count = 0;
+	// tmp = ft_strtrim(argument, "\"'");
+	tmp_quote = remove_quote(argument);
+	// free(tmp);
 	if (!current->args[0])
 	{
-		if (argument[0] == '"' || argument[0] == '\'')
-			current->args[0] = ft_strtrim(argument, "\"'");
-		else
-			current->args[0] = ft_strdup(argument);
+			current->args[0] = tmp_quote;
 		current->args[1] = NULL;
 	}
 	else
 	{
 		while (current->args[count])
 			count++;
-		if (argument[0] == '"' || argument[0] == '\'')
-			current->args[count++] = ft_strtrim(argument, "\"'");
-		else
-			current->args[count++] = ft_strdup(argument);
+		current->args[count++] = tmp_quote;
 		current->args[count] = 0;
 	}
 	return ;
+}
+
+static char	*remove_quote(char *str)
+{
+	size_t	count;
+	int		quote;
+	char	*result;
+	int		len;
+
+	count = 0;
+	quote = 0;
+	len = 0;
+	result = malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!result)
+		return (NULL);
+	while (str[count])
+	{
+		if (str[count] == '\'' || str[count] == '"')
+		{
+			quote = str[count++];
+			while (str[count] && str[count] != quote)
+				result[len++] = str[count++];
+			if (str[count + 1] && str[count] == quote)
+				count++;
+		}
+		else
+			result[len++] = str[count++];
+	}
+	result[len] = '\0';
+	return (result);
 }
 
 int	is_redir(char *str)

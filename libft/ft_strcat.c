@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:33:48 by strieste          #+#    #+#             */
-/*   Updated: 2025/11/24 12:46:48 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:26:57 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strcat(char *dest, char *str)
 	size_t	len;
 	char	*final;
 
-	if (!dest)
+	if (!dest || !*dest)
 		return (ft_strdup(str));
 	count = 0;
 	len = ft_strlen(dest);

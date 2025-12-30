@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:06:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/29 14:08:47 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 14:33:32 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ int	check_arg(char *arg)
 	int	i;
 
 	i = 0;
+	if (arg[0] == '+')
+		i++;
+	if (arg[0] == '-')
+		i++;
 	while (arg[i])
 	{
 		if (!ft_isdigit(arg[i]))
@@ -32,13 +36,13 @@ void	ft_exit(t_data *data)
 		exit(0);
 	if (data->cmd_lst->args[2])
 	{
-		printf("exit : too many arguments\n");
+		ft_putstr_fd("too many arguments\n", 2);
 		g_exit_status = 1;
 		return ;
 	}
 	if (!check_arg(data->cmd_lst->args[1]))
 	{
-		printf("exit : numeric argument required\n");
+		ft_putstr_fd("numeric argument required\n", 2);
 		g_exit_status = 2;
 		exit(g_exit_status);
 	}

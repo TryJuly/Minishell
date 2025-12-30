@@ -6,37 +6,11 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 08:42:45 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 12:21:16 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:30:45 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int	operator(char c, char next, char **str)
-{
-	if (c == '>' && next == '>')
-	{
-		*str = ft_strdup(">>");
-		if (!*str)
-			return (-1);
-		return (2);
-	}
-	if (c == '<' && next == '<')
-	{
-		*str = ft_strdup("<<");
-		if (!*str)
-			return (-1);
-		return (2);
-	}
-	if (c == '<' || c == '>' || c == '|')
-	{
-		*str = dup_char(c);
-		if (!*str)
-			return (-1);
-		return (1);
-	}
-	return (0);
-}
 
 int	skip_space(char *str)
 {

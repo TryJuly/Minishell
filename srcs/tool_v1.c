@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 12:17:34 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/29 10:36:34 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:19:31 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,18 @@ void	init_pipe(int *pipe)
 	pipe[0] = -1;
 	pipe[1] = -1;
 	return ;
+}
+
+char	*dup_char(char c)
+{
+	char	*str;
+
+	str = malloc(2 * sizeof(char));
+	if (!str)
+		return (NULL);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
 }
 
 // int	close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd)

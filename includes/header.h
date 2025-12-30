@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 12:54:48 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:37:51 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,15 @@ int		find_heredoc(char *str, t_data *data);
 
 int		init_struct(t_data *data, char **envp);
 
-/*			Token Parsing			*/
+/*			Token Parsing + utils	*/
 
 char	*dup_char(char c);
 size_t	token_count(char *s);
 char	**token_array(char *s);
 int		op_check(char c, char next);
 int		tokenizer(char *s, char **array);
+int		ending_quote(char *s, char quote);
+int		operator(char c, char next, char **str);
 
 /*			Fill lst + tools			*/
 
@@ -95,6 +97,7 @@ int		lst_size(t_cmd *cmd);
 int		lst_size(t_cmd *cmd);
 t_cmd	*lst_last(t_cmd *cmd);
 t_cmd	*fill_lst(char **array);
+int		get_redir_type(char *redir);
 int		find_path_1(char **cmd, char **path);
 void	add_back_lst(t_cmd **cmd, t_cmd *new);
 
@@ -139,7 +142,6 @@ int		skip_space(char *str);
 int		count_args(char **array, int len);
 void	set_path(t_data *data, t_cmd **cmd);
 t_cmd	*malloc_args(char **array, size_t len);
-int		operator(char c, char next, char **str);
 int		close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd);
 
 /*			ft_clean.c				*/

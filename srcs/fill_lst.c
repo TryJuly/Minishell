@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/29 14:11:55 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:37:14 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static void		add_redir_node(char *redir, char *file, t_cmd *current);
 static void		add_args_node(char *argument, t_cmd *current);
-static int		get_redir_type(char *redir);
-static char		*remove_quote(char *str);
+static char		*remove_quote(char *str, int quote);
 
 t_cmd	*fill_lst(char **array)
 {
@@ -61,7 +60,7 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 	new->type = get_redir_type(redir);
 	new->file = ft_strdup(file);
 	new->next = NULL;
-	t_str = remove_quote(new->file);
+	t_str = remove_quote(new->file, 0);
 	free(new->file);
 	new->file = t_str;
 	if (current->redir == NULL)
@@ -78,32 +77,28 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 void	add_args_node(char *argument, t_cmd *current)
 {
 	size_t	count;
-	// char	*tmp;
-	char	*tmp_quote;
+	char	*tmp;
 
 	count = 0;
-	// tmp = ft_strtrim(argument, "\"'");
-	tmp_quote = remove_quote(argument);
-	// free(tmp);
+	tmp = remove_quote(argument, 0);
 	if (!current->args[0])
 	{
-			current->args[0] = tmp_quote;
+		current->args[0] = tmp;
 		current->args[1] = NULL;
 	}
 	else
 	{
 		while (current->args[count])
 			count++;
-		current->args[count++] = tmp_quote;
+		current->args[count++] = tmp;
 		current->args[count] = 0;
 	}
 	return ;
 }
 
-static char	*remove_quote(char *str)
+static char	*remove_quote(char *str, int quote)
 {
 	size_t	count;
-	int		quote;
 	char	*result;
 	int		len;
 
@@ -128,34 +123,4 @@ static char	*remove_quote(char *str)
 	}
 	result[len] = '\0';
 	return (result);
-}
-
-int	is_redir(char *str)
-{
-	if (ft_strlen(str) == 1)
-	{
-		if (str[0] == '>' || str[0] == '<')
-			return (1);
-	}
-	else if (ft_strlen(str) == 2)
-	{
-		if (str[0] == '>' && str[1] == '>')
-			return (1);
-		if (str[0] == '<' && str[1] == '<')
-			return (1);
-	}
-	return (0);
-}
-
-static int	get_redir_type(char *redir)
-{
-	if (ft_strlen(redir) == 2 && redir[0] == '>' && redir[1] == '>')
-		return (R_APPEND);
-	if (ft_strlen(redir) == 2 && redir[0] == '<' && redir[1] == '<')
-		return (R_HEREDOC);
-	if (ft_strlen(redir) == 1 && redir[0] == '>')
-		return (R_OUT);
-	if (ft_strlen(redir) == 1 && redir[0] == '<')
-		return (R_IN);
-	return (-1);
 }

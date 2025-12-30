@@ -6,15 +6,15 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:11:07 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/29 13:41:26 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:31:18 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	end_quote(char *input, char quote, char **str);
 static int	copy_word(char *input, char **str);
 static int	redir_end_line(char **array);
+static int	help_copy(char *s);
 
 char	**token_array(char *s)
 {
@@ -67,12 +67,10 @@ int	tokenizer(char *s, char **array)
 			len += operator(s[len], s[len + 1], &(array)[count++]);
 			continue ;
 		}
-		if ((s[len] == '"' || s[len] == '\'') && len != -1)
-			len += end_quote(&s[len], s[len], &(array)[count++]);
 		else
 			len += copy_word(&s[len], &(array)[count++]);
 		if (len == -1)
-			return (printf("%sError malloc tokenizer%s\n", RED, NC), 1);
+			return (ft_putstr_fd("Msh: Error malloc\n", 2), 1);
 	}
 	array[count] = 0;
 	return (0);
@@ -87,8 +85,7 @@ static int	copy_word(char *s, char **str)
 	save = 0;
 	if (s[len] && s[len] != 32 && !op_check(s[len], s[len + 1]))
 	{
-		while (s[len] && s[len] != 32 && op_check(s[len], s[len + 1]) == 0)
-			len++;
+		len = help_copy(s);
 		*str = malloc((len + 1) * sizeof(char *));
 		if (!(*str))
 			return (-1);
@@ -103,37 +100,77 @@ static int	copy_word(char *s, char **str)
 	return (0);
 }
 
-static int	end_quote(char *input, char quote, char **str)
+static int	help_copy(char *s)
 {
-	size_t	count;
-	size_t	save;
+	size_t	len;
 
-	count = 1;
-	save = 0;
-	while (input[count] && input[count] != quote)
-		count++;
-	if (input[count] == quote)
-		count++;
-	(*str) = malloc((count + 1) * sizeof(char *));
-	if (!(*str))
-		return (-1);
-	while (save < count)
+	len = 0;
+	while (s[len] && s[len] != 32 && !op_check(s[len], s[len + 1]))
 	{
-		(*str)[save] = input[save];
-		save++;
+		if (s[len] == '\'' || s[len] == '"')
+			len += ending_quote(s + len, s[len]);
+		else
+			len++;
 	}
-	(*str)[save] = '\0';
-	return (count);
+	return (len);
 }
 
-char	*dup_char(char c)
-{
-	char	*str;
+// static int	end_quot(char *input, char quote)
+// {
+// 	size_t	count;
 
-	str = malloc(2 * sizeof(char));
-	if (!str)
-		return (NULL);
-	str[0] = c;
-	str[1] = '\0';
-	return (str);
-}
+// 	count = 1;
+// 	while (input[count] && input[count] != quote)
+// 		count++;
+// 	if (input[count] == quote)
+// 		count++;
+// 	return (count);
+// }
+
+// static int	copy_word(char *s, char **str)
+// {
+// 	size_t	len;
+// 	size_t	save;
+
+// 	len = 0;
+// 	save = 0;
+// 	if (s[len] && s[len] != 32 && !op_check(s[len], s[len + 1]))
+// 	{
+// 		while (s[len] && s[len] != 32 && op_check(s[len], s[len + 1]) == 0)
+// 			len++;
+// 		*str = malloc((len + 1) * sizeof(char *));
+// 		if (!(*str))
+// 			return (-1);
+// 		while (save < len)
+// 		{
+// 			(*str)[save] = s[save];
+// 			save++;
+// 		}
+// 		(*str)[save] = '\0';
+// 		return (len);
+// 	}
+// 	return (0);
+// }
+
+// static int	end_quote(char *input, char quote, char **str)
+// {
+// 	size_t	count;
+// 	size_t	save;
+
+// 	count = 1;
+// 	save = 0;
+// 	while (input[count] && input[count] != quote)
+// 		count++;
+// 	if (input[count] == quote)
+// 		count++;
+// 	(*str) = malloc((count + 1) * sizeof(char));
+// 	if (!(*str))
+// 		return (-1);
+// 	while (save < count)
+// 	{
+// 		(*str)[save] = input[save];
+// 		save++;
+// 	}
+// 	(*str)[save] = '\0';
+// 	return (count);
+// }

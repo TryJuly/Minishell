@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/29 10:12:59 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:06:52 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,12 @@ void	ft_cd(t_data *data)
 {
 	char	*old_pwd;
 
+	if (data->cmd_lst->args[2])
+	{
+		g_exit_status = 1;
+		ft_putstr_fd("too many arguments\n", 2);
+		return ;
+	}
 	old_pwd = malloc(100);
 	if (!old_pwd)
 	{

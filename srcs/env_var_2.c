@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/22 13:53:55 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/30 10:21:56 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,40 @@ char	*expand_command_value(char *new_str, t_data *data)
 	return (res);
 }
 
+char	*question_mark(char *str)
+{
+	char	*temp;
+	char	*stat_str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	stat_str = ft_itoa(g_exit_status);
+	if (str[i] == '?' && !str[i + 1])
+		return (stat_str);
+	else
+	{
+		temp = malloc(ft_strlen(str) + ft_strlen(stat_str));
+		while (str[i])
+		{
+			if (str[i] == '?')
+			{
+				while (stat_str[j])
+				{
+					temp[j] = stat_str[j];
+					j++;
+				}
+			}
+			else
+				temp[j++] = str[i];
+			i++;
+		}
+		temp[j] = 0;
+	}
+	return (temp);
+}
+
 char	*expand_var_value(char *new_str, t_data *data)
 {
 	int		i;
@@ -90,11 +124,10 @@ char	*expand_var_value(char *new_str, t_data *data)
 	i = 0;
 	temp = new_str;
 	temp += 1;
+	if (new_str[1] == ' ' || !new_str[1])
+		return (new_str);
 	if (new_str[1] == '?')
-	{
-		value = ft_itoa(g_exit_status);
-		return (value);
-	}
+		return (question_mark(temp));
 	while (data->envp[i])
 	{
 		if (ft_strncmp(temp, data->envp[i], ft_strlen(temp) - 1) == 0)

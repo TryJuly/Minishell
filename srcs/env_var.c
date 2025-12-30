@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/29 13:18:46 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 14:26:06 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,19 @@ char	*ft_unsplit(char **tab)
 	int		i;
 
 	i = 0;
-	res = ft_strdup("");
+	res = NULL;
 	while (tab[i])
 	{
-		temp = ft_strdup(res);
-		free(res);
+		if (!res)
+			temp = ft_strdup("");
+		if (res)
+		{
+			temp = ft_strdup(res);
+			free(res);
+		}
 		res = ft_strjoin(temp, tab[i]);
-		free(temp);
+		if (temp[0] != 0)
+			free(temp);
 		i++;
 	}
 	return (res);

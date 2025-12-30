@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:21:05 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/26 12:45:50 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/30 11:32:19 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,7 @@ int	arg_exist(char *arg, char **envp)
 void	ft_unset(t_data *data)
 {
 	if (data->cmd_lst->args[1] == NULL)
-	{
-		printf("unset : not enough arguments\n");
-		g_exit_status = 1;
 		return ;
-	}
 	while (data->cmd_lst->args[1])
 	{
 		if (arg_exist(data->cmd_lst->args[1], data->envp))

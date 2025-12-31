@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 12:28:54 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 12:31:15 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 11:27:26 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	find_heredoc(char *str, t_data *data)
 		if (str[count] == '<' && str[count + 1] == '<' && !quote)
 		{
 			heredoc(&str[count + 2], data);
+			data->heredoc = 1;
 			count += 2;
 		}
 		count++;

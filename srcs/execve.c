@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 10:29:34 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 11:40:52 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static void	error_child(t_cmd *cmd, t_data *data)
 	(void)data;
 	if (errno == ENOENT)
 	{
-		ft_putstr_fd("Msh: command not found\n", 2);
+		ft_putstr_fd("Msh: Command not found: ", 2);
 		ft_putendl_fd(cmd->args[0], 2);
 		free_all(data);
 		exit(127);
@@ -134,7 +134,7 @@ static void	error_child(t_cmd *cmd, t_data *data)
 	}
 	else
 	{
-		perror("Msh");
+		perror("Msh:");
 		free_all(data);
 		exit(1);
 	}

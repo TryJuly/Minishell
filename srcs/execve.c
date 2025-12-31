@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/29 14:13:17 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 10:29:34 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static void	error_child(t_cmd *cmd, t_data *data)
 	{
 		ft_putstr_fd("Msh: Is a directory\n", 2);
 		free_all(data);
-		exit(127);
+		exit(126);
 	}
 	else
 	{

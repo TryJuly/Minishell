@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/30 10:21:56 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/31 10:33:49 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*read_pipe(int *pipefd)
 	total = 0;
 	buf = malloc(101);
 	if (!buf)
-		return (NULL);
+		return (ft_putstr_fd("Msh: Error Malloc\n", 2), NULL);
 	while (numread != 0)
 	{
 		numread = read(pipefd[0], buf, 100);

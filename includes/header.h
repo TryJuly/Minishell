@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/30 11:37:51 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 10:19:51 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int		close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd);
 /*			ft_clean.c				*/
 
 void	free_all(t_data *data);
+void	ft_clear_lst(t_cmd **lst);
 void	free_classic(char **envp);
 int		ft_free_array(char ***array);
 

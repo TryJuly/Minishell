@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 11:29:26 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/30 11:33:33 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 11:02:34 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	ending_quote(char *s, char quote)
 	len = 0;
 	if (s[len] == quote)
 		len++;
-	while (s[len] != quote)
+	while (s[len] && s[len] != quote)
 		len++;
-	if (s[len] == quote)
+	if (s[len + 1] && s[len] == quote)
 		len++;
 	return (len);
 }

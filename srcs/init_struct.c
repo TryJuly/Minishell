@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/26 13:00:49 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 11:26:58 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	init_struct(t_data *data, char **envp)
 {
 	data->envp = copy_envp_struct(envp);
 	data->cmd_lst = 0;
+	data->heredoc = 0;
 	data->path = NULL;
 	return (0);
 }

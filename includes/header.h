@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 10:19:51 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 11:26:22 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_data
 	char	*input;
 	char	**envp;
 	char	**path;
+	int		heredoc;
 }	t_data;
 
 typedef struct s_cmd

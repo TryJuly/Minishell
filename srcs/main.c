@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 10:22:56 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 11:43:48 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	read_prompt(t_data *data)
 	while (1)
 	{
 		data->input = readline("$> ");
+		add_history(data->input);
 		if (!ft_strncmp(data->input, "", 1))
 			continue ;
 		if (!ft_strncmp(data->input, "exit", 5))
@@ -53,7 +54,6 @@ void	read_prompt(t_data *data)
 			}
 			// ft_free_array(&array);
 		}
-		add_history(data->input);
 		free(data->input);
 	}
 	free_all(data);

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 11:12:13 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/30 10:55:45 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 12:43:14 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static int	quote_check(char *str)
 	{
 		if ((str[count] == '"' || str[count] == '\'') && !quote)
 			quote = str[count++];
+		if (!str[count])
+			return (ft_putstr_fd("Msh: Unclosed quote\n", 2), 1);
 		if (quote && str[count])
 		{
 			while (str[count] && str[count] != quote)

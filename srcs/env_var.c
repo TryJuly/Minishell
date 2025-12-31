@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 12:34:17 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:20:52 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,12 @@ char	*help_split_dollars(char *input, int *i, int *j)
 		expand_quote(input, i, j);
 	else
 	{
-		while (input[*j] != ' ' && input[*j] && input[*j] != '$')
+		while ((input[*j] != ' ' && input[*j] && input[*j] != '$') && (input[*j] != '\'' && input[*j] != '"'))
 			*j += 1;
+		// if (input[*j] == '\'' || input[*j] == '"')
+		// 	*j -= 1;
 	}
-	temp = ft_substr(input, *i, *j - *i + 1);
+	temp = ft_substr(input, *i, *j - *i);
 	*i = *j;
 	return (temp);
 }
@@ -104,6 +106,7 @@ char	**ft_split_dollars(char *input, int dollars)
 			temp = ft_substr(input, i, j - i);
 			i = j - 1;
 		}
+		printf("%s\n", temp);
 		res[res_i++] = ft_strdup(temp);
 		free(temp);
 		i++;

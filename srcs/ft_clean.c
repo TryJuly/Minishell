@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 11:32:22 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 13:50:27 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	free_all(t_data *data)
 	}
 	if (data->heredoc == 1 && !access("/tmp/heredoc", F_OK))
 		unlink("/tmp/heredoc");
+	rl_clear_history();
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 11:24:31 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 13:54:35 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	heredoc(char *input, t_data *data)
 	if (fd == -1)
 		printf("oups");
 	delimiter = delimiter_in_input(input);
-	printf("%s : %s\n", delimiter, input);
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -102,6 +101,7 @@ void	heredoc(char *input, t_data *data)
 		free(line);
 		free(res);
 	}
+	free(delimiter);
 }
 
 char	*expand_line(char *line, t_data *data)

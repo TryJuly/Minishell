@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 12:04:20 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/31 12:34:17 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@ int	count_dollars(char *str)
 	int	i;
 	int	par;
 	int	count;
+	int quote;
 
 	i = 0;
 	count = 0;
 	par = 0;
+	quote = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && par == 0)
+		if (str[i] == '\'' && !quote)
+			quote = str[i++];
+		if (str[i] == '\'' && quote)
+			quote = 0;
+		if (str[i] == '$' && par == 0 && !quote)
 			count++;
 		else if (str[i] == '(')
 			par = 1;
@@ -76,13 +82,19 @@ char	**ft_split_dollars(char *input, int dollars)
 	int		res_i;
 	char	**res;
 	char	*temp;
+	int		quote;
 
 	i = 0;
 	res_i = 0;
+	quote = 0;
 	res = malloc(sizeof(char *) * (dollars + 1));
 	while (input[i])
 	{
-		if (input[i] == '$' || input[i] == '\'' || input[i] == '\"')
+		if (input[i] == '\'' && !quote)
+			quote = input[i++];
+		if (input[i] == '\'' && quote)
+			quote = 0;
+		if (input[i] == '$' && !quote)
 			temp = help_split_dollars(input, &i, &j);
 		else
 		{
@@ -125,18 +137,18 @@ char	*ft_unsplit(char **tab)
 	return (res);
 }
 
-char	*ft_random(char *str)
-{
-	char	*res;
+// char	*ft_random(char *str)
+// {
+// 	char	*res;
 
-	if (str[0] == '\'')
-		return (str);
-	else if (str[0] == '\"')
-	{
-		res = ft_strtrim(str, "\"");
-	}
-	return (res);
-}
+// 	if (str[0] == '\'')
+// 		return (str);
+// 	else if (str[0] == '\"')
+// 	{
+// 		res = ft_strtrim(str, "\"");
+// 	}
+// 	return (res);
+// }
 
 void	new_expand_var(t_data *data)
 {
@@ -151,8 +163,8 @@ void	new_expand_var(t_data *data)
 	exp_vars = ft_split_dollars(data->input, dollars);
 	while (exp_vars[i])
 	{
-		if (exp_vars[i][0] == '\'' || exp_vars[i][0] == '\"')
-			exp_vars[i] = ft_random(exp_vars[i]);
+		// if (exp_vars[i][0] == '\'' || exp_vars[i][0] == '\"')
+		// 	exp_vars[i] = ft_random(exp_vars[i]);
 		if (exp_vars[i][0] == '$')
 			exp_vars[i] = expand_var_value(exp_vars[i], data);
 		i++;

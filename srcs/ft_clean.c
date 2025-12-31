@@ -6,13 +6,11 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/29 09:28:20 by strieste         ###   ########.fr       */
+/*   Updated: 2025/12/31 10:19:42 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-static void	ft_clear_lst(t_cmd **lst);
 
 void	free_all(t_data *data)
 {
@@ -39,7 +37,7 @@ void	free_all(t_data *data)
 	return ;
 }
 
-static void	ft_clear_lst(t_cmd **lst)
+void	ft_clear_lst(t_cmd **lst)
 {
 	t_cmd	*s_p;
 	t_redir	*p_redir;

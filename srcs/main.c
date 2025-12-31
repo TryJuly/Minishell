@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/30 10:22:27 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/31 10:22:56 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,6 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-// void	create_cmd_list(t_data *data)
-// {
-// 	t_cmd	*new_cmd_lst;
-
-// 	new_cmd_lst = malloc(sizeof(t_cmd));
-// 	data->cmd_lst = new_cmd_lst;
-// }
-/*debug*/
-
-// void	print_tab(char **tab)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (tab[i])
-// 	{
-// 		printf("%s\n", tab[i]);
-// 		i++;
-// 	}
-// }
-
 void	read_prompt(t_data *data)
 {
 	char	**array;
@@ -70,8 +49,9 @@ void	read_prompt(t_data *data)
 			{
 				data->cmd_lst = fill_lst(array);
 				exec_cmd(data);
-				free_classic(array);
+				// ft_clear_lst(&data->cmd_lst);
 			}
+			// ft_free_array(&array);
 		}
 		add_history(data->input);
 		free(data->input);

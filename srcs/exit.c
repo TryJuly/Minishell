@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:06:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/30 14:33:32 by cbezenco         ###   ########.fr       */
+/*   Updated: 2025/12/31 10:35:19 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ void	ft_exit(t_data *data)
 		exit(0);
 	if (data->cmd_lst->args[2])
 	{
-		ft_putstr_fd("too many arguments\n", 2);
+		ft_putstr_fd("Msh: Too many arguments\n", 2);
 		g_exit_status = 1;
 		return ;
 	}
 	if (!check_arg(data->cmd_lst->args[1]))
 	{
-		ft_putstr_fd("numeric argument required\n", 2);
+		ft_putstr_fd("Msh: Numeric argument required\n", 2);
 		g_exit_status = 2;
 		exit(g_exit_status);
 	}

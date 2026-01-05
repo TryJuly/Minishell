@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:21:05 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/30 11:32:19 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:50:23 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,15 @@ int	arg_exist(char *arg, char **envp)
 
 void	ft_unset(t_data *data)
 {
-	if (data->cmd_lst->args[1] == NULL)
+	int	i;
+
+	i = 1;
+	if (data->cmd_lst->args[i] == NULL)
 		return ;
-	while (data->cmd_lst->args[1])
+	while (data->cmd_lst->args[i])
 	{
 		if (arg_exist(data->cmd_lst->args[1], data->envp))
 			ft_unset_arg(data);
-		data->cmd_lst->args += 1;
+		i++;
 	}
 }

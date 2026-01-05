@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 10:40:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:20:26 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char	*expand_command_value(char *new_str, t_data *data)
 	new_str = ft_strtrim(new_str, "$()");
 	new_str = expand_line(new_str, data);
 	args = ft_split(new_str, ' ');
+	get_cmdpath(&data, data->envp);
 	find_path_1(&args[0], data->path);
-	printf("%s : %s\n", args[0], args[1]);
 	res = exec_command(args, data);
 	return (res);
 }

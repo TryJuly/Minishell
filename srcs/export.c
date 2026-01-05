@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 11:06:07 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/30 11:28:20 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:49:37 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,23 +106,26 @@ int	valid_identifier(char *str)
 
 void	ft_export(t_data *data)
 {
-	if (!data->cmd_lst->args[1])
+	int	i;
+
+	i = 1;
+	if (!data->cmd_lst->args[i])
 	{
 		ft_env(data);
 		return ;
 	}
-	while (data->cmd_lst->args[1])
+	while (data->cmd_lst->args[i])
 	{
 		var_setup(data);
-		if (!valid_identifier(data->cmd_lst->args[1]))
+		if (!valid_identifier(data->cmd_lst->args[i]))
 		{
 			g_exit_status = 1;
 			ft_putstr_fd("not valid identifier\n", 2);
-			data->cmd_lst->args += 1;
+			i++;
 			continue ;
 		}
 		if (!change_env_var(data))
 			set_new_env_var(data);
-		data->cmd_lst->args += 1;
+		i++;
 	}
 }

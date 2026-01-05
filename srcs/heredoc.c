@@ -3,60 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 13:54:35 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:31:26 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 char	*expand_line(char *line, t_data *data);
-
-// void	exec_heredoc_cmd(int here_fd, t_cmd *here_cmd, t_data *data)
-// {
-// 	pid_t	child;
-// 	int		pipefd[2];
-// 	//char	*buf;
-// 	//int		numread;
-// 	//char	*res;
-// 	//int		total;
-
-// 	pipe(pipefd);
-// 	child = fork();
-// 	if (child == 0)
-// 	{
-// 		dup2(here_fd, 0);
-// 		close(here_fd);
-// 		//dup2(pipefd[1], 1); // RECHECK CETTE MERDE LAAAAAAAAA ^^
-// 		//close(pipefd[0]);
-// 		//here_cmd->args = ft_split(here_cmd->args[0], ' ');
-// 		here_cmd->args[0] = find_path(here_cmd->args[0], data->path);
-// 		if (execve(here_cmd->args[0], here_cmd->args, data->envp) == -1)
-// 			printf("fin de carriere\n");
-// 	}
-// 	close(pipefd[1]);
-// 	wait(&child);
-// 	// numread = -1;
-// 	// res = "";
-// 	// total = 0;
-// 	// buf = malloc(101);
-// 	// while (numread != 0)
-// 	// {
-// 	// 	numread = read(pipefd[0], buf, 100);
-// 	// 	printf("%i\n", numread);
-// 	// 	total += numread;
-// 	// 	if (numread == -1)
-// 	// 		printf("la poisse\n");
-// 	// 	else if (numread == 0)
-// 	// 		break ;
-// 	// 	buf[total + 1] = 0;
-// 	// 	res = ft_strjoin(res, buf);
-// 	// }
-// 	// free(buf);
-// 	// printf("%s\n", res);
-// }
 
 char	*delimiter_in_input(char *input)
 {
@@ -104,6 +60,43 @@ void	heredoc(char *input, t_data *data)
 	free(delimiter);
 }
 
+char	**other_ft_split_dollars(char *str, int dollars)
+{
+	int		i;
+	int		j;
+	int		res_i;
+	char	**res;
+	char	*temp;
+
+	i = 0;
+	res_i = 0;
+	res = malloc(sizeof(char *) * (dollars + 3));
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			j = i + 1;
+			while (str[j] != '$' && str[j] != ' ' && str[j] != '\'' && str[j] != '"' && str[j])
+				j++;
+			temp = ft_substr(str, i, j - i);
+			res[res_i++] = temp;
+			i = j - 1;
+		}
+		else
+		{
+			j = i + 1;
+			while (str[j] != '$' && str[j])
+				j++;
+			temp = ft_substr(str, i, j - i);
+			res[res_i++] = temp;
+			i = j - 1;
+		}
+		i++;
+	}
+	res[res_i] = NULL;
+	return (res);
+}
+
 char	*expand_line(char *line, t_data *data)
 {
 	char	**exp_vars;
@@ -113,9 +106,9 @@ char	*expand_line(char *line, t_data *data)
 
 	i = 0;
 	dollars = count_dollars(line);
-	if (dollars == 0)
+	if (!no_dollars(line))
 		return (ft_strdup(line));
-	exp_vars = ft_split_dollars(line, dollars);
+	exp_vars = other_ft_split_dollars(line, dollars);
 	while (exp_vars[i])
 	{
 		if (exp_vars[i][0] == '$' && exp_vars[i][1] == '(')
@@ -125,33 +118,6 @@ char	*expand_line(char *line, t_data *data)
 		i++;
 	}
 	res = ft_unsplit(exp_vars);
+	ft_free_array(&exp_vars);
 	return (res);
 }
-
-// char	*delimiter_in_input(char *input)
-// {
-// 	int	i;
-// 	int j;
-// 	char	*del;
-
-// 	i = 0;
-// 	// while (input[i])
-// 	// {
-// 	// 	if (input[i] == '<')
-// 	// 	{
-// 	// 		while (input[i] == '<' || input[i] == ' ')
-// 	// 			i++;
-// 	// 		j = i;
-// 	// 		break ;
-// 	// 	}
-// 	// 	i++;
-// 	// }
-// 	while (input[i] == ' ')
-// 		i++;
-// 	j = i;
-// 	while (ft_isascii(input[j]) && input[j] != ' ' && input[j] != '<')
-// 		j++;
-// 	del = ft_substr(input, i, j);
-// 	input += j + i;
-// 	return (del);
-// }

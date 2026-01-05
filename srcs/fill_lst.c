@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/30 11:37:14 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:42:51 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static char	*remove_quote(char *str, int quote)
 			quote = str[count++];
 			while (str[count] && str[count] != quote)
 				result[len++] = str[count++];
-			if (str[count + 1] && str[count] == quote)
+			if (str[count] && str[count] == quote)
 				count++;
 		}
 		else

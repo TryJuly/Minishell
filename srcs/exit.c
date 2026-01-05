@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:06:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 10:35:19 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:49:24 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	ft_exit(t_data *data)
 		exit(g_exit_status);
 	}
 	g_exit_status = ft_atoi(data->cmd_lst->args[1]);
-	clear_history();
+	rl_clear_history();
 	exit(g_exit_status);
 }

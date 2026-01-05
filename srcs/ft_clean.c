@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 09:21:54 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:43:06 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_free_array(char ***array)
 		free((*array)[count]);
 		count++;
 	}
-	// free(*array);
+	free(*array);
 	*array = NULL;
 	return (0);
 }

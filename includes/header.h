@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 11:26:22 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:05:45 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	ft_export(t_data *data);
 
 char	*ft_unsplit(char **tab);
 int		count_dollars(char *str);
+int		no_dollars(char	*str);
 void	new_expand_var(t_data *data);
 void	heredoc(char *input, t_data *data);
 char	*expand_line(char *line, t_data *data);

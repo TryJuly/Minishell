@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 09:18:06 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:19:33 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+static int	help_new_expand(char **tab, t_data *data);
+static void	help_count_dollar_v1(char *str, int *quote, int *count);
+static void	help_count_dollar_v2(char *str, int *quote, int *count, int *par);
 
 int	count_dollars(char *str)
 {
@@ -25,37 +29,77 @@ int	count_dollars(char *str)
 	quote = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && !quote)
-			quote++;
-		else if (str[i] == '\'' && quote)
-		{
-			quote--;
-			count++;
-		}
-		else if (str[i] == '"' && !quote)
-			quote++;
-		else if (str[i] == '"' && quote)
-		{
-			quote--;
-			count++;
-		}
-		else if (str[i] == ' ' && !quote)
+		help_count_dollar_v1(&str[i], &quote, &count);
+		if (str[i] == ' ' && !quote)
 		{
 			while (str[i] == ' ')
 				i++;
 			count++;
 			continue ;
 		}
-		else if (str[i] == '(')
-			par = 1;
-		else if (str[i] == ')')
-			par = 0;
-		else if (str[i] == '$' && !quote && par == 0)
-			count++;
+		help_count_dollar_v2(&str[i], &quote, &count, &par);
 		i++;
 	}
 	return (count);
 }
+
+static void	help_count_dollar_v1(char *str, int *quote, int *count)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '\'' && !*quote)
+		*quote += 1;
+	else if (str[i] == '\'' && *quote)
+	{
+		*quote -= 1;
+		*count += 1;
+	}
+	if (str[i] == '"' && !*quote)
+		*quote += 1;
+	else if (str[i] == '"' && *quote)
+	{
+		*quote -= 1;
+		*count += 1;
+	}
+	return ;
+}
+
+static void	help_count_dollar_v2(char *str, int *quote, int *count, int *par)
+{
+	int i;
+
+	i = 0;
+	if (str[i] == '(')
+		*par = 1;
+	if (str[i] == ')')
+		*par = 0;
+	if (str[i] == '$' && !*quote && *par == 0)
+		*count += 1;
+	return ;
+}
+
+
+// void	help_count_dollar(char *str, int *quote, int *count)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (str[i] == '\'' && !*quote)
+// 		*quote++;
+// 	else if (str[i] == '\'' && *quote)
+// 	{
+// 		*quote--;
+// 		*count++;
+// 	}
+// 	else if (str[i] == '"' && !*quote)
+// 		quote++;
+// 	else if (str[i] == '"' && quote)
+// 	{
+// 		quote--;
+// 		*count++;
+// 	}
+// }
 
 void	expand_quote(char *input, int *i, int *j)
 {
@@ -133,8 +177,7 @@ char	**ft_split_dollars(char *input, int dollars)
 			temp = ft_substr(input, i, j - i);
 			i = j - 1;
 		}
-		res[res_i++] = ft_strdup(temp);
-		free(temp);
+		res[res_i++] = temp;
 		i++;
 	}
 	res[res_i] = NULL;
@@ -149,28 +192,56 @@ char	*ft_unsplit(char **tab)
 
 	i = 0;
 	res = NULL;
+	temp = NULL;
 	while (tab[i])
 	{
-		if (!res)
-			temp = ft_strdup("");
-		if (res)
+		temp = ft_strjoin(res, tab[i]);
+		if (!temp && !res)
+			return (NULL);
+		else if (!temp && res)
 		{
-			temp = ft_strdup(res);
 			free(res);
+			return (NULL);
 		}
-		res = ft_strjoin(temp, tab[i]);
-		if (temp[0] != 0)
-			free(temp);
+		if (res)
+			free(res);
+		res = temp;
 		i++;
 	}
 	return (res);
 }
+
+// char	*ft_unsplit(char **tab)
+// {
+// 	char	*res;
+// 	char	*temp;
+// 	int		i;
+
+// 	i = 0;
+// 	res = NULL;
+// 	while (tab[i])
+// 	{
+// 		if (!res)
+// 			temp = ft_strdup("");
+// 		if (res)
+// 		{
+// 			temp = ft_strdup(res);
+// 			free(res);
+// 		}
+// 		res = ft_strjoin(temp, tab[i]);
+// 		if (temp[0] != 0)
+// 			free(temp);
+// 		i++;
+// 	}
+// 	return (res);
+// }
 
 char	*redo_expand_var(char *str, t_data *data)
 {
 	char	**exp_vars;
 	int		dollars;
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	dollars = count_dollars(str);
@@ -181,8 +252,10 @@ char	*redo_expand_var(char *str, t_data *data)
 	{
 		if (exp_vars[i][0] == '"')
 		{
-			exp_vars[i] = ft_strtrim(exp_vars[i], "\"");
-			exp_vars[i] = redo_expand_var(exp_vars[i], data);
+			tmp = ft_strtrim(exp_vars[i], "\"");
+			free(exp_vars[i]);
+			exp_vars[i] = redo_expand_var(tmp, data);
+			free(tmp);
 		}
 		if (exp_vars[i][0] == '$')
 			exp_vars[i] = expand_var_value(exp_vars[i], data);
@@ -211,6 +284,7 @@ void	new_expand_var(t_data *data)
 	char	**exp_vars;
 	int		dollars;
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	dollars = count_dollars(data->input);
@@ -219,14 +293,36 @@ void	new_expand_var(t_data *data)
 	exp_vars = ft_split_dollars(data->input, dollars);
 	while (exp_vars[i])
 	{
-		if (exp_vars[i][0] == '"')
-		{
-			exp_vars[i] = ft_strtrim(exp_vars[i], "\"");
-			exp_vars[i] = redo_expand_var(exp_vars[i], data);
-		}
-		if (exp_vars[i][0] == '$')
-			exp_vars[i] = expand_var_value(exp_vars[i], data);
+		help_new_expand(&exp_vars[i], data);
 		i++;
 	}
-	data->input = ft_unsplit(exp_vars);
+	tmp = ft_unsplit(exp_vars);
+	ft_free_array(&exp_vars);
+	free(data->input);
+	data->input = tmp;
+}
+
+static int	help_new_expand(char **tab, t_data *data)
+{
+	char *tmp;
+	
+	if (*tab[0] == '"')
+		{
+			tmp = ft_strtrim(*tab, "\"");
+			if (!tmp)
+				return (1);
+			*tab = redo_expand_var(tmp, data);
+			if (!*tab)
+				return (1);
+			free(tmp);
+		}
+		if (*tab[0] == '$')
+		{
+			tmp = expand_var_value(*tab, data);
+			if (!tmp)
+				return (1);
+			free(*tab);
+			*tab = tmp;
+		}
+		return (0);
 }

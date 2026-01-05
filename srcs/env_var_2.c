@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
 /*   Updated: 2026/01/05 10:20:26 by cbezenco         ###   ########.fr       */
@@ -134,10 +134,11 @@ char	*expand_var_value(char *new_str, t_data *data)
 		{
 			value = ft_strchr(data->envp[i], '=');
 			value += 1;
-			return (value);
+			temp = ft_strdup(value);
+			return (temp);
 		}
 		i++;
 	}
-	value = "";
+	value = ft_strdup("");
 	return (value);
 }

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:11:07 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/30 11:31:18 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:39:38 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static int	help_copy(char *s)
 	while (s[len] && s[len] != 32 && !op_check(s[len], s[len + 1]))
 	{
 		if (s[len] == '\'' || s[len] == '"')
-			len += ending_quote(s + len, s[len]);
+			len += ending_quote(&s[len], s[len]);
 		else
 			len++;
 	}

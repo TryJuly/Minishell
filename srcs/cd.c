@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 10:32:36 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 13:09:41 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,16 @@ void	ft_cd_2(t_data *data, char *old_pwd)
 	{
 		ft_putstr_fd("Msh: No such file or directory: ", 2);
 		ft_putendl_fd(data->cmd_lst->args[1], 2);
-		// printf("No such file or directory: ");
-		// perror(data->cmd_lst->args[1]);
 		g_exit_status = 1;
 		return ;
 	}
 	if (chdir(data->cmd_lst->args[1]) == -1)
-		printf("oups");
+		printf("Msh: ");
 	new_pwd = malloc(100);
 	if (!new_pwd)
 	{
 		ft_putstr_fd("Msh: Error Malloc\n", 2);
 		g_exit_status = 1;
-		// printf("OH YEE-NOOOOOOOOOO\n");
 		return ;
 	}
 	new_pwd = getcwd(new_pwd, 100);

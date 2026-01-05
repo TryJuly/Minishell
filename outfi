@@ -1,0 +1,11 @@
+total 188
+drwxr-xr-x 2 strieste 2025_lausanne    22 Jan  5 11:37 includes
+drwxr-xr-x 3 strieste 2025_lausanne  4096 Jan  5 11:38 libft
+-rw-r--r-- 1 strieste 2025_lausanne 66998 Jan  5 11:38 libft.a
+-rw-r--r-- 1 strieste 2025_lausanne  3271 Jan  5 09:30 Makefile
+-rwxr-xr-x 1 strieste 2025_lausanne 98184 Jan  5 11:53 minishell
+drwxr-xr-x 2 strieste 2025_lausanne  4096 Jan  5 11:53 objets
+-rw-r--r-- 1 strieste 2025_lausanne     0 Jan  5 12:05 outfi
+-rw-r--r-- 1 strieste 2025_lausanne   577 Jan  5 12:04 outfile
+-rw-r--r-- 1 strieste 2025_lausanne  3447 Jan  5 12:02 README.md
+drwxr-xr-x 2 strieste 2025_lausanne  4096 Jan  5 11:37 srcs

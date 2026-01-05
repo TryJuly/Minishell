@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 11:19:33 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 13:03:28 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	help_new_expand(char **tab, t_data *data);
 static void	help_count_dollar_v1(char *str, int *quote, int *count);
 static void	help_count_dollar_v2(char *str, int *quote, int *count, int *par);
+char	*add_quote(char *str);
 
 int	count_dollars(char *str)
 {
@@ -258,10 +259,15 @@ char	*redo_expand_var(char *str, t_data *data)
 			free(tmp);
 		}
 		if (exp_vars[i][0] == '$')
-			exp_vars[i] = expand_var_value(exp_vars[i], data);
+		{
+			tmp = expand_var_value(exp_vars[i], data);
+			free(exp_vars[i]);
+			exp_vars[i] = tmp;
+		}
 		i++;
 	}
 	str = ft_unsplit(exp_vars);
+	ft_free_array(&exp_vars);
 	return (str);
 }
 
@@ -307,22 +313,47 @@ static int	help_new_expand(char **tab, t_data *data)
 	char *tmp;
 	
 	if (*tab[0] == '"')
-		{
-			tmp = ft_strtrim(*tab, "\"");
-			if (!tmp)
-				return (1);
-			*tab = redo_expand_var(tmp, data);
-			if (!*tab)
-				return (1);
-			free(tmp);
-		}
-		if (*tab[0] == '$')
-		{
-			tmp = expand_var_value(*tab, data);
-			if (!tmp)
-				return (1);
-			free(*tab);
-			*tab = tmp;
-		}
-		return (0);
+	{
+		tmp = ft_strtrim(*tab, "\"");
+		if (!tmp)
+			return (1);
+		free(*tab);
+		*tab = redo_expand_var(tmp, data);
+		if (!*tab)
+			return (1);
+		free(tmp);
+		tmp = add_quote(*tab);
+		if (!tmp)
+			return (1);
+		free(*tab);
+		*tab = tmp;
+	}
+	if (*tab[0] == '$')
+	{
+		tmp = expand_var_value(*tab, data);
+		if (!tmp)
+			return (1);
+		free(*tab);
+		*tab = tmp;
+	}
+	return (0);
+}
+
+char	*add_quote(char *str)
+{
+	int i;
+	int	j;
+	char *res;
+	
+	i = 0;
+	j = 1;
+	res = malloc((ft_strlen(str) + 3) * sizeof(char));
+	if (!res)
+		return (NULL);
+	res[0] = '"';
+	while (str[i])
+		res[j++] = str[i++];
+	res[j++] = '"';
+	res[j++] = '\0';
+	return (res);
 }

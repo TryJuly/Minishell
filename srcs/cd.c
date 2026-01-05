@@ -94,7 +94,7 @@ void	ft_cd_2(t_data *data, char *old_pwd)
 		return ;
 	}
 	if (chdir(data->cmd_lst->args[1]) == -1)
-		printf("oups");
+		printf("Msh: ");
 	new_pwd = malloc(100);
 	if (!new_pwd)
 	{

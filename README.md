@@ -89,3 +89,14 @@ ls -R / | head -n 10
  cat | cat | ls > file_test ls
 
  echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<"
+
+
+ < hello < hi > out
+
+ ls -l << a
+
+ pwd cd pwd cd pwd
+
+ cd ... cd ..
+
+ cd /bin/ls

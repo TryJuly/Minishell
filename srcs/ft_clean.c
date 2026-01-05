@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 09:32:46 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:25:17 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	ft_clear_lst(t_cmd **lst)
 		s_p = (*lst)->next;
 		if ((*lst)->redir)
 		{
-			p_redir = (*lst)->redir->next;
 			while (((*lst)->redir))
 			{
+				p_redir = (*lst)->redir->next;
 				free((*lst)->redir->file);
 				free((*lst)->redir);
 				(*lst)->redir = p_redir;

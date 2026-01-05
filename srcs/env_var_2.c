@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 10:20:26 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:49:12 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char	*expand_var_value(char *new_str, t_data *data)
 	temp = new_str;
 	temp += 1;
 	if (new_str[1] == ' ' || !new_str[1])
-		return (new_str);
+		return (ft_strdup(new_str));
 	if (new_str[1] == '?')
 		return (question_mark(temp));
 	while (data->envp[i])

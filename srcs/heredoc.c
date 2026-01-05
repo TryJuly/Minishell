@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 11:31:26 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:30:07 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 char	*expand_line(char *line, t_data *data);
 
-char	*delimiter_in_input(char *input)
+char	*delimiter_in_input(char *str)
 {
 	int		i;
 	int		j;
 	char	*del;
 
 	i = 0;
-	while (input[i] == ' ')
+	while (str[i] && str[i] == ' ')
 		i++;
 	j = i;
-	while (ft_isascii(input[j]) && input[j] != ' ' && input[j] != '<')
+	while (str[j] && ft_isascii(str[j]) && str[j] != ' ' && str[j] != '<')
 		j++;
-	del = ft_substr(input, i, j);
-	input += j + i;
+	del = ft_substr(str, i, j);
+	str += j + i;
 	return (del);
 }
 

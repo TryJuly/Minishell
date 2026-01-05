@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 09:58:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 13:35:01 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:26:41 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	read_prompt(t_data *data)
 		data->input = readline("$> ");
 		add_history(data->input);
 		if (!ft_strncmp(data->input, "", 1))
+		{
+			free(data->input);
 			continue ;
+		}
 		if (!ft_strncmp(data->input, "exit", 5))
 			break ;
 		if (!input_brute(data->input, data))

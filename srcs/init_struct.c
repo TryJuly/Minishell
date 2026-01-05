@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 11:26:58 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:15:45 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	get_cmdpath(t_data **data, char **envp)
 	count = find_pos_path(envp);
 	if (count == -1)
 		return (1);
+	if ((*data)->path != NULL)
+		ft_free_array(&(*data)->path);
 	(*data)->path = ft_split(envp[count], ':');
 	if (!(*data)->path)
 		return (ft_putstr_fd("Msh: Error Malloc split\n", 2), 1);

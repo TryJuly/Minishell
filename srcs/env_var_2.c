@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 12:49:12 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:08:17 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,25 @@ char	*read_pipe(int *pipefd)
 	char	*buf;
 	int		numread;
 	char	*res;
-	int		total;
+	char	*temp;
 
 	numread = -1;
-	res = "";
-	total = 0;
+	res = ft_strdup("");
 	buf = malloc(101);
 	if (!buf)
 		return (ft_putstr_fd("Msh: Error Malloc\n", 2), NULL);
 	while (numread != 0)
 	{
 		numread = read(pipefd[0], buf, 100);
-		total += numread;
 		if (numread == -1)
 			perror("Msh: ");
 		else if (numread == 0)
 			break ;
-		buf[total + 1] = 0;
-		res = ft_strjoin(res, buf);
+		buf[numread] = 0;
+		temp = ft_strdup(res);
+		free(res);
+		res = ft_strjoin(temp, buf);
+		free(temp);
 	}
 	free(buf);
 	return (res);
@@ -69,15 +70,20 @@ char	*expand_command_value(char *new_str, t_data *data)
 {
 	char	**args;
 	char	*res;
+	char	*temp;
+	char	*str;
 
 	if (!data)
 		return (NULL);
-	new_str = ft_strtrim(new_str, "$()");
-	new_str = expand_line(new_str, data);
-	args = ft_split(new_str, ' ');
+	temp = ft_strtrim(new_str, "$()");
+	str = expand_line(temp, data);
+	args = ft_split(str, ' ');
 	get_cmdpath(&data, data->envp);
 	find_path_1(&args[0], data->path);
 	res = exec_command(args, data);
+	ft_free_array(&args);
+	free(temp);
+	free(str);
 	return (res);
 }
 

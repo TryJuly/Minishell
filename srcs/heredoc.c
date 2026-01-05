@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 12:30:07 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:57:55 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,41 +60,22 @@ void	heredoc(char *input, t_data *data)
 	free(delimiter);
 }
 
-char	**other_ft_split_dollars(char *str, int dollars)
+void	help_expand_line(char **str, t_data *data)
 {
-	int		i;
-	int		j;
-	int		res_i;
-	char	**res;
 	char	*temp;
 
-	i = 0;
-	res_i = 0;
-	res = malloc(sizeof(char *) * (dollars + 3));
-	while (str[i])
+	if ((*str)[0] == '$' && (*str)[1] == '(')
 	{
-		if (str[i] == '$')
-		{
-			j = i + 1;
-			while (str[j] != '$' && str[j] != ' ' && str[j] != '\'' && str[j] != '"' && str[j])
-				j++;
-			temp = ft_substr(str, i, j - i);
-			res[res_i++] = temp;
-			i = j - 1;
-		}
-		else
-		{
-			j = i + 1;
-			while (str[j] != '$' && str[j])
-				j++;
-			temp = ft_substr(str, i, j - i);
-			res[res_i++] = temp;
-			i = j - 1;
-		}
-		i++;
+		temp = expand_command_value(*str, data);
+		free(*str);
+		*str = temp;
 	}
-	res[res_i] = NULL;
-	return (res);
+	else if ((*str)[0] == '$')
+	{
+		temp = expand_var_value(*str, data);
+		free(*str);
+		*str = temp;
+	}
 }
 
 char	*expand_line(char *line, t_data *data)
@@ -111,10 +92,7 @@ char	*expand_line(char *line, t_data *data)
 	exp_vars = other_ft_split_dollars(line, dollars);
 	while (exp_vars[i])
 	{
-		if (exp_vars[i][0] == '$' && exp_vars[i][1] == '(')
-			exp_vars[i] = expand_command_value(exp_vars[i], data);
-		else if (exp_vars[i][0] == '$')
-			exp_vars[i] = expand_var_value(exp_vars[i], data);
+		help_expand_line(&exp_vars[i], data);
 		i++;
 	}
 	res = ft_unsplit(exp_vars);

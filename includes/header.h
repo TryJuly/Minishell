@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 11:05:45 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:35:02 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,6 @@ int		ft_free_array(char ***array);
 /*			???						*/
 int		check_builtin(t_data *data, t_cmd *cmd);
 int		get_cmdpath(t_data **data, char **envp);
-// void	print_lst(t_cmd *lst);
+void	print_lst(t_cmd *lst);
 
 #endif

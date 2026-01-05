@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 12:40:27 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 16:02:48 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,31 @@ void	ft_unset(t_data *data);
 void	ft_echo_n(t_data *data);
 void	ft_export(t_data *data);
 
+/*			Export Tool				*/
+
+int	equal_index(char *str);
+int	change_env_var(t_data *data);
+
 /*			Expand environment variables	*/
 
+int		no_dollars(char	*str);
 char	*ft_unsplit(char **tab);
 int		count_dollars(char *str);
-int		no_dollars(char	*str);
+char	*question_mark(char *str);
 void	new_expand_var(t_data *data);
 void	heredoc(char *input, t_data *data);
 char	*expand_line(char *line, t_data *data);
-char	**ft_split_dollars(char *input, int dollars);
+char	*blank_space(char *str, int *i, int *j);
+char	*redo_expand_var(char *str, t_data *data);
+void	expand_quote(char *input, int *i, int *j);
 char	*expand_var_value(char *new_str, t_data *data);
 char	*expand_command_value(char *new_str, t_data *data);
+char	**ft_split_dollars(char *s, int dollars, int i, int j);
 
 /*			Execve.c				*/
 
 int		exec_cmd(t_data *data);
+void	error_child(char **args, t_data *data);
 
 /*			redir.c					*/
 

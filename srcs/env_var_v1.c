@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var_2.c                                        :+:      :+:    :+:   */
+/*   env_var_v1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 12:49:12 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:32:49 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*read_pipe(int *pipefd)
 		numread = read(pipefd[0], buf, 100);
 		total += numread;
 		if (numread == -1)
-			perror("Msh: ");
+			return (perror("Msh: "), NULL);
 		else if (numread == 0)
 			break ;
 		buf[total + 1] = 0;
@@ -46,16 +46,17 @@ char	*exec_command(char **args, t_data *data)
 	int		pipefd[2];
 	char	*res;
 
-	pipe(pipefd);
+	if (pipe(pipefd) == -1)
+		return (ft_putstr_fd("Msh: Init PIPE\n", 2), NULL);
 	child = fork();
+	if (child < 0)
+		return (ft_putstr_fd("Msh: Fork PID\n", 2), NULL);
 	if (child == 0)
 	{
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
-		if (execve(args[0], args, data->envp) == -1)
-		{
-			perror("Msh: ");
-		}
+		execve(args[0], args, data->envp);
+		error_child(args, data);
 	}
 	close(pipefd[1]);
 	wait(&child);
@@ -69,50 +70,24 @@ char	*expand_command_value(char *new_str, t_data *data)
 {
 	char	**args;
 	char	*res;
+	char	*tmp;
 
 	if (!data)
 		return (NULL);
-	new_str = ft_strtrim(new_str, "$()");
-	new_str = expand_line(new_str, data);
+	tmp = ft_strtrim(new_str, "$()");
+	if (!tmp)
+		return (NULL);
+	free(new_str);
+	new_str = expand_line(tmp, data);
+	if (!new_str)
+		return (NULL);
+	free(tmp);
 	args = ft_split(new_str, ' ');
 	get_cmdpath(&data, data->envp);
 	find_path_1(&args[0], data->path);
 	res = exec_command(args, data);
+	ft_free_array(&args);
 	return (res);
-}
-
-char	*question_mark(char *str)
-{
-	char	*temp;
-	char	*stat_str;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	stat_str = ft_itoa(g_exit_status);
-	if (str[i] == '?' && !str[i + 1])
-		return (stat_str);
-	else
-	{
-		temp = malloc(ft_strlen(str) + ft_strlen(stat_str));
-		while (str[i])
-		{
-			if (str[i] == '?')
-			{
-				while (stat_str[j])
-				{
-					temp[j] = stat_str[j];
-					j++;
-				}
-			}
-			else
-				temp[j++] = str[i];
-			i++;
-		}
-		temp[j] = 0;
-	}
-	return (temp);
 }
 
 char	*expand_var_value(char *new_str, t_data *data)

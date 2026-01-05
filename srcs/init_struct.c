@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 11:26:58 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 14:03:11 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	find_pos_path(char **envp);
 int	init_struct(t_data *data, char **envp)
 {
 	data->envp = copy_envp_struct(envp);
+	if (!data->envp)
+		return (1);
 	data->cmd_lst = 0;
 	data->heredoc = 0;
 	data->path = NULL;
@@ -30,10 +32,15 @@ char	**copy_envp_struct(char **envp)
 	int		i;
 
 	new_envp = malloc(sizeof(char *) * (arr_size(envp) + 1));
+	if (!new_envp)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
+		new_envp[i] = NULL;
 		new_envp[i] = ft_strdup(envp[i]);
+		if (!new_envp[i])
+			return (ft_free_array(&new_envp), NULL);
 		i++;
 	}
 	new_envp[i] = NULL;

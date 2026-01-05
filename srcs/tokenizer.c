@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:11:07 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 09:39:38 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 13:55:16 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**token_array(char *s)
 {
 	char	**array;
 
-	array = malloc((token_count(s) + 1) * sizeof(char **));
+	array = malloc((token_count(s) + 1) * sizeof(char *));
 	if (!array)
 		return (ft_putstr_fd("Msh: Error Malloc\n", 2), NULL);
 	if (tokenizer(s, array))

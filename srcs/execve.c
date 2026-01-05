@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 11:40:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:08:11 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	exec_lst_cmd(t_data *data, t_cmd *cmd, pid_t *pid, int count);
 static int	child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd);
-static void	error_child(t_cmd *cmd, t_data *data);
 static void	help_exec_lst(int *p_fd, int *p_in, int *p_out, t_cmd *cmd);
 
 int	exec_cmd(t_data *data)
@@ -112,17 +111,17 @@ static int	child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 	if (check_builtin(data, cmd) == 1)
 		return (exit(0), 0);
 	execve(cmd->args[0], cmd->args, data->envp);
-	error_child(cmd, data);
+	error_child(cmd->args, data);
 	return (0);
 }
 
-static void	error_child(t_cmd *cmd, t_data *data)
+void	error_child(char **args, t_data *data)
 {
 	(void)data;
 	if (errno == ENOENT)
 	{
 		ft_putstr_fd("Msh: Command not found: ", 2);
-		ft_putendl_fd(cmd->args[0], 2);
+		ft_putendl_fd(args[0], 2);
 		free_all(data);
 		exit(127);
 	}

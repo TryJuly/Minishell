@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 09:42:51 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 14:35:23 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 {
 	t_redir	*new;
 	t_redir	*tmp;
-	char	*t_str;
 
 	new = ft_calloc(1, sizeof(t_redir));
 	if (!new)
@@ -58,11 +57,10 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 		return ;
 	}
 	new->type = get_redir_type(redir);
-	new->file = ft_strdup(file);
+	new->file = remove_quote(file, 0);
+	if (!new->file)
+		return ;
 	new->next = NULL;
-	t_str = remove_quote(new->file, 0);
-	free(new->file);
-	new->file = t_str;
 	if (current->redir == NULL)
 		current->redir = new;
 	else
@@ -81,6 +79,8 @@ void	add_args_node(char *argument, t_cmd *current)
 
 	count = 0;
 	tmp = remove_quote(argument, 0);
+	if (!tmp)
+		return ;
 	if (!current->args[0])
 	{
 		current->args[0] = tmp;

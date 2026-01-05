@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 11:05:45 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:40:27 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int		count_args(char **array, int len);
 void	set_path(t_data *data, t_cmd **cmd);
 t_cmd	*malloc_args(char **array, size_t len);
 int		close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd);
+int		arr_size(char **arr);
 
 /*			ft_clean.c				*/
 

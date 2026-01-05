@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/31 10:32:36 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:41:12 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ void	update_env_pwd(t_data *data, char *old, char *new)
 		i++;
 	}
 	if (!(old_i == -1))
+	{
+		free(data->envp[old_i]);
 		data->envp[old_i] = ft_strjoin("OLDPWD=", old);
+	}
 	if (!(new_i == -1))
+	{
+		free(data->envp[new_i]);
 		data->envp[new_i] = ft_strjoin("PWD=", new);
-	free(old);
-	free(new);
+	}
 }
 
 void	get_env_home(t_data *data, int *i)
@@ -48,7 +52,6 @@ void	get_env_home(t_data *data, int *i)
 	if (!data->envp[*i])
 	{
 		ft_putstr_fd("Msh: No HOME env var.\n", 2);
-		// printf("No HOME env var.\n");
 		return ;
 	}
 }
@@ -66,19 +69,17 @@ void	cd_home(t_data *data, char *old)
 	{
 		ft_putstr_fd("Msh: No such file or directory: ", 2);
 		ft_putendl_fd(temp, 2);
-		// printf("No such file or directory: ");
-		// printf("%s\n", temp);
 		g_exit_status = 1;
 		return ;
 	}
 	if (chdir(temp) == -1)
 		ft_putstr_fd("Msh: No access to directory\n", 2);
-		// printf("oups");
 	new_pwd = malloc(100);
 	if (!new_pwd)
 		return ;
 	new_pwd = getcwd(new_pwd, 100);
 	update_env_pwd(data, old, new_pwd);
+	free(new_pwd);
 }
 
 void	ft_cd_2(t_data *data, char *old_pwd)
@@ -89,8 +90,6 @@ void	ft_cd_2(t_data *data, char *old_pwd)
 	{
 		ft_putstr_fd("Msh: No such file or directory: ", 2);
 		ft_putendl_fd(data->cmd_lst->args[1], 2);
-		// printf("No such file or directory: ");
-		// perror(data->cmd_lst->args[1]);
 		g_exit_status = 1;
 		return ;
 	}
@@ -101,18 +100,18 @@ void	ft_cd_2(t_data *data, char *old_pwd)
 	{
 		ft_putstr_fd("Msh: Error Malloc\n", 2);
 		g_exit_status = 1;
-		// printf("OH YEE-NOOOOOOOOOO\n");
 		return ;
 	}
 	new_pwd = getcwd(new_pwd, 100);
 	update_env_pwd(data, old_pwd, new_pwd);
+	free(new_pwd);
 }
 
 void	ft_cd(t_data *data)
 {
 	char	*old_pwd;
 
-	if (data->cmd_lst->args[2])
+	if (arr_size(data->cmd_lst->args) >= 3)
 	{
 		g_exit_status = 1;
 		ft_putstr_fd("too many arguments\n", 2);
@@ -123,7 +122,6 @@ void	ft_cd(t_data *data)
 	{
 		ft_putstr_fd("Msh: Error Malloc\n", 2);
 		g_exit_status = 1;
-		// printf("OH NOOOOOOOOOOOO\n");
 		return ;
 	}
 	old_pwd = getcwd(old_pwd, 100);
@@ -131,4 +129,5 @@ void	ft_cd(t_data *data)
 		cd_home(data, old_pwd);
 	else
 		ft_cd_2(data, old_pwd);
+	free(old_pwd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:16 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 13:03:28 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/05 14:53:15 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,8 +310,8 @@ void	new_expand_var(t_data *data)
 
 static int	help_new_expand(char **tab, t_data *data)
 {
-	char *tmp;
-	
+	char	*tmp;
+
 	if (*tab[0] == '"')
 	{
 		tmp = ft_strtrim(*tab, "\"");

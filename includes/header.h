@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 12:40:27 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:59:15 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,10 @@ void	free_all(t_data *data);
 void	ft_clear_lst(t_cmd **lst);
 void	free_classic(char **envp);
 int		ft_free_array(char ***array);
+
+/*			heredoc.c				*/
+
+char	**other_ft_split_dollars(char *str, int dollars);
 
 /*			???						*/
 int		check_builtin(t_data *data, t_cmd *cmd);

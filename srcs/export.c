@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 11:06:07 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 09:49:37 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:23:06 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	change_env_var(t_data *data)
 	{
 		if (ft_strncmp(data->cmd_lst->args[1], data->envp[i], eq_i) == 0)
 		{
+			free(data->envp[i]);
 			data->envp[i] = ft_strdup(data->cmd_lst->args[1]);
 			changed = 1;
 		}

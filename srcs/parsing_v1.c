@@ -6,13 +6,13 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:58:59 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/29 13:24:48 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:55:39 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	find_path_1(char **cmd, char **path)
+int	find_path(char **cmd, char **path)
 {
 	size_t	count;
 	char	*command;

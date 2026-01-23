@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:38:46 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 12:25:17 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:09:07 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_all(t_data *data)
 	}
 	if (data->heredoc == 1 && !access("/tmp/heredoc", F_OK))
 		unlink("/tmp/heredoc");
-	rl_clear_history();
+	// rl_clear_history();
 	return ;
 }
 
@@ -93,4 +93,9 @@ void	free_classic(char **envp)
 		i++;
 	}
 	free(envp);
+}
+
+void	error_malloc(void)
+{
+	ft_putstr_fd("Msh: fatal error: memory allocation failed\n", 2);
 }

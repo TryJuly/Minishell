@@ -1,44 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var_v2cpy.c                                    :+:      :+:    :+:   */
+/*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/05 14:12:29 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 16:18:10 by strieste         ###   ########.fr       */
+/*   Created: 2026/01/22 17:45:55 by strieste          #+#    #+#             */
+/*   Updated: 2026/01/22 17:47:18 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*add_quote(char *str)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	i = 0;
-	j = 1;
-	res = malloc((ft_strlen(str) + 3) * sizeof(char));
-	if (!res)
-		return (NULL);
-	res[0] = '"';
-	while (str[i])
-		res[j++] = str[i++];
-	res[j++] = '"';
-	res[j++] = '\0';
-	return (res);
-}
-
-int	no_dollars(char	*str)
+int	search_occur(char *str, char c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == c)
 			return (1);
 		i++;
 	}

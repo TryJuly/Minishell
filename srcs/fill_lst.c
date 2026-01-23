@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:58:23 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 09:42:51 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:49:38 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void		add_redir_node(char *redir, char *file, t_cmd *current);
 static void		add_args_node(char *argument, t_cmd *current);
-static char		*remove_quote(char *str, int quote);
 
 t_cmd	*fill_lst(char **array)
 {
@@ -28,7 +27,9 @@ t_cmd	*fill_lst(char **array)
 	while (array[len])
 	{
 		current = malloc_args(array, len);
-		while (array[len] && array[len][0] != '|')
+		if (!current)
+			return (ft_clear_lst(&lst), NULL);
+		while (array[len] && ft_strncmp(array[len], "|", 2) != 0)
 		{
 			if (is_redir(array[len]))
 			{
@@ -39,7 +40,7 @@ t_cmd	*fill_lst(char **array)
 				add_args_node(array[len++], current);
 		}
 		add_back_lst(&lst, current);
-		if ((array[len]) && array[len][0] == '|' && array[len + 1])
+		if ((array[len]) && ft_strncmp(array[len], "|", 2) == 0)
 			len++;
 	}
 	return (lst);
@@ -54,13 +55,13 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 	new = ft_calloc(1, sizeof(t_redir));
 	if (!new)
 	{
-		ft_putstr_fd("Msh: Error Malloc add_redir_node\n", 2);
+		error_malloc();
 		return ;
 	}
 	new->type = get_redir_type(redir);
 	new->file = ft_strdup(file);
 	new->next = NULL;
-	t_str = remove_quote(new->file, 0);
+	t_str = remove_quote(new->file);
 	free(new->file);
 	new->file = t_str;
 	if (current->redir == NULL)
@@ -74,53 +75,51 @@ static void	add_redir_node(char *redir, char *file, t_cmd *current)
 	}
 }
 
-void	add_args_node(char *argument, t_cmd *current)
+static void	add_args_node(char *argument, t_cmd *current)
 {
 	size_t	count;
-	char	*tmp;
 
 	count = 0;
-	tmp = remove_quote(argument, 0);
 	if (!current->args[0])
 	{
-		current->args[0] = tmp;
+		current->args[0] = ft_strdup(argument);
 		current->args[1] = NULL;
 	}
 	else
 	{
 		while (current->args[count])
 			count++;
-		current->args[count++] = tmp;
-		current->args[count] = 0;
+		current->args[count++] = ft_strdup(argument);
+		current->args[count] = NULL;
 	}
 	return ;
 }
 
-static char	*remove_quote(char *str, int quote)
-{
-	size_t	count;
-	char	*result;
-	int		len;
+// static char	*remove_quote(char *str, int quote)
+// {
+// 	size_t	count;
+// 	char	*result;
+// 	int		len;
 
-	count = 0;
-	quote = 0;
-	len = 0;
-	result = malloc((ft_strlen(str) + 1) * sizeof(char));
-	if (!result)
-		return (NULL);
-	while (str[count])
-	{
-		if (str[count] == '\'' || str[count] == '"')
-		{
-			quote = str[count++];
-			while (str[count] && str[count] != quote)
-				result[len++] = str[count++];
-			if (str[count] && str[count] == quote)
-				count++;
-		}
-		else
-			result[len++] = str[count++];
-	}
-	result[len] = '\0';
-	return (result);
-}
+// 	count = 0;
+// 	quote = 0;
+// 	len = 0;
+// 	result = malloc((ft_strlen(str) + 1) * sizeof(char));
+// 	if (!result)
+// 		return (NULL);
+// 	while (str[count])
+// 	{
+// 		if (str[count] == '\'' || str[count] == '"')
+// 		{
+// 			quote = str[count++];
+// 			while (str[count] && str[count] != quote)
+// 				result[len++] = str[count++];
+// 			if (str[count] && str[count] == quote)
+// 				count++;
+// 		}
+// 		else
+// 			result[len++] = str[count++];
+// 	}
+// 	result[len] = '\0';
+// 	return (result);
+// }

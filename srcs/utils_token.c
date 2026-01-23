@@ -6,37 +6,11 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 11:29:26 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 09:41:35 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:11:19 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int	operator(char c, char next, char **str)
-{
-	if (c == '>' && next == '>')
-	{
-		*str = ft_strdup(">>");
-		if (!*str)
-			return (-1);
-		return (2);
-	}
-	if (c == '<' && next == '<')
-	{
-		*str = ft_strdup("<<");
-		if (!*str)
-			return (-1);
-		return (2);
-	}
-	if (c == '<' || c == '>' || c == '|')
-	{
-		*str = dup_char(c);
-		if (!*str)
-			return (-1);
-		return (1);
-	}
-	return (0);
-}
 
 int	ending_quote(char *s, char quote)
 {
@@ -50,4 +24,16 @@ int	ending_quote(char *s, char quote)
 	if (s[len] && s[len] == quote)
 		len++;
 	return (len);
+}
+
+char	*dup_char(char c)
+{
+	char	*str;
+
+	str = malloc(2 * sizeof(char));
+	if (!str)
+		return (NULL);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
 }

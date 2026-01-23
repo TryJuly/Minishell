@@ -3,91 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:52:49 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 15:08:17 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:34:01 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*read_pipe(int *pipefd)
+// static char	*read_pipe(int *pipefd);
+static char	*question_mark(char *str);
+// static char	*exec_command(char **args, t_data *data);
+
+char	*expand_var_value(char *new_str, t_data *data)
 {
-	char	*buf;
-	int		numread;
-	char	*res;
+	int		i;
 	char	*temp;
+	char	*value;
 
-	numread = -1;
-	res = ft_strdup("");
-	buf = malloc(101);
-	if (!buf)
-		return (ft_putstr_fd("Msh: Error Malloc\n", 2), NULL);
-	while (numread != 0)
+	i = 0;
+	temp = new_str;
+	temp += 1;
+	if (new_str[1] == ' ' || !new_str[1])
+		return (ft_strdup(new_str));
+	if (new_str[1] == '?')
+		return (question_mark(temp));
+	while (data->envp[i])
 	{
-		numread = read(pipefd[0], buf, 100);
-		if (numread == -1)
-			perror("Msh: ");
-		else if (numread == 0)
-			break ;
-		buf[numread] = 0;
-		temp = ft_strdup(res);
-		free(res);
-		res = ft_strjoin(temp, buf);
-		free(temp);
-	}
-	free(buf);
-	return (res);
-}
-
-char	*exec_command(char **args, t_data *data)
-{
-	pid_t	child;
-	int		pipefd[2];
-	char	*res;
-
-	pipe(pipefd);
-	child = fork();
-	if (child == 0)
-	{
-		dup2(pipefd[1], 1);
-		close(pipefd[0]);
-		if (execve(args[0], args, data->envp) == -1)
+		if (ft_strncmp(temp, data->envp[i], ft_strlen(temp) - 1) == 0)
 		{
-			perror("Msh: ");
+			value = ft_strchr(data->envp[i], '=');
+			value += 1;
+			temp = ft_strdup(value);
+			return (temp);
 		}
+		i++;
 	}
-	close(pipefd[1]);
-	wait(&child);
-	res = read_pipe(pipefd);
-	if (!res)
-		perror("Msh: ");
-	return (res);
+	value = ft_strdup("");
+	return (value);
 }
 
-char	*expand_command_value(char *new_str, t_data *data)
-{
-	char	**args;
-	char	*res;
-	char	*temp;
-	char	*str;
+// static char	*read_pipe(int *pipefd)
+// {
+// 	char	*buf;
+// 	int		numread;
+// 	char	*res;
+// 	char	*temp;
 
-	if (!data)
-		return (NULL);
-	temp = ft_strtrim(new_str, "$()");
-	str = expand_line(temp, data);
-	args = ft_split(str, ' ');
-	get_cmdpath(&data, data->envp);
-	find_path_1(&args[0], data->path);
-	res = exec_command(args, data);
-	ft_free_array(&args);
-	free(temp);
-	free(str);
-	return (res);
-}
+// 	numread = -1;
+// 	res = ft_strdup("");
+// 	buf = malloc(101);
+// 	if (!buf)
+// 		return (ft_putstr_fd("Msh: Error Malloc\n", 2), NULL);
+// 	while (numread != 0)
+// 	{
+// 		numread = read(pipefd[0], buf, 100);
+// 		if (numread == -1)
+// 			perror("Msh: ");
+// 		else if (numread == 0)
+// 			break ;
+// 		buf[numread] = 0;
+// 		temp = ft_strdup(res);
+// 		free(res);
+// 		res = ft_strjoin(temp, buf);
+// 		free(temp);
+// 	}
+// 	free(buf);
+// 	return (res);
+// }
 
-char	*question_mark(char *str)
+// static char	*exec_command(char **args, t_data *data)
+// {
+// 	pid_t	child;
+// 	int		pipefd[2];
+// 	char	*res;
+
+// 	pipe(pipefd);
+// 	child = fork();
+// 	if (child == 0)
+// 	{
+// 		dup2(pipefd[1], 1);
+// 		close(pipefd[0]);
+// 		if (execve(args[0], args, data->envp) == -1)
+// 		{
+// 			perror("Msh: ");
+// 		}
+// 	}
+// 	close(pipefd[1]);
+// 	wait(&child);
+// 	res = read_pipe(pipefd);
+// 	if (!res)
+// 		perror("Msh: ");
+// 	return (res);
+// }
+
+static char	*question_mark(char *str)
 {
 	char	*temp;
 	char	*stat_str;
@@ -121,30 +132,23 @@ char	*question_mark(char *str)
 	return (temp);
 }
 
-char	*expand_var_value(char *new_str, t_data *data)
-{
-	int		i;
-	char	*temp;
-	char	*value;
+// char	*expand_command_value(char *new_str, t_data *data)
+// {
+// 	char	**args;
+// 	char	*res;
+// 	char	*temp;
+// 	char	*str;
 
-	i = 0;
-	temp = new_str;
-	temp += 1;
-	if (new_str[1] == ' ' || !new_str[1])
-		return (ft_strdup(new_str));
-	if (new_str[1] == '?')
-		return (question_mark(temp));
-	while (data->envp[i])
-	{
-		if (ft_strncmp(temp, data->envp[i], ft_strlen(temp) - 1) == 0)
-		{
-			value = ft_strchr(data->envp[i], '=');
-			value += 1;
-			temp = ft_strdup(value);
-			return (temp);
-		}
-		i++;
-	}
-	value = ft_strdup("");
-	return (value);
-}
+// 	if (!data)
+// 		return (NULL);
+// 	temp = ft_strtrim(new_str, "$()");
+// 	str = expand_line(temp, data);
+// 	args = ft_split(str, ' ');
+// 	get_cmdpath(&data, data->envp);
+// 	find_path_1(&args[0], data->path);
+// 	res = exec_command(args, data);
+// 	ft_free_array(&args);
+// 	free(temp);
+// 	free(str);
+// 	return (res);
+// }

@@ -3,16 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 10:22:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 09:51:56 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:56:33 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*get_pwd(char **envp)
+static char	*get_pwd(char **envp);
+
+void	ft_pwd(t_data *data)
+{
+	char	*buf;
+
+	if (data->cmd_lst->args[1] == NULL)
+	{
+		buf = get_pwd(data->envp);
+		if (!buf)
+		{
+			g_exit_status = 1;
+			printf("pwd : no PWD env found\n");
+			return ;
+		}
+		printf("%s\n", buf);
+		g_exit_status = 0;
+	}
+	else
+	{
+		printf("%s\n", get_pwd(data->envp));
+		g_exit_status = 0;
+	}
+}
+
+static char	*get_pwd(char **envp)
 {
 	char	*temp;
 	int		i;
@@ -32,26 +57,4 @@ char	*get_pwd(char **envp)
 		return (temp);
 	temp = ft_strchr(temp, '/');
 	return (temp);
-}
-
-void	ft_pwd(t_data *data)
-{
-	char	*buf;
-
-	if (data->cmd_lst->args[1] == NULL)
-	{
-		buf = get_pwd(data->envp);
-		if (!buf)
-		{
-			g_exit_status = 1;
-			printf("pwd : no PWD env found\n");
-			return ;
-		}
-		printf("%s\n", buf);
-	}
-	else
-	{
-		g_exit_status = 0;
-		printf("%s\n", get_pwd(data->envp));
-	}
 }

@@ -100,3 +100,5 @@ ls -R / | head -n 10
  cd ... cd ..
 
  cd /bin/ls
+
+ cd -

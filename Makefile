@@ -16,7 +16,7 @@ SRCS = main.c init_struct.c ft_clean.c parsing_v1.c token_count.c \
 	tokenizer.c input_check.c cd.c echo.c env.c exit.c export.c pwd.c \
 	unset.c env_var.c env_var_2.c fill_lst.c heredoc.c execve.c redir.c lst_tools.c \
 	tool.c tool_v1.c builtin.c input_check_v1.c utils_token.c utils_fill_lst.c \
-	heredoc_v1.c
+	heredoc_v1.c export_v1.c expand_var.c heredoc_F.c utils_exec.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}

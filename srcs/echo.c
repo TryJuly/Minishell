@@ -6,49 +6,93 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:41:25 by cbezenco          #+#    #+#             */
-/*   Updated: 2025/12/26 12:20:26 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:45:52 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	ft_echo_n(t_data *data)
-{
-	int	i;
-
-	i = 1;
-	if (!data->cmd_lst->args[i + 1])
-		return ;
-	while (data->cmd_lst->args[i + 1])
-	{
-		printf("%s", data->cmd_lst->args[i + 1]);
-		if (data->cmd_lst->args[i + 2])
-			printf(" ");
-		i++;
-	}
-}
+static int	is_n_option(char *str);
 
 void	ft_echo(t_data *data)
 {
 	int	i;
+	int	n_option;
 
-	i = 0;
-	if (!data->cmd_lst->args[1])
+	i = 1;
+	n_option = 0;
+	while (data->cmd_lst->args[i] && is_n_option(data->cmd_lst->args[i]))
 	{
-		printf("\n");
-		return ;
-	}
-	if (ft_strncmp(data->cmd_lst->args[1], "-n", 2) == 0)
-	{
-		ft_echo_n(data);
-		return ;
-	}
-	while (data->cmd_lst->args[i + 1])
-	{
-		printf("%s", data->cmd_lst->args[i + 1]);
-		if (data->cmd_lst->args[i + 2])
-			printf(" ");
+		n_option = 1;
 		i++;
 	}
-	printf("\n");
+	while (data->cmd_lst->args[i])
+	{
+		ft_putstr_fd(data->cmd_lst->args[i], 1);
+		if (data->cmd_lst->args[i + 1])
+			write(1, " ", 1);
+		i++;
+	}
+	if (!n_option)
+		write(1, "\n", 1);
+	g_exit_status = 0;
 }
+
+static int	is_n_option(char *str)
+{
+	int	i;
+
+	if (str[0] != '-' || str[1] != 'n')
+		return (0);
+	i = 2;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+// void	ft_echo_n(t_data *data)
+// {
+// 	int	i;
+
+// 	i = 1;
+// 	if (!data->cmd_lst->args[i + 1])
+// 		return ;
+// 	while (data->cmd_lst->args[i + 1])
+// 	{
+// 		printf("%s", data->cmd_lst->args[i + 1]);
+// 		if (data->cmd_lst->args[i + 2])
+// 			printf(" ");
+// 		i++;
+// 	}
+// 	g_exit_status = 0;
+// }
+
+// void	ft_echo(t_data *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!data->cmd_lst->args[1])
+// 	{
+// 		printf("\n");
+// 		return ;
+// 	}
+// 	if (ft_strncmp(data->cmd_lst->args[1], "-n", 2) == 0)
+// 	{
+// 		ft_echo_n(data);
+// 		return ;
+// 	}
+// 	while (data->cmd_lst->args[i + 1])
+// 	{
+// 		printf("%s", data->cmd_lst->args[i + 1]);
+// 		if (data->cmd_lst->args[i + 2])
+// 			printf(" ");
+// 		i++;
+// 	}
+// 	printf("\n");
+// 	g_exit_status = 0;
+// }

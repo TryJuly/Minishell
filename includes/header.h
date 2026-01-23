@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:15:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/05 15:59:15 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:11:08 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ void	read_prompt(t_data *data);
 
 /*			Check_input				*/
 
-int		is_out_check(char *str);
-int		input_brute(char *str, t_data *data);
-int		find_heredoc(char *str, t_data *data);
+// int		is_out_check(char *str);
+int		quote_check_input(char *str);	//
+int		syntax_check(char **token);	//
+// int		input_brute(char *str, t_data *data);
+// int		find_heredoc(char *str, t_data *data);
 
 /*			Init_struct.c			*/
 
@@ -87,24 +89,24 @@ char	*dup_char(char c);
 size_t	token_count(char *s);
 char	**token_array(char *s);
 int		op_check(char c, char next);
-int		tokenizer(char *s, char **array);
+// int		tokenizer(char *s, char **array);
 int		ending_quote(char *s, char quote);
-int		operator(char c, char next, char **str);
+// int		operator(char c, char next, char **str);
 
 /*			Fill lst + tools			*/
 
 int		is_redir(char *str);
 int		lst_size(t_cmd *cmd);
-int		lst_size(t_cmd *cmd);
-t_cmd	*lst_last(t_cmd *cmd);
+// int		lst_size(t_cmd *cmd);
+// t_cmd	*lst_last(t_cmd *cmd);
 t_cmd	*fill_lst(char **array);
 int		get_redir_type(char *redir);
-int		find_path_1(char **cmd, char **path);
+int		find_path(char **cmd, char **path);
 void	add_back_lst(t_cmd **cmd, t_cmd *new);
 
 /*			export.c (pot. utils.c)	*/
 
-int		arr_size(char **arr);
+// int		arr_size(char **arr);
 
 /*			Built-ins functions		*/
 
@@ -113,21 +115,26 @@ void	ft_env(t_data *data);
 void	ft_pwd(t_data *data);
 void	ft_echo(t_data *data);
 void	ft_exit(t_data *data);
-void	ft_unset(t_data *data);
-void	ft_echo_n(t_data *data);
+// void	ft_unset(t_data *data);
+int		ft_unset(t_data *data);
+// void	ft_echo_n(t_data *data);
 void	ft_export(t_data *data);
 
 /*			Expand environment variables	*/
 
-char	*ft_unsplit(char **tab);
-int		count_dollars(char *str);
-int		no_dollars(char	*str);
-void	new_expand_var(t_data *data);
-void	heredoc(char *input, t_data *data);
-char	*expand_line(char *line, t_data *data);
-char	**ft_split_dollars(char *input, int dollars);
+// char	*ft_unsplit(char **tab);
+// int		count_dollars(char *str);
+// int		no_dollars(char	*str);
+int		change_env_var(t_data *data, int index);
+// void	new_expand_var(t_data *data);
+// void	heredoc(char *input, t_data *data);
+// char	*expand_line(char *line, t_data *data);
+// char	**ft_split_dollars(char *input, int dollars);
 char	*expand_var_value(char *new_str, t_data *data);
 char	*expand_command_value(char *new_str, t_data *data);
+
+char 	*expand_token(char *str, t_data *data);
+int		replace_var_value(t_data *data);
 
 /*			Execve.c				*/
 
@@ -140,8 +147,8 @@ int		redir_file(int *in, int *out, t_redir *redir);
 /*			Tool.c					*/
 
 void	init_pipe(int *pipe);
-int		skip_space(char *str);
-int		count_args(char **array, int len);
+// int		skip_space(char *str);
+// int		count_args(char **array, int len);
 void	set_path(t_data *data, t_cmd **cmd);
 t_cmd	*malloc_args(char **array, size_t len);
 int		close_dup_fd(int *in, int *out, int pipe_fd[2], int *prev_fd);
@@ -156,11 +163,17 @@ int		ft_free_array(char ***array);
 
 /*			heredoc.c				*/
 
-char	**other_ft_split_dollars(char *str, int dollars);
+int		heredoc_check(char **array, t_data *data);
+// char	**other_ft_split_dollars(char *str, int dollars);
 
 /*			???						*/
+
+char	*get_env_value(char *var_name, t_data *data);
 int		check_builtin(t_data *data, t_cmd *cmd);
 int		get_cmdpath(t_data **data, char **envp);
 void	print_lst(t_cmd *lst);
+int		search_occur(char *str, char c);
+char	*remove_quote(char *str);
+void	error_malloc(void);
 
 #endif

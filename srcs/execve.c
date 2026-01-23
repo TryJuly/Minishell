@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2025/12/31 11:40:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:50:50 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 		out = pipe_fd[1];
 	if (cmd->redir)
 		redir_file(&(in), &(out), cmd->redir);
-	if (cmd->args[0][0] != '/')
+	if (!search_occur(cmd->args[0], '/'))
 		set_path(data, &(cmd));
 	close_dup_fd(&in, &out, pipe_fd, &prev_fd);
 	if (check_builtin(data, cmd) == 1)
@@ -116,27 +116,19 @@ static int	child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 	return (0);
 }
 
-static void	error_child(t_cmd *cmd, t_data *data)
+static void error_child(t_cmd *cmd, t_data *data)
 {
-	(void)data;
-	if (errno == ENOENT)
-	{
-		ft_putstr_fd("Msh: Command not found: ", 2);
-		ft_putendl_fd(cmd->args[0], 2);
-		free_all(data);
-		exit(127);
-	}
-	else if (errno == EACCES)
-	{
-		ft_putstr_fd("Msh: Is a directory\n", 2);
-		free_all(data);
-		exit(126);
-	}
-	else
-	{
-		perror("Msh:");
-		free_all(data);
-		exit(1);
-	}
-	return ;
+    if (ft_strchr(cmd->args[0], '/'))
+    {
+        ft_putstr_fd("Msh: ", 2);
+        perror(cmd->args[0]);
+        free_all(data);
+        if (errno == EACCES)
+            exit(126);
+        exit(127);
+    }
+    ft_putstr_fd("Msh: Command not found: ", 2);
+    ft_putendl_fd(cmd->args[0], 2);
+    free_all(data);
+    exit(127);
 }

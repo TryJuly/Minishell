@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:41:25 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 11:45:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:22:28 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	is_n_option(char *str)
 
 	if (str[0] != '-' || str[1] != 'n')
 		return (0);
-	i = 2;
+	i = 1;
 	while (str[i])
 	{
 		if (str[i] != 'n')
@@ -53,46 +53,3 @@ static int	is_n_option(char *str)
 	}
 	return (1);
 }
-
-// void	ft_echo_n(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	if (!data->cmd_lst->args[i + 1])
-// 		return ;
-// 	while (data->cmd_lst->args[i + 1])
-// 	{
-// 		printf("%s", data->cmd_lst->args[i + 1]);
-// 		if (data->cmd_lst->args[i + 2])
-// 			printf(" ");
-// 		i++;
-// 	}
-// 	g_exit_status = 0;
-// }
-
-// void	ft_echo(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!data->cmd_lst->args[1])
-// 	{
-// 		printf("\n");
-// 		return ;
-// 	}
-// 	if (ft_strncmp(data->cmd_lst->args[1], "-n", 2) == 0)
-// 	{
-// 		ft_echo_n(data);
-// 		return ;
-// 	}
-// 	while (data->cmd_lst->args[i + 1])
-// 	{
-// 		printf("%s", data->cmd_lst->args[i + 1]);
-// 		if (data->cmd_lst->args[i + 2])
-// 			printf(" ");
-// 		i++;
-// 	}
-// 	printf("\n");
-// 	g_exit_status = 0;
-// }

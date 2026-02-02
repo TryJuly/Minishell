@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 09:51:33 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 12:40:09 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:24:00 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,17 +118,3 @@ void	ft_cd(t_data *data)
 		ft_cd_2(data, old_pwd);
 	free(old_pwd);
 }
-
-// char	*get_env_value(char *search, t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (data->envp[i])
-// 	{
-// 		if (ft_strncmp(data->envp[i], search, ft_strlen(search)) == 0)
-// 			return (ft_strdup(data->envp[i]));
-// 		i++;
-// 	}
-// 	return (NULL);
-// }

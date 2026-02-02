@@ -6,29 +6,32 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:00:22 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/23 12:47:12 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:19:23 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 static int	equal_index(char *str);
-//		USE
+
 int	change_env_var(t_data *data, int index)
 {
 	int		i;
 	int		eq_i;
 	int		changed;
+	t_cmd	*current;
 
 	i = 0;
 	changed = 0;
-	eq_i = equal_index(data->cmd_lst->args[index]);
+	current = data->cmd_lst;
+	eq_i = equal_index(current->args[index]);
 	while (data->envp[i])
 	{
-		if (!ft_strncmp(data->cmd_lst->args[index], data->envp[i], eq_i) && data->envp[i][eq_i] == '=')
+		if (!ft_strncmp(current->args[index], data->envp[i], eq_i)
+			&& data->envp[i][eq_i] == '=')
 		{
 			free(data->envp[i]);
-			data->envp[i] = ft_strdup(data->cmd_lst->args[index]);
+			data->envp[i] = ft_strdup(current->args[index]);
 			changed = 1;
 		}
 		i++;

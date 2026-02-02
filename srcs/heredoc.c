@@ -5,97 +5,108 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 11:02:01 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 12:25:04 by strieste         ###   ########.fr       */
+/*   Created: 2026/01/20 19:54:55 by strieste          #+#    #+#             */
+/*   Updated: 2026/01/23 17:23:30 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-// char	*expand_line(char *line, t_data *data);
+static int	handle_heredoc(char *delimiter, t_data *data);
+static int	should_expand_heredoc(char *delimiter);
+static int	run_heredoc(char *delimiter, t_data *data);
+static void	loop_heredoc(int fd, int expand, char *delimiter, t_data *data);
 
-// char	*delimiter_in_input(char *str)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*del;
+int	heredoc_check(char **array, t_data *data)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (str[i] && str[i] == ' ')
-// 		i++;
-// 	j = i;
-// 	while (str[j] && ft_isascii(str[j]) && str[j] != ' ' && str[j] != '<')
-// 		j++;
-// 	del = ft_substr(str, i, j);
-// 	str += j + i;
-// 	return (del);
-// }
+	i = 0;
+	while (array[i])
+	{
+		if (i > 0 && !ft_strncmp(array[i - 1], "<<", 3))
+		{
+			if (handle_heredoc(array[i], data) == -1)
+				return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
 
-// void	heredoc(char *input, t_data *data)
-// {
-// 	char	*delimiter;
-// 	char	*line;
-// 	char	*res;
-// 	int		fd;
+static int	handle_heredoc(char *delimiter, t_data *data)
+{
+	pid_t	pid;
+	int		status;
 
-// 	fd = open("/tmp/heredoc", O_RDWR | O_TRUNC | O_CREAT, 0777);
-// 	if (fd == -1)
-// 		printf("oups");
-// 	delimiter = delimiter_in_input(input);
-// 	while (1)
-// 	{
-// 		line = readline("heredoc> ");
-// 		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
-// 		{
-// 			free(line);
-// 			close(fd);
-// 			break ;
-// 		}
-// 		res = expand_line(line, data);
-// 		write(fd, res, ft_strlen(res));
-// 		write(fd, "\n", 1);
-// 		free(line);
-// 		free(res);
-// 	}
-// 	free(delimiter);
-// }
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid < 0)
+		return (ft_putstr_fd("Msh: Fork PID\n", 2), -1);
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		run_heredoc(delimiter, data);
+		exit(0);
+	}
+	waitpid(pid, &status, 0);
+	signal(SIGINT, sighandler);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		g_exit_status = 130;
+		return (-1);
+	}
+	return (0);
+}
 
-// void	help_expand_line(char **str, t_data *data)
-// {
-// 	char	*temp;
+static int	run_heredoc(char *delimiter, t_data *data)
+{
+	int		fd;
+	int		expand;
+	char	*clean_delimiter;
 
-// 	if ((*str)[0] == '$' && (*str)[1] == '(')
-// 	{
-// 		temp = (*str, data);
-// 		free(*str);
-// 		*str = temp;
-// 	}
-// 	else if ((*str)[0] == '$')
-// 	{
-// 		temp = expand_var_value(*str, data);
-// 		free(*str);
-// 		*str = temp;
-// 	}
-// }
+	expand = should_expand_heredoc(delimiter);
+	clean_delimiter = remove_quote(delimiter);
+	fd = open("/tmp/heredoc", O_RDWR | O_TRUNC | O_CREAT, 0777);
+	if (fd == -1)
+		return (ft_putstr_fd("Msh: Error open fd\n", 2), -1);
+	loop_heredoc(fd, expand, clean_delimiter, data);
+	close(fd);
+	free(clean_delimiter);
+	return (0);
+}
 
-// char	*expand_line(char *line, t_data *data)
-// {
-// 	char	**exp_vars;
-// 	int		dollars;
-// 	int		i;
-// 	char	*res;
+static void	loop_heredoc(int fd, int expand, char *delimiter, t_data *data)
+{
+	char	*line;
 
-// 	i = 0;
-// 	dollars = count_dollars(line);
-// 	if (!no_dollars(line))
-// 		return (ft_strdup(line));
-// 	exp_vars = other_ft_split_dollars(line, dollars);
-// 	while (exp_vars[i])
-// 	{
-// 		help_expand_line(&exp_vars[i], data);
-// 		i++;
-// 	}
-// 	res = ft_unsplit(exp_vars);
-// 	ft_free_array(&exp_vars);
-// 	return (res);
-// }
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		if (expand)
+			line = expand_token(line, data);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	return ;
+}
+
+static int	should_expand_heredoc(char *delimiter)
+{
+	int	i;
+
+	i = 0;
+	while (delimiter[i])
+	{
+		if (delimiter[i] == '\'' || delimiter[i] == '\"')
+			return (0);
+		i++;
+	}
+	return (1);
+}

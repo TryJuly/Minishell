@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 08:27:08 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/23 12:51:55 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:34:19 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,3 @@ static int	find_pos_path(char **envp)
 	}
 	return (-1);
 }
-
-// int	clean_space(char ***array)
-// {
-// 	size_t	len;
-// 	char	*str;
-
-// 	if (!array || !(*array))
-// 		return (ft_putstr_fd("Msh: Error clean_cmd_brut\n", 2), 1);
-// 	len = 0;
-// 	while ((*array)[len])
-// 	{
-// 		str = ft_strtrim((*array)[len], " ");
-// 		if (!str)
-// 			return (ft_putstr_fd("Msh: Error clean_cmd_but%s\n", 2), 1);
-// 		free((*array)[len]);
-// 		(*array)[len] = str;
-// 		len++;
-// 	}
-// 	return (0);
-// }

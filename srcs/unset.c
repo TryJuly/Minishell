@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:21:05 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 13:07:34 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:17:12 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,31 @@
 static int	is_valid_identifier(char *argument);
 static int	remove_from_env(t_data *data, char *unset);
 
-int ft_unset(t_data *data)
+int	ft_unset(t_data *data)
 {
-    int i;
-    int status;
+	int	i;
+	int	status;
 
-    i = 1;
-    status = 0;
-    if (!data->cmd_lst->args[i])
-        return (0);
-    while (data->cmd_lst->args[i])
-    {
-        if (!is_valid_identifier(data->cmd_lst->args[i]))
-        {
-            remove_from_env(data, data->cmd_lst->args[i]);
-        }
-        else
-        {
-            ft_putstr_fd("Msh: unset: `", 2);
-            ft_putstr_fd(data->cmd_lst->args[i], 2);
-            ft_putendl_fd("': not a valid identifier", 2);
-            status = 1;
-        }
-        i++;
-    }
-    return (g_exit_status = status, status);
+	i = 1;
+	status = 0;
+	if (!data->cmd_lst->args[i])
+		return (0);
+	while (data->cmd_lst->args[i])
+	{
+		if (!is_valid_identifier(data->cmd_lst->args[i]))
+		{
+			remove_from_env(data, data->cmd_lst->args[i]);
+		}
+		else
+		{
+			ft_putstr_fd("Msh: unset: `", 2);
+			ft_putstr_fd(data->cmd_lst->args[i], 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			status = 1;
+		}
+		i++;
+	}
+	return (g_exit_status = status, status);
 }
 
 static int	is_valid_identifier(char *argument)
@@ -88,62 +88,3 @@ static int	remove_from_env(t_data *data, char *unset)
 	data->envp = new_envp;
 	return (0);
 }
-
-// void	ft_unset_arg(t_data *data)
-// {
-// 	int		i;
-// 	int		offset;
-// 	int		envp_size;
-// 	char	**new_envp;
-
-// 	i = 0;
-// 	offset = 0;
-// 	envp_size = arr_size(data->envp);
-// 	new_envp = malloc((sizeof(char *) * (envp_size)));
-// 	if (!new_envp)
-// 		printf("pas bon\n");
-// 	while (data->envp[i + offset])
-// 	{
-// 		if (ft_strncmp(data->envp[i + offset],
-// 				data->cmd_lst->args[1], ft_strlen(data->cmd_lst->args[1])) == 0)
-// 		{
-// 			offset += 1;
-// 			continue ;
-// 		}
-// 		new_envp[i] = ft_strdup(data->envp[i + offset]);
-// 		i++;
-// 	}
-// 	new_envp[i] = NULL;
-// 	free_classic(data->envp);
-// 	data->envp = new_envp;
-// }
-
-// int	arg_exist(char *arg, char **envp)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		if (ft_strncmp(envp[i], arg, ft_strlen(arg)) == 0)
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// void	ft_unset(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	if (data->cmd_lst->args[i] == NULL)
-// 		return ;
-// 	while (data->cmd_lst->args[i])
-// 	{
-// 		if (data->cmd_lst->args[i])
-// 		if (arg_exist(data->cmd_lst->args[i], data->envp))
-// 			ft_unset_arg(data);
-// 		i++;
-// 	}
-// }

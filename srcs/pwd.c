@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 10:22:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 12:56:33 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:44:19 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_pwd(t_data *data)
 		if (!buf)
 		{
 			g_exit_status = 1;
-			printf("pwd : no PWD env found\n");
+			ft_putstr_fd("Msh: pwd : no PWD env found\n", 2);
 			return ;
 		}
 		printf("%s\n", buf);

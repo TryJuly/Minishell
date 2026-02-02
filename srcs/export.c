@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 11:06:07 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 13:12:15 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:05:20 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_export(t_data *data)
 		if (!valid_identifier(data->cmd_lst->args[i]))
 		{
 			g_exit_status = 1;
-			ft_putstr_fd("not valid identifier\n", 2);
+			ft_putstr_fd("Msh: not valid identifier\n", 2);
 			i++;
 			continue ;
 		}
@@ -71,7 +71,7 @@ static void	set_new_env_var(t_data *data, int index)
 	new_envp = malloc(sizeof(char *) * (envp_size + 2));
 	if (!new_envp)
 	{
-		ft_putstr_fd("Msh: fatal error: memory allocation failed\n", 2);
+		error_malloc();
 		g_exit_status = 1;
 		return ;
 	}
@@ -89,16 +89,19 @@ static void	set_new_env_var(t_data *data, int index)
 static void	var_setup(t_data *data, int index)
 {
 	int		count;
+	t_cmd	*current;
 
 	count = 0;
-	while (data->cmd_lst->args[index][count])
+	current = data->cmd_lst;
+	while (current->args[index][count])
 	{
-		if (data->cmd_lst->args[index][count] == '=' && data->cmd_lst->args[index][count + 1])
+		if (current->args[index][count] == '='
+				&& current->args[index][count + 1])
 			return ;
 		count++;
 	}
-	if (data->cmd_lst->args[index][count - 1] == '=')
+	if (current->args[index][count - 1] == '=')
 		return ;
-	else if (data->cmd_lst->args[index][count] == '\0')
-		data->cmd_lst->args[index] = ft_strjoin(data->cmd_lst->args[index], "=");
+	else if (current->args[index][count] == '\0')
+		current->args[index] = ft_strjoin(current->args[index], "=");
 }

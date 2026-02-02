@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:56:47 by strieste          #+#    #+#             */
-/*   Updated: 2026/01/23 11:50:50 by strieste         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:16:40 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,19 @@ static int	child(t_cmd *cmd, t_data *data, int prev_fd, int *pipe_fd)
 	return (0);
 }
 
-static void error_child(t_cmd *cmd, t_data *data)
+static void	error_child(t_cmd *cmd, t_data *data)
 {
-    if (ft_strchr(cmd->args[0], '/'))
-    {
-        ft_putstr_fd("Msh: ", 2);
-        perror(cmd->args[0]);
-        free_all(data);
-        if (errno == EACCES)
-            exit(126);
-        exit(127);
-    }
-    ft_putstr_fd("Msh: Command not found: ", 2);
-    ft_putendl_fd(cmd->args[0], 2);
-    free_all(data);
-    exit(127);
+	if (ft_strchr(cmd->args[0], '/'))
+	{
+		ft_putstr_fd("Msh: ", 2);
+		perror(cmd->args[0]);
+		free_all(data);
+		if (errno == EACCES)
+			exit(126);
+		exit(127);
+	}
+	ft_putstr_fd("Msh: Command not found: ", 2);
+	ft_putendl_fd(cmd->args[0], 2);
+	free_all(data);
+	exit(127);
 }

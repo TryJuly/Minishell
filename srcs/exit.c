@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:06:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/05 09:49:24 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/01/22 17:22:35 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int	check_arg(char *arg)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '+')
-		i++;
-	if (arg[0] == '-')
+	if (arg[0] == '+' || arg[0] == '-')
 		i++;
 	while (arg[i])
 	{
@@ -43,10 +41,10 @@ void	ft_exit(t_data *data)
 	if (!check_arg(data->cmd_lst->args[1]))
 	{
 		ft_putstr_fd("Msh: Numeric argument required\n", 2);
-		g_exit_status = 2;
+		g_exit_status = 255;
 		exit(g_exit_status);
 	}
 	g_exit_status = ft_atoi(data->cmd_lst->args[1]);
-	rl_clear_history();
+	// rl_clear_history();
 	exit(g_exit_status);
 }

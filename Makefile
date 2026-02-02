@@ -12,11 +12,11 @@ OBJ_DIR = objets/
 VPATH = srcs
 
 
-SRCS = main.c init_struct.c ft_clean.c parsing_v1.c token_count.c \
-	tokenizer.c input_check.c cd.c echo.c env.c exit.c export.c pwd.c \
-	unset.c env_var.c env_var_2.c fill_lst.c heredoc.c execve.c redir.c lst_tools.c \
-	tool.c tool_v1.c builtin.c input_check_v1.c utils_token.c utils_fill_lst.c \
-	heredoc_v1.c
+SRCS = main.c init_struct.c clean.c find_path.c token_count.c \
+	tokenizer.c syntax_check.c cd.c echo.c env.c exit.c export.c pwd.c \
+	unset.c fill_lst.c heredoc.c execve.c redir.c lst_tools.c \
+	tool.c tool_v1.c builtin.c utils_token.c utils_fill_lst.c \
+	export_v1.c expand_var.c utils_exec.c loop_expand_var.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}

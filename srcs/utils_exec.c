@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 12:25:29 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/01/23 12:44:51 by strieste         ###   ########.fr       */
+/*   Created: 2026/01/22 17:45:55 by strieste          #+#    #+#             */
+/*   Updated: 2026/01/22 17:47:18 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	ft_env(t_data *data)
+int	search_occur(char *str, char c)
 {
 	int	i;
 
 	i = 0;
-	while (data->envp[i])
+	while (str[i])
 	{
-		printf("%s\n", data->envp[i]);
+		if (str[i] == c)
+			return (1);
 		i++;
 	}
+	return (0);
 }

@@ -1,104 +1,51 @@
-# Minishell
-Write a shell
+*This project has been created as part of the 42 curriculum by strieste, cbezenco.*
 
-Ex command:
--	echo "salut
--	echo "sa'lut"
+# DESCRIPTION
 
-- 	echo "'salut'"
-- 	echo ""
--	echo ''
-- 	echo "		"
--	echo "sa"lut
+> The goal of this project is to create a small version of the shell. 
+> This minishell has to handle single and double quotes, redirections, pipes, environment variables and signals. It also has to implement some built-in commands.
 
--	echo $USER$PATH
--	echo "$USER"
--	echo '$USER'
--	echo $UNDEFINED
--	echo "$?"
--	echo a$?b
+# INSTRUCTIONS
 
--	| ls
--	ls || wc
--	ls | | wc
--	ls |
--	ehco test |grep t
+> To launch the compilation, write "make" in your terminal. 
+> To execute the program, write "./minishell" in your terminal.
 
-< log.txt cat | grep "error" | wc > error.txt -l
+# RESOURCES
 
-git rebase (NAME)
+Man Bash :
 
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 0	(success)
+https://www.gnu.org/software/bash/manual/bash.html
 
--	executed successfully
+Man Readline :
 
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 1	(Permission denied)
+https://man7.org/linux/man-pages/man3/readline.3.html
 
--	Although the command's output looks as though everything went well, if you scroll up you will see several "Permission denied" errors in the listing. These errors result in an exit status of 1, which is described as "impermissible operations." Although you might expect that a "Permission denied" error leads to an exit status of 1, you'd be wrong, as you will see in the next section. 
+Man Fork :
 
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 2	(Permission problem)
+https://man7.org/linux/man-pages/man2/fork.2.html
 
--	Exit status 2 appears when there's a permissions problem or a missing keyword in a command or script
+Man Signal :
 
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 126	(Permission Error)
-
--	Exit status 126 is an interesting permissions error code. The easiest way to demonstrate when this code appears is to create a script file and forget to give that file execute permission
-
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 127 (Command doesn't exist)
-
--	Exit status 127 tells you that one of two things has happened: Either the command doesn't exist, or the command isn't in your path ($PATH). This code also appears if you attempt to execute a command that is in your current working directory.
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 128
-
--	Exit status 128 is the response received when an out-of-range exit code is used in programming. From my experience, exit status 128 is not possible to produce.
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 130	(Exit program with CTR-C)
-
--	If you're running a program or script and press Ctrl-C to stop it, your exit status is 130. This status is easy to demonstrate. Issue ls -lR / and then immediately press Ctrl-C:
-
-#-----------------------------------------------------------------------------------------------#
-#		#		#		#		#		#		#		#		#		#		#		#		#
-		Exit status 255
-
--	This final reserved exit status is easy to produce but difficult to interpret. The documentation that I've found states that you receive exit status 255 if you use an exit code that's out of the range 0-255.
-
-TESTEUUUUUR Diff
-
-echo "hello"world 
-echo hello"world" 
-echo hello >> test.txt 
-echo "$USER" 
-echo '$USER' 
-ls /fake/path echo $? 
-echo "'hello'" 
-echo $USER $USER 
-echo "$SHLVL" 
-ls > yes | head -n 5
-ls -R / | head -n 10 
- cat | cat | ls > file_test ls
-
- echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<"
+https://man7.org/linux/man-pages/man7/signal.7.html
 
 
- < hello < hi > out
+> (mic dropped).
 
- ls -l << a
+Supress readline leaks:
 
- pwd cd pwd cd pwd
-
- cd ... cd ..
-
- cd /bin/ls
-
- cd -
+{
+    readline_leaks
+    Memcheck:Leak
+    match-leak-kinds: reachable
+    ...
+    fun:readline
+    ...
+}
+{
+    readline_history_leaks
+    Memcheck:Leak
+    match-leak-kinds: reachable
+    ...
+    fun:add_history
+    ...
+}
